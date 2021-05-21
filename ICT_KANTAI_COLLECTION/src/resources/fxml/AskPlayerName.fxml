@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="331.0" prefWidth="566.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AskPlayerNameController">
+   <children>
+      <FlowPane hgap="20.0" layoutX="27.0" layoutY="124.0" prefHeight="105.0" prefWidth="572.0" vgap="50.0">
+         <children>
+            <Label prefHeight="50.0" prefWidth="90.0" text="Player Name" />
+            <TextField fx:id="nameInput" prefHeight="50.0" prefWidth="422.0" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </FlowPane>
+      <Label fx:id="infoLabel" alignment="CENTER" layoutX="92.0" layoutY="59.0" prefHeight="39.0" prefWidth="430.0" text="Enter your name" textFill="#bc1d1d">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <HBox layoutX="223.0" layoutY="248.0" prefHeight="74.0" prefWidth="154.0" spacing="20.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Button fx:id="confirmNameBtn" mnemonicParsing="false" onAction="#confirmNameAction" prefHeight="49.0" prefWidth="116.0" text="Confirm" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

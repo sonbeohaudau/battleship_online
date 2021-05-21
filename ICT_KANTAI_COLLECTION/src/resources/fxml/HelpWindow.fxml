@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="helpPane" prefHeight="685.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameInstruction">
+	<children>
+		<Label fx:id="howToPlayLabel" alignment="CENTER" layoutX="222.0" layoutY="61.0" prefHeight="53.0" prefWidth="542.0" text="HOW TO PLAY">
+			<font>
+				<Font size="36.0" />
+			</font>
+		</Label>
+		<Button fx:id="backToMenuBt" layoutX="354.0" layoutY="587.0" mnemonicParsing="false" onAction="#handleBtnMenu" prefHeight="53.0" prefWidth="279.0" text="Back to Menu" />
+      <Text fx:id="instructText" layoutX="23.0" layoutY="147.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="924.13671875">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+	</children>
+</AnchorPane>

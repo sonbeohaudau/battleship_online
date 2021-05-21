@@ -1,0 +1,39 @@
+@font-face {
+    src: url('../font/Orbitron-VariableFont_wght.ttf');
+}
+
+.pane {
+	-fx-background-image: url("../imgs/ship-background.jpg");
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: cover, auto;
+}
+
+Label {
+    -fx-text-fill: linear-gradient(repeat, aqua 50%, red 70%);
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+    -fx-font: 69px "Orbitron";
+}
+
+Button {
+    -fx-background-color: transparent;
+    -fx-border-color: linear-gradient(from 0% 0% to 100% 200%, repeat, aqua 0%, red 70%);
+    -fx-border-width: 2, 3;
+    -fx-border-radius: 2, 3, 2, 2, 2;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-padding: 10 10 10 10;
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+    -fx-text-fill: #ff66ff;
+    -fx-font: 50px "Orbitron";
+}
+
+Button:hover {
+    -fx-background-color: linear-gradient(from 0% 0% to 100% 200%, repeat, #ff66ff 30%, aqua 70%);
+    -fx-border-color: linear-gradient(from 0% 0% to 100% 200%, repeat, #ff66ff 30%, aqua 70%);
+    -fx-border-width: 6, 9;
+    -fx-border-radius: 2, 3, 2, 2, 2;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-padding: 10 10 10 10;
+    -fx-text-fill: white;
+    -fx-font: 30px "Orbitron";
+    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+}
