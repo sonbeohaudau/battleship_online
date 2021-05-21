@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="269.0" prefWidth="566.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.AskAdvancedMode">
+   <children>
+      <Label alignment="CENTER" layoutX="68.0" layoutY="56.0" prefHeight="39.0" prefWidth="430.0" text="Choose Game Difficulty" textFill="#bc1d1d">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </Label>
+      <HBox layoutX="133.0" layoutY="147.0" prefHeight="110.0" prefWidth="300.0" spacing="20.0">
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+         <children>
+            <Button fx:id="originalBtn" mnemonicParsing="false" onAction="#confirmDifficultMenuAction" prefHeight="69.0" prefWidth="120.0" text="Original" />
+            <Button fx:id="advanceBtn" mnemonicParsing="false" onAction="#confirmDifficultMenuAction" prefHeight="69.0" prefWidth="120.0" text="Advance" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
