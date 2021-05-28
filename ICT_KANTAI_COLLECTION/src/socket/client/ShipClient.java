@@ -236,6 +236,10 @@ public class ShipClient {
 			if (input.indexOf("quit") == 0) {
 				break;
 			}
+			
+			if (input.indexOf("setup: ") == 0) {
+				// TODO: wait for server to send start match signal
+			}
 		}
 	}
 }
