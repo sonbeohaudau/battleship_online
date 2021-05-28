@@ -22,14 +22,6 @@ public class ShipServer {
 		return null;
 	}
 	
-//	private static void echoToClient(int clientNumber) {
-//		try {
-//			clients.get(clientNumber).listenAndEcho();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
-	
 	public static void echoToClient(String userID) {
 		getClient(userID).handleIdleUser();
 	}
@@ -46,6 +38,10 @@ public class ShipServer {
 	
 	public static ArrayList<ClientHandler> getClientList() {
 		return clients;
+	}
+	
+	public static void addClient(ClientHandler client) {
+		clients.add(client);
 	}
 	
 	public static void removeClient(ClientHandler client) {

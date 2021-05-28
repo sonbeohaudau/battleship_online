@@ -107,7 +107,7 @@ public class ClientHandler {
         }
 	}
 
-	private void handleMatchingUser() {
+	public void handleMatchingUser() {
 		ClientHandler oppo;
 		String msg = "";
 		while (true) {
@@ -128,6 +128,7 @@ public class ClientHandler {
             	this.opponent = oppo;
             	oppo.setOpponent(this);
             	System.out.println("A match created between " + this.userID + " and " + this.opponent.getUserID());
+            	createMatch();
             	break;
             }
             
@@ -148,18 +149,41 @@ public class ClientHandler {
 		}
 	}
 
-	private void handlePlayingUser() {
+	public void createMatch() {
+		System.out.println("A match created between " + this.userID + " and " + this.opponent.getUserID());
+	}
+
+	public void handlePlayingUser() {
 		String msg;
 		while (true) {
 			msg = getClientInput();
 			if (msg.indexOf("quit") == 0) {
 				break;
 			}
+			
+			if (msg.indexOf("setup: ") == 0) {
+				System.out.println("Received player's formation:");
+				processShipSetUp(msg.substring(7));
+			}
 		}
 		
 	}
 
-	private ClientHandler getMatchingUser() {
+	public void processShipSetUp(String formation) {
+		String[] shipLocations = formation.split(",");
+		String[] params;
+		String shipDirection;
+		for (String s: shipLocations) {
+			params = s.split("-");
+			if (params[0].indexOf("V")==0)
+				shipDirection = "vertical";
+			else
+				shipDirection = "horizontal";
+			System.out.println("Ship: " + shipDirection + ", length=" + params[1] + ", x=" + params[2] + ", y=" + params[3]);
+		}
+	}
+
+	public ClientHandler getMatchingUser() {
 		System.out.println("check matching list");
 		ArrayList<ClientHandler> matchingPool = new ArrayList<ClientHandler>();
 		int index;
@@ -179,7 +203,7 @@ public class ClientHandler {
 		return null;
 	}
 
-	private void sendUserList() {
+	public void sendUserList() {
 		String state;
 		
 		for (ClientHandler client: ShipServer.getClientList()) {
