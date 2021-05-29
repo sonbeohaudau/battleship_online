@@ -227,7 +227,7 @@ public class ShipClient {
 
 	private static void handlePlayingState() {
 		String input;
-//		String reply;
+		boolean battleStage = false;
 		while (true) {
 			System.out.println("Enter command: ");
 			input = getUserInput();
@@ -237,9 +237,28 @@ public class ShipClient {
 				break;
 			}
 			
-			if (input.indexOf("setup: ") == 0) {
-				// TODO: wait for server to send start match signal
+			if (!battleStage) {	// Setup stage
+				if (input.indexOf("setup: ") == 0) {
+					// wait for server to send start match signal (TODO: loading screen)
+					String startMessage = getServerMessage();
+					if(startMessage.indexOf("gamestart: ") == 0) {
+						battleStage = true;
+						if (startMessage.indexOf("1") == 11) {
+							System.out.println("Battle start! You go first.");
+						} else {
+							System.out.println("Battle start! Your opponent go first.");
+							processOpponentAction();
+						}
+					}
+				}
+			} else {	// Battle stage
+				// TODO: send action message
 			}
+			
 		}
+	}
+
+	private static void processOpponentAction() {
+		// TODO: get server message (opponent's action) and process it
 	}
 }

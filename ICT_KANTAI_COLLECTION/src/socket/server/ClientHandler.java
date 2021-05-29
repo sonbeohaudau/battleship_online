@@ -20,6 +20,7 @@ public class ClientHandler {
 	private String userID = "";
 	private ClientState clientState;
 	private ClientHandler opponent = null;
+	private GameMatchHandler match = null;
 	
 	public ClientHandler(Socket socketOfServer, int clientNumber) {
 		this.socketOfServer = socketOfServer;
@@ -144,6 +145,8 @@ public class ClientHandler {
 			this.clientState = ClientState.Playing;
 			handlePlayingUser();
 			this.clientState = ClientState.Idle;	// return to Idle after playing
+			this.opponent = null;
+			this.match = null;
 		} else {
 			this.clientState = ClientState.Idle;
 		}
@@ -151,6 +154,12 @@ public class ClientHandler {
 
 	public void createMatch() {
 		System.out.println("A match created between " + this.userID + " and " + this.opponent.getUserID());
+		this.match = new GameMatchHandler (this.userID, this.opponent.getUserID());
+		this.opponent.joinMatch(this.match);
+	}
+	
+	public void joinMatch(GameMatchHandler match) {
+		this.match = match;
 	}
 
 	public void handlePlayingUser() {
@@ -161,27 +170,49 @@ public class ClientHandler {
 				break;
 			}
 			
-			if (msg.indexOf("setup: ") == 0) {
-				System.out.println("Received player's formation:");
-				processShipSetUp(msg.substring(7));
+			if (match.isBattleStage() == false) {	// Setup Stage
+				if (msg.indexOf("setup: ") == 0) {
+					System.out.println("Received ship formation from " + this.userID + ":");
+					this.match.processShipSetUp(this.userID, msg.substring(7));
+					
+					// wait until server receive formation from both players
+					while (true) {
+						try {
+							TimeUnit.SECONDS.sleep(1);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+						if (match.isBattleStage() == true)
+							break;
+					}
+					
+					if (match.getCurrentTurnPlayerID().equals(this.userID)) {
+						sendMessage("gamestart: 1");
+					} else {
+						sendMessage("gamestart: 2");
+					}
+				}
+			} else {	// Battle Stage
+				// TODO: process shooting message
 			}
+			
 		}
 		
 	}
 
-	public void processShipSetUp(String formation) {
-		String[] shipLocations = formation.split(",");
-		String[] params;
-		String shipDirection;
-		for (String s: shipLocations) {
-			params = s.split("-");
-			if (params[0].indexOf("V")==0)
-				shipDirection = "vertical";
-			else
-				shipDirection = "horizontal";
-			System.out.println("Ship: " + shipDirection + ", length=" + params[1] + ", x=" + params[2] + ", y=" + params[3]);
-		}
-	}
+//	public void processShipSetUp(String formation) {
+//		String[] shipLocations = formation.split(",");	// split into strings containing location of each ship on board
+//		String[] params;	
+//		String shipDirection;
+//		for (String s: shipLocations) {
+//			params = s.split("-");
+//			if (params[0].indexOf("V")==0)
+//				shipDirection = "vertical";
+//			else
+//				shipDirection = "horizontal";
+//			System.out.println("Ship: " + shipDirection + ", length=" + params[1] + ", x=" + params[2] + ", y=" + params[3]);
+//		}
+//	}
 
 	public ClientHandler getMatchingUser() {
 		System.out.println("check matching list");
