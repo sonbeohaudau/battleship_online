@@ -21,10 +21,13 @@ public class Player {
 	public List<Ammo> getAmmoCollection() {
 		return ammoCollection;
 	}
+	
+	public Player(String name) {
+		this.name = name;
+	}
 
 	public Player(String name, Board board) {
-		super();
-		this.name = name;
+		this(name);
 		this.board = board;
 	}
 
