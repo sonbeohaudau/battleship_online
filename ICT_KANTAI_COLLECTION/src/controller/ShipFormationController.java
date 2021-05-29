@@ -318,23 +318,23 @@ public class ShipFormationController implements Initializable {
 		numOfShipLeftLabel.textProperty().addListener(numOfShipTrackListener);
 	}
 
-	// load a popup for entering nickname
+//	// load a popup for entering nickname
 	private void setNameForPlayer() throws IOException {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../resources/fxml/AskPlayerName.fxml"));
-		Parent root = fxmlLoader.load();
-		AskPlayerNameController popupController = fxmlLoader.<AskPlayerNameController>getController();
-		// pass the player number to popup
-		popupController.initData(playerNum);
-		Stage stage = new Stage();
-		stage.setTitle(GameConfig.getGameTitle());
-		stage.getIcons().add(FXMLUtilsController.getImageByName("Kancolle_kai_logo.jpg", "icon"));
-		stage.setScene(new Scene(root));
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.showAndWait();
-		// get player name from the popup
-		playerName = popupController.getPlayerName();
-		if (playerName == null || playerName.isEmpty())
-			playerName = "Player " + playerNum;
+//		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../resources/fxml/PlayerList.fxml"));
+//		Parent root = fxmlLoader.load();
+////		PlayerListController popupController = fxmlLoader.<PlayerListController>getController();
+//		// pass the player number to popup
+////		popupController.initData(playerNum);
+//		Stage stage = new Stage();
+//		stage.setTitle(GameConfig.getGameTitle());
+//		stage.getIcons().add(FXMLUtilsController.getImageByName("Kancolle_kai_logo.jpg", "icon"));
+//		stage.setScene(new Scene(root));
+//		stage.initModality(Modality.APPLICATION_MODAL);
+//		stage.showAndWait();
+//		// get player name from the popup
+		playerName = StartMenuController.getPlayerName();
+//		if (playerName == null || playerName.isEmpty())
+//			playerName = "Player " + playerNum;
 		playerNameLabel.setText(playerName);
 	}
 

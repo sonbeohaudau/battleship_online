@@ -15,14 +15,15 @@
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <VBox layoutX="233.0" layoutY="224.0" prefHeight="300.0" prefWidth="400.0" spacing="20.0">
+      <VBox layoutX="209.0" layoutY="211.0" prefHeight="537.0" prefWidth="446.0" spacing="20.0">
          <children>
-            <TextField prefHeight="73.0" prefWidth="360.0" promptText="Enter Your User Name">
+            <TextField fx:id="nameInput" prefHeight="73.0" prefWidth="360.0" promptText="Enter Your User Name">
                <font>
                   <Font size="24.0" />
                </font>
             </TextField>
-            <Button fx:id="singlePlayerBtn" mnemonicParsing="false" onAction="#handleHomeBtn" prefHeight="200.0" prefWidth="525.0" text="Play" />
+            <Button fx:id="singlePlayerBtn" mnemonicParsing="false" onAction="#handleHomeBtn" prefHeight="200.0" prefWidth="525.0" text="Play VS BOT" />
+            <Button fx:id="multiplayerBtn" mnemonicParsing="false" onAction="#handleHomeBtn" prefHeight="200.0" prefWidth="525.0" text="Play PVP" />
             <Button fx:id="helpBtn" mnemonicParsing="false" onAction="#handleHomeBtn" prefHeight="200.0" prefWidth="525.0" text="Help" />
             <Button fx:id="exitBtn" mnemonicParsing="false" onAction="#exitProgram" prefHeight="200.0" prefWidth="525.0" text="Quit" />
          </children>

@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import model.system.GameConfig;
 import model.system.GameMode;
 import model.utils.SoundCollection;
@@ -21,7 +22,10 @@ public class StartMenuController implements Initializable {
 	private Button helpBtn;
 	@FXML
 	private Button exitBtn;
+	@FXML
+	public TextField nameInput;
 
+	private static String playerName;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// start background music
@@ -37,14 +41,24 @@ public class StartMenuController implements Initializable {
 			SoundCollection.INSTANCE.playButtonClickSound();
 			GameConfig.setGameMode(GameMode.TwoPlayers);
 			// pop up to ask players to choose advance mode
-			FXMLUtilsController.loadSubStage("AskAdvancedMode.fxml", "showAndWait", GameConfig.getGameTitle());
+//			FXMLUtilsController.loadSubStage("AskAdvancedMode.fxml", "showAndWait", GameConfig.getGameTitle());
+			playerName = nameInput.getText();
+			if (playerName.isEmpty() || playerName == null) {
+				playerName = "Noname"; 
+			}
+			// Pop up the player List 
+			FXMLUtilsController.loadSubStage("PlayerList.fxml", "showAndWait", GameConfig.getGameTitle());
 			// load the ship formation stage
-			FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
+//			FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
 			// stop music
 			SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
 		} else if (evt.getSource() == singlePlayerBtn) {
 			// set game mode as versus bot
 			SoundCollection.INSTANCE.playButtonClickSound();
+			playerName = nameInput.getText();
+			if (playerName.isEmpty() || playerName == null) {
+				playerName = "Noname"; 
+			}
 			GameConfig.setGameMode(GameMode.VersusBot);
 			FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
 			// stop music
@@ -64,6 +78,10 @@ public class StartMenuController implements Initializable {
 		SoundCollection.INSTANCE.playButtonClickSound();
 		System.out.println("Gud byeeeee");
 		System.exit(0);
+	}
+
+	public static String getPlayerName() {
+		return playerName;
 	}
 
 }

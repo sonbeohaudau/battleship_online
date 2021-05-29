@@ -7,11 +7,16 @@ import model.utilities.Ammo;
 
 public class Player {
 	private String name;
+	private String status;
 	private Board board;
 	private List<Ammo> ammoCollection; 
 	
 	public String getPlayerName() {
 		return name;
+	}
+	
+	public String getPlayerStatus() {
+		return status;
 	}
 	
 	public Board getBoard() {
@@ -26,6 +31,12 @@ public class Player {
 		this.name = name;
 	}
 
+	public Player(String name, String status) {
+		super();
+		this.name = name;
+		this.status = status;
+	}
+	
 	public Player(String name, Board board) {
 		this(name);
 		this.board = board;

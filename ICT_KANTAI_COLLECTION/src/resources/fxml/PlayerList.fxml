@@ -2,31 +2,31 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PlayerListController">
    <children>
       <TabPane prefHeight="400.0" prefWidth="500.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Player List">
+          <Tab fx:id="PlayerListTab" text="Player List">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="250.0" prefWidth="382.0">
                      <children>
-                        <ScrollPane layoutX="15.0" layoutY="36.0" prefHeight="275.0" prefWidth="470.0">
+                        <ScrollPane layoutX="15.0" layoutY="33.0" prefHeight="275.0" prefWidth="470.0">
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="454.0">
                                  <children>
-                                    <VBox prefHeight="466.0" prefWidth="455.0">
-                                       <children>
-                                          <ListView prefHeight="466.0" prefWidth="455.0" />
-                                       </children>
-                                    </VBox>
+                                    <TableView fx:id="PlayerListTable" prefHeight="461.0" prefWidth="460.0">
+                                       <columns>
+                                          <TableColumn fx:id="NameCol" prefWidth="166.40002709627151" text="Player Name" />
+                                          <TableColumn fx:id="StatusCol" prefWidth="292.8000030517578" text="Status" />
+                                       </columns></TableView>
                                  </children>
                               </AnchorPane>
                           </content>
@@ -36,17 +36,17 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button layoutX="419.0" layoutY="320.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="68.0" text="Accept">
+                        <Button fx:id="AcceptBtn1" layoutX="419.0" layoutY="320.0" mnemonicParsing="false" onAction="#ChallengePlayer" prefHeight="35.0" prefWidth="68.0" text="Accept">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="16.0" layoutY="319.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="78.0" text="Random">
+                        <Button fx:id="RandomBtn" layoutX="16.0" layoutY="319.0" mnemonicParsing="false" onAction="#RandomPickPlayer" prefHeight="35.0" prefWidth="78.0" text="Random">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="334.0" layoutY="320.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="79.0" text="Reset List">
+                        <Button fx:id="ResetListBtn1" layoutX="334.0" layoutY="320.0" mnemonicParsing="false" onAction="#ResetListPlayer" prefHeight="35.0" prefWidth="79.0" text="Reset List">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -55,7 +55,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Challenger">
+          <Tab fx:id="ChallengerTab" text="Challenger">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -63,11 +63,12 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="454.0">
                                  <children>
-                                    <VBox prefHeight="466.0" prefWidth="455.0">
-                                       <children>
-                                          <ListView prefHeight="466.0" prefWidth="455.0" />
-                                       </children>
-                                    </VBox>
+                                    <TableView fx:id="ChallengerListTable" prefHeight="468.0" prefWidth="461.0">
+                                       <columns>
+                                          <TableColumn fx:id="NameCol" prefWidth="167.20001488924026" text="Player Name" />
+                                          <TableColumn fx:id="StatusCol" prefWidth="288.8000030517578" text="Status" />
+                                       </columns>
+                                    </TableView>
                                  </children>
                               </AnchorPane>
                            </content>
@@ -77,12 +78,12 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button layoutX="418.0" layoutY="321.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="68.0" text="Accept">
+                        <Button fx:id="AcceptBtn2" layoutX="418.0" layoutY="321.0" mnemonicParsing="false" onAction="#ConfirmChallenge" prefHeight="35.0" prefWidth="68.0" text="Accept">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button layoutX="332.0" layoutY="321.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="79.0" text="Reset List">
+                        <Button fx:id="ResetListBtn2" layoutX="332.0" layoutY="321.0" mnemonicParsing="false" onAction="#ResetListChallenger" prefHeight="35.0" prefWidth="79.0" text="Reset List">
                            <font>
                               <Font size="14.0" />
                            </font>
