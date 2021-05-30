@@ -310,6 +310,23 @@ public class ClientSocket {
 			}
         }
 	}
+	
+	public String setupShip() {
+		
+		
+		// wait for server to send start match signal (TODO: loading screen)
+		String startMessage = getServerMessage();
+		if(startMessage.indexOf("gamestart: ") == 0) {
+			if (startMessage.indexOf("1") == 11) {
+				System.out.println("Battle start! You go first.");
+			} else {
+				System.out.println("Battle start! Your opponent go first.");
+				processOpponentAction();
+			}
+		}
+		
+		return "";
+	}
 
 	public static void processOpponentAction() {
 		// TODO: get server message (opponent's action) and process it
