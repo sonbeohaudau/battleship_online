@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import model.system.GameConfig;
 import model.system.GameMode;
 import model.utils.SoundCollection;
+import socket.client.ClientSocket;
+import socket.client.ClientState;
 
 public class StartMenuController implements Initializable {
 	@FXML
@@ -42,16 +44,24 @@ public class StartMenuController implements Initializable {
 			GameConfig.setGameMode(GameMode.TwoPlayers);
 			// pop up to ask players to choose advance mode
 //			FXMLUtilsController.loadSubStage("AskAdvancedMode.fxml", "showAndWait", GameConfig.getGameTitle());
+			
+			ClientSocket.getInstance().setState(ClientState.LogIn);
 			playerName = nameInput.getText();
-			if (playerName.isEmpty() || playerName == null) {
-				playerName = "Noname"; 
+			
+			if (ClientSocket.getInstance().logIn(playerName)) {
+				// Pop up the player List 
+				FXMLUtilsController.loadSubStage("PlayerList.fxml", "showAndWait", GameConfig.getGameTitle());
+				
+				// stop music
+				SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
+				
+				// hide main stage
+				((Node) (evt.getSource())).getScene().getWindow().hide();
+				System.gc();
 			}
-			// Pop up the player List 
-			FXMLUtilsController.loadSubStage("PlayerList.fxml", "showAndWait", GameConfig.getGameTitle());
-			// load the ship formation stage
-//			FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
-			// stop music
-			SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
+			
+			
+			
 		} else if (evt.getSource() == singlePlayerBtn) {
 			// set game mode as versus bot
 			SoundCollection.INSTANCE.playButtonClickSound();
@@ -63,14 +73,19 @@ public class StartMenuController implements Initializable {
 			FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
 			// stop music
 			SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
+			
+			// hide main stage
+			((Node) (evt.getSource())).getScene().getWindow().hide();
+			System.gc();
 		} else if (evt.getSource() == helpBtn) {
 			// open game instruction window
 			SoundCollection.INSTANCE.playButtonClickSound();
 			FXMLUtilsController.loadSubStage("HelpWindow.fxml", "show", GameConfig.getGameTitle());
+			
+			// hide main stage
+			((Node) (evt.getSource())).getScene().getWindow().hide();
+			System.gc();
 		}
-		// hide main stage
-		((Node) (evt.getSource())).getScene().getWindow().hide();
-		System.gc();
 	}
 
 	@FXML

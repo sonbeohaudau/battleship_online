@@ -200,19 +200,19 @@ public class ClientHandler {
 		
 	}
 
-//	public void processShipSetUp(String formation) {
-//		String[] shipLocations = formation.split(",");	// split into strings containing location of each ship on board
-//		String[] params;	
-//		String shipDirection;
-//		for (String s: shipLocations) {
-//			params = s.split("-");
-//			if (params[0].indexOf("V")==0)
-//				shipDirection = "vertical";
-//			else
-//				shipDirection = "horizontal";
-//			System.out.println("Ship: " + shipDirection + ", length=" + params[1] + ", x=" + params[2] + ", y=" + params[3]);
-//		}
-//	}
+	public void processShipSetUp(String formation) {
+		String[] shipLocations = formation.split(",");	// split into strings containing location of each ship on board
+		String[] params;	
+		String shipDirection;
+		for (String s: shipLocations) {
+			params = s.split("-");
+			if (params[0].indexOf("V")==0)
+				shipDirection = "vertical";
+			else
+				shipDirection = "horizontal";
+			System.out.println("Ship: " + shipDirection + ", length=" + params[1] + ", x=" + params[2] + ", y=" + params[3]);
+		}
+	}
 
 	public ClientHandler getMatchingUser() {
 		System.out.println("check matching list");
