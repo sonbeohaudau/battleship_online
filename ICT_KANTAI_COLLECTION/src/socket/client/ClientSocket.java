@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+import model.platform.Board;
+
 public class ClientSocket {
 	private static ClientSocket INSTANCE = new ClientSocket();
 	
@@ -34,6 +36,14 @@ public class ClientSocket {
     
     public static ClientSocket getInstance() {
     	return INSTANCE;
+    }
+    
+    public ClientState getClientState() {
+    	return state;
+    }
+    
+    public void setClientState(ClientState state) {
+    	this.state = state;
     }
     
     public String getUserInput() {
@@ -236,6 +246,7 @@ public class ClientSocket {
 	           
 	           listenServer();
 	           	 
+	           return true;
 	           
 		} catch (UnknownHostException e) {
 	           System.err.println("Trying to connect to unknown host: " + e);
@@ -243,7 +254,7 @@ public class ClientSocket {
 	           System.err.println("IOException:  " + e);
 		}
 		
-		return true;
+		return false;
 	}
 	
 	public ArrayList<String> getUserList() {
@@ -311,17 +322,18 @@ public class ClientSocket {
         }
 	}
 	
-	public String setupShip() {
-		
+	public String setupShip(Board board) {
+		sendServer("setup: V-4-2-3,H-2-1-1");
 		
 		// wait for server to send start match signal (TODO: loading screen)
 		String startMessage = getServerMessage();
 		if(startMessage.indexOf("gamestart: ") == 0) {
 			if (startMessage.indexOf("1") == 11) {
 				System.out.println("Battle start! You go first.");
+				return "gamestart: 1";
 			} else {
 				System.out.println("Battle start! Your opponent go first.");
-				processOpponentAction();
+				return "gamestart: 2";
 			}
 		}
 		

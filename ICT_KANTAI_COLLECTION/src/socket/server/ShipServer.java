@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ShipServer {
+public class ShipServer {	// TODO: make this a singleton
 	private static ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
 	
 	public static ClientHandler getClient(String userID) {

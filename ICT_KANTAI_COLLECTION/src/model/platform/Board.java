@@ -134,5 +134,9 @@ public class Board extends Parent {
 	public void removeShipFromArmy(Ship removedShip) {
 		shipArmy.remove(removedShip);
 	}
+	
+	public List<Ship> getShipArmy() {
+		return this.shipArmy;
+	}
 
 }

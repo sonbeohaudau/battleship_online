@@ -48,15 +48,18 @@ public class StartMenuController implements Initializable {
 			ClientSocket.getInstance().setState(ClientState.LogIn);
 			playerName = nameInput.getText();
 			
-			if (ClientSocket.getInstance().logIn(playerName)) {
+			if (ClientSocket.getInstance().logIn(playerName)) {	// logged in succesfully
+				GameConfig.setGameMode(GameMode.Online);
+				
 				// Pop up the player List 
-				FXMLUtilsController.loadSubStage("PlayerList.fxml", "showAndWait", GameConfig.getGameTitle());
+				FXMLUtilsController.loadSubStage("PlayerList.fxml", "show", GameConfig.getGameTitle());
 				
 				// stop music
 				SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
 				
 				// hide main stage
 				((Node) (evt.getSource())).getScene().getWindow().hide();
+				
 				System.gc();
 			}
 			

@@ -2,7 +2,8 @@ package model.system;
 
 public enum GameMode {
 	TwoPlayers,
-	VersusBot
+	VersusBot,
+	Online
 }
 
 

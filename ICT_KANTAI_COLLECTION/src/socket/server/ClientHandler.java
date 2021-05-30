@@ -54,6 +54,9 @@ public class ClientHandler {
 			msg = is.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("Oops! Cannot communicate with client!");
+			
+			// TODO: tell server to remove this client from list
 		}
 		
 		System.out.println("Client" + this.userID + " : " + msg);
@@ -70,6 +73,9 @@ public class ClientHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Oops! Cannot communicate with client!");
+			
+			// TODO: tell server to remove this client from list
+			
 		} 
 	}
 	
@@ -114,7 +120,7 @@ public class ClientHandler {
 		while (true) {
 			// wait for 10 seconds then try to find another matching user
 			try {
-    			TimeUnit.SECONDS.sleep(10);
+    			TimeUnit.SECONDS.sleep(3);
     		} catch (InterruptedException e) {
     			System.out.println("Thread is interuppted....");
     		}
