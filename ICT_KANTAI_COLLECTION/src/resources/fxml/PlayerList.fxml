@@ -2,11 +2,10 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -22,11 +21,7 @@
                           <content>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="454.0">
                                  <children>
-                                    <TableView fx:id="PlayerListTable" prefHeight="461.0" prefWidth="460.0">
-                                       <columns>
-                                          <TableColumn fx:id="NameCol" prefWidth="166.40002709627151" text="Player Name" />
-                                          <TableColumn fx:id="StatusCol" prefWidth="292.8000030517578" text="Status" />
-                                       </columns></TableView>
+                                    <ListView fx:id="PlayerList" prefHeight="465.0" prefWidth="457.0" />
                                  </children>
                               </AnchorPane>
                           </content>
@@ -63,12 +58,7 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="462.0" prefWidth="454.0">
                                  <children>
-                                    <TableView fx:id="ChallengerListTable" prefHeight="468.0" prefWidth="461.0">
-                                       <columns>
-                                          <TableColumn fx:id="NameCol" prefWidth="167.20001488924026" text="Player Name" />
-                                          <TableColumn fx:id="StatusCol" prefWidth="288.8000030517578" text="Status" />
-                                       </columns>
-                                    </TableView>
+                                    <ListView fx:id="ChallengerList" prefHeight="470.0" prefWidth="461.0" />
                                  </children>
                               </AnchorPane>
                            </content>
