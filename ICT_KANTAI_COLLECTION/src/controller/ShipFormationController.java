@@ -46,6 +46,7 @@ import model.utilities.AmmoCollection;
 import model.utils.ColorCollection;
 import model.utils.MagicGenerator;
 import model.utils.SoundCollection;
+import socket.client.ClientSocket;
 
 public class ShipFormationController implements Initializable {
 	// data for presenting
@@ -88,6 +89,7 @@ public class ShipFormationController implements Initializable {
 
 	// data for storing
 	private String playerName;
+	private String opponentName = ClientSocket.getInstance().getOpponent();
 	private int playerNum = 1;
 	// number of ship that not set placement in this board
 	// use integerProperty for binding this value to fxml
@@ -164,65 +166,85 @@ public class ShipFormationController implements Initializable {
 
 			// the button sound effect
 			SoundCollection.INSTANCE.playConfirmSound();
+			
+			confirmSetUpBoard();
+		}
+	}
+	
+	public void confirmSetUpBoard() {
+		if (GameConfig.getGameMode() == GameMode.Online) {
+			String s = ClientSocket.getInstance().setupShip(board);
+			
+			if (s.indexOf("gamestart: ") != -1) {
+				
+				
+			}
+			else
+				return;
+		}
 
+		if (playerNum == 1) {
+			// load the data for player 1 depends on difficulty
+			if (GameConfig.isAdvancedMode() == true) {
+				GameConfig.loadDataPlayer1(new Player(playerName, board, ammoCollection));
+				System.out.println("Advance mode ");
+			} else {
+				GameConfig.loadDataPlayer1(new Player(playerName, board));
+				System.out.println("Normal mode");
+			}
+
+		}
+		
+		if (GameConfig.getGameMode() == GameMode.TwoPlayers) {
 			if (playerNum == 1) {
-				// load the data for player 1 depends on difficulty
+				playerNum++;
+				earlySetup();
+			} else {
+				// load the data for player 2 depends on difficulty
 				if (GameConfig.isAdvancedMode() == true) {
-					GameConfig.loadDataPlayer1(new Player(playerName, board, ammoCollection));
-					System.out.println("Advance mode ");
+					GameConfig.loadDataPlayer2(new Player(playerName, board, ammoCollection));
+					System.out.println("Advance mode");
 				} else {
-					GameConfig.loadDataPlayer1(new Player(playerName, board));
+					GameConfig.loadDataPlayer2(new Player(playerName, board));
 					System.out.println("Normal mode");
 				}
-
+																																												FXMLUtilsController.loadSubStage("GamePlay.fxml", "show", GameConfig.getGameTitle());
+																																												shipFormationPane.getScene().getWindow().hide();
+																																												// stop the FormationBackGroundSound
+																																												SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
 			}
-			if (GameConfig.getGameMode() == GameMode.TwoPlayers) {
-				if (playerNum == 1) {
-					playerNum++;
-					earlySetup();
-				} else {
-					// load the data for player 2 depends on difficulty
-					if (GameConfig.isAdvancedMode() == true) {
-						GameConfig.loadDataPlayer2(new Player(playerName, board, ammoCollection));
-						System.out.println("Advance mode");
-					} else {
-						GameConfig.loadDataPlayer2(new Player(playerName, board));
-						System.out.println("Normal mode");
+//		} else if (GameConfig.getGameMode() == GameMode.VersusBot) { 
+		} else {  	// Versus bot or Online mode
+			// stop the FormationBackGroundSound
+			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
+			if (playerNum == 1) {
+				playerNum++;
+				fullSetup();
+				Timeline timeline = new Timeline();
+				timeline.setCycleCount(1);
+				timeline.setAutoReverse(true);
+				timeline.getKeyFrames().add(new KeyFrame(Duration.millis(10), (ActionEvent event) -> {
+					// random places for ship in bot's board
+					randShipFormation();
+					try {
+						TimeUnit.MILLISECONDS.sleep(100);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
 					}
+					// load the data for player 2 depends on difficulty
+					// still need to develop more
+					// if (GameConfig.isAdvancedMode()==true) {
+					// GameConfig.loadDataPlayer2(new Player("BADASS BOT", board, ammoCollection ));
+					// } else {
+					if (GameConfig.getGameMode() == GameMode.Online)
+						GameConfig.loadDataPlayer2(new Player(this.opponentName, board));
+					else
+						GameConfig.loadDataPlayer2(new Player("BADASS BOT", board));
+					// }
 					FXMLUtilsController.loadSubStage("GamePlay.fxml", "show", GameConfig.getGameTitle());
 					shipFormationPane.getScene().getWindow().hide();
-					// stop the FormationBackGroundSound
-					SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
-				}
-			} else { // VersusBot
-				// stop the FormationBackGroundSound
-				SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
-				if (playerNum == 1) {
-					playerNum++;
-					fullSetup();
-					Timeline timeline = new Timeline();
-					timeline.setCycleCount(1);
-					timeline.setAutoReverse(true);
-					timeline.getKeyFrames().add(new KeyFrame(Duration.millis(10), (ActionEvent event) -> {
-						// random places for ship in bot's board
-						randShipFormation();
-						try {
-							TimeUnit.MILLISECONDS.sleep(100);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						// load the data for player 2 depends on difficulty
-						// still need to develop more
-						// if (GameConfig.isAdvancedMode()==true) {
-						// GameConfig.loadDataPlayer2(new Player("BADASS BOT", board, ammoCollection ));
-						// } else {
-						GameConfig.loadDataPlayer2(new Player("BADASS BOT", board));
-						// }
-						FXMLUtilsController.loadSubStage("GamePlay.fxml", "show", GameConfig.getGameTitle());
-						shipFormationPane.getScene().getWindow().hide();
-					}));
-					timeline.play();
-				}
+				}));
+				timeline.play();
 			}
 		}
 	}
