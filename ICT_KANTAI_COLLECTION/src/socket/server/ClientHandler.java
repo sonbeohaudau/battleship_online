@@ -21,6 +21,7 @@ public class ClientHandler {
 	private ClientState clientState;
 	private ClientHandler opponent = null;
 	private GameMatchHandler match = null;
+	private ArrayList<ClientHandler> challengerList = new ArrayList<ClientHandler>();
 	
 	public ClientHandler(Socket socketOfServer, int clientNumber) {
 		this.socketOfServer = socketOfServer;
@@ -115,7 +116,14 @@ public class ClientHandler {
 			}
 			
 			if (msg.indexOf("challenge:") == 0) {
+				System.out.println(this.userID + " has challenged " + msg.substring(11));
 				
+				ClientHandler challengedPlayer = ShipServer.getInstance().getClient(msg.substring(11));
+				
+				challengedPlayer.addChallenger(this);
+				
+				// TODO: reply
+				sendMessage("decline");
 			}
             
 
@@ -207,7 +215,11 @@ public class ClientHandler {
 					}
 				}
 			} else {	// Battle Stage
-				// TODO: process shooting message
+				// process shooting message
+				if (msg.indexOf("fire: ") == 0) {
+					String[] cellCoordinate = msg.substring(6).split("-");
+					System.out.println(this.userID + " fire at cell: " + cellCoordinate[0] + "," + cellCoordinate[1]);
+				}
 			}
 			
 		}
@@ -278,5 +290,17 @@ public class ClientHandler {
 	
 	public void setOpponent(ClientHandler opponent) {
 		this.opponent = opponent;
+	}
+	
+	public void addChallenger(ClientHandler user) {
+		challengerList.add(user);
+	}
+	
+	public void removeChallenger(ClientHandler user) {
+		challengerList.remove(user);
+	}
+	
+	public ArrayList<ClientHandler> getChallengerList () {
+		return this.challengerList;
 	}
 }

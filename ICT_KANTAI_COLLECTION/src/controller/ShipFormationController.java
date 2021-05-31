@@ -172,12 +172,14 @@ public class ShipFormationController implements Initializable {
 	}
 	
 	public void confirmSetUpBoard() {
+		boolean goFirst = true;
+		
 		if (GameConfig.getGameMode() == GameMode.Online) {
 			String s = ClientSocket.getInstance().setupShip(board);
 			
 			if (s.indexOf("gamestart: ") != -1) {
-				
-				
+				if (s.indexOf("2") != -1)
+					goFirst = false;
 			}
 			else
 				return;
@@ -187,7 +189,10 @@ public class ShipFormationController implements Initializable {
 		if (playerNum == 1) {
 			// load the data for player 1 depends on difficulty
 			if (GameConfig.isAdvancedMode() == true) {
-				GameConfig.loadDataPlayer1(new Player(playerName, board, ammoCollection));
+//				if (goFirst)
+					GameConfig.loadDataPlayer1(new Player(playerName, board, ammoCollection));
+//				else 
+//					GameConfig.loadDataPlayer2(new Player(playerName, board, ammoCollection));
 				System.out.println("Advance mode ");
 			} else {
 				GameConfig.loadDataPlayer1(new Player(playerName, board));

@@ -9,7 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class ShipServer {	// TODO: make this a singleton
+public class ShipServer {	
 
 	private static ShipServer INSTANCE = new ShipServer();
 

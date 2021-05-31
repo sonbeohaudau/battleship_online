@@ -239,6 +239,8 @@ public class ClientSocket {
 	
 	public boolean logIn(String name) {
 		if (!isValidUsername(name)) {	// check validity of username (TODO: move this step to server)
+			
+			System.out.println("Invalid username!");
 			return false;
 		}
 		
@@ -292,6 +294,7 @@ public class ClientSocket {
 	}
 	
 	public boolean challenge(String opponent) {
+		System.out.println("Challenging " + opponent);
 		sendServer("challenge: " + opponent);
 		state = ClientState.Pending;
 		return handlePending();
@@ -346,6 +349,14 @@ public class ClientSocket {
 		}
 		
 		return "";
+	}
+	
+	public String fire (int x, int y) {
+		sendServer("fire: " + x + "-" + y);
+		
+		String result = getServerMessage();
+		
+		return result;
 	}
 
 	public static void processOpponentAction() {

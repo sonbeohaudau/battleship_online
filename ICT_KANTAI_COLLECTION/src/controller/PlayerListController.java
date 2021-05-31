@@ -64,6 +64,8 @@ public class PlayerListController implements Initializable {
 		//set selection in List into 1 row
 		PlayerList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		ChallengerList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+		
+		// TODO: show your username
 	}
 
 	private void updatePlayerList() {
@@ -133,10 +135,10 @@ public class PlayerListController implements Initializable {
 	private void ChallengePlayer(ActionEvent evt) {
 		String ChosenPlayer = PlayerList.getSelectionModel().getSelectedItem();
 		String message = "Player " + ChosenPlayer + " has been chosen !";
-		System.out.print(message);
+		System.out.println(message);
 		
 		String[] params = ChosenPlayer.split(" / ");
-		if (params[1].indexOf("Idle") != -1) {	// if the player chosen is idle, challenge him/her
+		if (params[1].indexOf("idle") != -1) {	// if the player chosen is idle, challenge him/her
 			if (ClientSocket.getInstance().challenge(params[0])) {
 				// if opponent accept challenge
 				FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
