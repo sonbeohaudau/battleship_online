@@ -56,9 +56,11 @@ public class ClientHandler {
 			e.printStackTrace();
 			System.out.println("Oops! Cannot communicate with client!");
 			
+
 			ShipServer.getInstance().removeClient(this);
 //			System.exit(0);
 			
+
 		}
 		
 		System.out.println("Client" + this.userID + " : " + msg);
@@ -76,8 +78,10 @@ public class ClientHandler {
 			e.printStackTrace();
 			System.out.println("Oops! Cannot communicate with client!");
 			
+
 			ShipServer.getInstance().removeClient(this);
 //			System.exit(0);
+
 			
 		} 
 	}

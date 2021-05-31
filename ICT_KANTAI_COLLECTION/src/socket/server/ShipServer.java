@@ -10,7 +10,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class ShipServer {	// TODO: make this a singleton
+
 	private static ShipServer INSTANCE = new ShipServer();
+
 	
 	private ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
 	

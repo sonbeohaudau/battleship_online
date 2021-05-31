@@ -183,6 +183,7 @@ public class ShipFormationController implements Initializable {
 				return;
 		}
 
+
 		if (playerNum == 1) {
 			// load the data for player 1 depends on difficulty
 			if (GameConfig.isAdvancedMode() == true) {
@@ -231,6 +232,7 @@ public class ShipFormationController implements Initializable {
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
+
 					// load the data for player 2 depends on difficulty
 					// still need to develop more
 					// if (GameConfig.isAdvancedMode()==true) {
@@ -245,6 +247,7 @@ public class ShipFormationController implements Initializable {
 					shipFormationPane.getScene().getWindow().hide();
 				}));
 				timeline.play();
+
 			}
 		}
 	}
