@@ -56,7 +56,11 @@ public class ClientHandler {
 			e.printStackTrace();
 			System.out.println("Oops! Cannot communicate with client!");
 			
-			// TODO: tell server to remove this client from list
+
+			ShipServer.getInstance().removeClient(this);
+//			System.exit(0);
+			
+
 		}
 		
 		System.out.println("Client" + this.userID + " : " + msg);
@@ -74,7 +78,10 @@ public class ClientHandler {
 			e.printStackTrace();
 			System.out.println("Oops! Cannot communicate with client!");
 			
-			// TODO: tell server to remove this client from list
+
+			ShipServer.getInstance().removeClient(this);
+//			System.exit(0);
+
 			
 		} 
 	}
@@ -85,7 +92,8 @@ public class ClientHandler {
 
             if (msg.indexOf("quit") == 0) {
                 sendMessage(">> OK");
-                ShipServer.removeClient(this);
+                ShipServer.getInstance().removeClient(this);
+//                System.exit(0);
                 break;
             }
             
@@ -225,7 +233,7 @@ public class ClientHandler {
 		ArrayList<ClientHandler> matchingPool = new ArrayList<ClientHandler>();
 		int index;
 		
-		for (ClientHandler client: ShipServer.getClientList()) {
+		for (ClientHandler client: ShipServer.getInstance().getClientList()) {
 			if (!client.equals(this)) {
 				if (client.getState() == ClientState.Matching && client.getOpponent() == null)
 					matchingPool.add(client);
@@ -243,7 +251,7 @@ public class ClientHandler {
 	public void sendUserList() {
 		String state;
 		
-		for (ClientHandler client: ShipServer.getClientList()) {
+		for (ClientHandler client: ShipServer.getInstance().getClientList()) {
 			if (!client.equals(this)) {
 				if (client.getState() == ClientState.Playing)
 					state = "playing";

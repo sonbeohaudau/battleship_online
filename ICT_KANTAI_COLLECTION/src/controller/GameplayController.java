@@ -101,10 +101,16 @@ public class GameplayController implements Initializable {
 		// setup data for sound check menu
 		bgmCheckMenu.setSelected(GameConfig.checkBGM());
 		seCheckMenu.setSelected(GameConfig.checkSE());
-
+		
 		// load player's data (name, board...)
-		player1 = GameConfig.getPlayer1();
-		player2 = GameConfig.getPlayer2();
+		if (GameConfig.getGameMode() == GameMode.Online) {
+			// TODO: consider another solution for player2
+			player1 = GameConfig.getPlayer1();
+			player2 = GameConfig.getPlayer2();
+		} else {
+			player1 = GameConfig.getPlayer1();
+			player2 = GameConfig.getPlayer2();
+		}
 
 		// set labels for 2 players
 		player1Name.setText(player1.getPlayerName());
@@ -239,7 +245,10 @@ public class GameplayController implements Initializable {
 				c.setSeaAnimation();
 				// board of player 2
 				c = player2.getBoard().getCellByCoordinate(i, j);
-				c.setMouseEvtHandler(this::cellOfPlayer2Entered, this::cellOfPlayer2Exited, this::cellOfPlayer2Click);
+				if (GameConfig.getGameMode() == GameMode.Online)
+					c.setMouseEvtHandler(this::cellOfPlayer2Entered, this::cellOfPlayer2Exited, this::cellOfPlayer2ClickOnline);
+				else
+					c.setMouseEvtHandler(this::cellOfPlayer2Entered, this::cellOfPlayer2Exited, this::cellOfPlayer2Click);
 				c.setSeaAnimation();
 			}
 		}
@@ -271,6 +280,17 @@ public class GameplayController implements Initializable {
 			if (currentAmmo.isValidTarget()) {
 				fire(target, player2);
 			}
+		}
+	}
+	
+	private void cellOfPlayer2ClickOnline(MouseEvent evt) {
+		if (currentPlayer == player1) {
+			Cell cell = (Cell) evt.getSource();
+//			ArrayList<Cell> target = currentAmmo.getTargetArea(player2, cell);
+//			if (currentAmmo.isValidTarget()) {
+//				fire(target, player2);
+//			}
+			System.out.println("Cell pressed. Coordinate: " + cell.getXPosition() + ", " + cell.getYPosition());
 		}
 	}
 

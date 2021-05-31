@@ -46,6 +46,11 @@ public class ClientSocket {
     	this.state = state;
     }
     
+    public String getOpponent() {
+    	return opponent;
+    }
+    
+
     public String getUserInput() {
     	return scanner.nextLine().trim();
     }
@@ -245,6 +250,9 @@ public class ClientSocket {
 	    	   	state = ClientState.Idle;
 	           
 	           listenServer();
+
+	           // TODO: get name tag from server and add to player's name
+
 	           	 
 	           return true;
 	           

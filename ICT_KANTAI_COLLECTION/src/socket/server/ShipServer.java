@@ -10,9 +10,17 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 public class ShipServer {	// TODO: make this a singleton
-	private static ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
+
+	private static ShipServer INSTANCE = new ShipServer();
+
 	
-	public static ClientHandler getClient(String userID) {
+	private ArrayList<ClientHandler> clients = new ArrayList<ClientHandler>();
+	
+	public static ShipServer getInstance() {
+		return INSTANCE;
+	}
+	
+	public ClientHandler getClient(String userID) {
 		for (ClientHandler client: clients) {
 			if (client.getUserID().equals(userID)) {
 				return client;
@@ -22,29 +30,29 @@ public class ShipServer {	// TODO: make this a singleton
 		return null;
 	}
 	
-	public static void echoToClient(String userID) {
+	public void echoToClient(String userID) {
 		getClient(userID).handleIdleUser();
 	}
 	
-	public static void sendClient(int clientNumber, String msg) {
+	public void sendClient(int clientNumber, String msg) {
 		clients.get(clientNumber).sendMessage(msg);
 	}
 	
-	public static void broadcastClients(String msg) {
+	public void broadcastClients(String msg) {
 		for (ClientHandler client: clients) {
 			client.sendMessage(msg);
 		}
 	}
 	
-	public static ArrayList<ClientHandler> getClientList() {
+	public ArrayList<ClientHandler> getClientList() {
 		return clients;
 	}
 	
-	public static void addClient(ClientHandler client) {
+	public void addClient(ClientHandler client) {
 		clients.add(client);
 	}
 	
-	public static void removeClient(ClientHandler client) {
+	public void removeClient(ClientHandler client) {
 		clients.remove(client);
 	}
 
@@ -70,18 +78,18 @@ public class ShipServer {	// TODO: make this a singleton
 	        	   // create a thread to handle that client
 	 
 	               Socket socketOfServer = listener.accept();
-	               new ServiceThread(socketOfServer, clientNumber++).start();
+	               INSTANCE.new ServiceThread(socketOfServer, clientNumber++).start();
 	           }
 	       } finally {
 	           listener.close();
 	       }
 	}
 	 
-	private static void log(String message) {
+	private void log(String message) {
 	       System.out.println(message);
 	}
 	 
-	private static class ServiceThread extends Thread {
+	private class ServiceThread extends Thread {
 		 
 	       private int clientNumber;
 	       private Socket socketOfServer;
@@ -95,9 +103,11 @@ public class ShipServer {	// TODO: make this a singleton
 	 
 	       @Override
 	       public void run() {
+	    	   
 	    	   ClientHandler client = new ClientHandler(socketOfServer, clientNumber);
 	    	   clients.add(client);
 	           echoToClient(client.getUserID());
+	           
 	       }
 	}
 	
