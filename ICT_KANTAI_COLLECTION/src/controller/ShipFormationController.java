@@ -46,6 +46,7 @@ import model.utilities.AmmoCollection;
 import model.utils.ColorCollection;
 import model.utils.MagicGenerator;
 import model.utils.SoundCollection;
+import socket.client.ClientSocket;
 
 public class ShipFormationController implements Initializable {
 	// data for presenting
@@ -164,6 +165,21 @@ public class ShipFormationController implements Initializable {
 
 			// the button sound effect
 			SoundCollection.INSTANCE.playConfirmSound();
+			
+			if (GameConfig.getGameMode() == GameMode.Online) {
+				String s = ClientSocket.getInstance().setupShip(board);
+				
+				if (s.indexOf("gamestart: ") != -1) {
+					FXMLUtilsController.loadSubStage("GamePlay.fxml", "show", GameConfig.getGameTitle());
+					shipFormationPane.getScene().getWindow().hide();
+					// stop the FormationBackGroundSound
+					SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
+				}
+				
+				
+				
+				return;
+			}
 
 			if (playerNum == 1) {
 				// load the data for player 1 depends on difficulty
@@ -189,10 +205,10 @@ public class ShipFormationController implements Initializable {
 						GameConfig.loadDataPlayer2(new Player(playerName, board));
 						System.out.println("Normal mode");
 					}
-					FXMLUtilsController.loadSubStage("GamePlay.fxml", "show", GameConfig.getGameTitle());
-					shipFormationPane.getScene().getWindow().hide();
-					// stop the FormationBackGroundSound
-					SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
+																																													FXMLUtilsController.loadSubStage("GamePlay.fxml", "show", GameConfig.getGameTitle());
+																																													shipFormationPane.getScene().getWindow().hide();
+																																													// stop the FormationBackGroundSound
+																																													SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
 				}
 			} else { // VersusBot
 				// stop the FormationBackGroundSound

@@ -54,6 +54,9 @@ public class ClientHandler {
 			msg = is.readLine();
 		} catch (IOException e) {
 			e.printStackTrace();
+			System.out.println("Oops! Cannot communicate with client!");
+			
+			// TODO: tell server to remove this client from list
 		}
 		
 		System.out.println("Client" + this.userID + " : " + msg);
@@ -70,6 +73,9 @@ public class ClientHandler {
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.out.println("Oops! Cannot communicate with client!");
+			
+			// TODO: tell server to remove this client from list
+			
 		} 
 	}
 	
@@ -114,7 +120,7 @@ public class ClientHandler {
 		while (true) {
 			// wait for 10 seconds then try to find another matching user
 			try {
-    			TimeUnit.SECONDS.sleep(10);
+    			TimeUnit.SECONDS.sleep(3);
     		} catch (InterruptedException e) {
     			System.out.println("Thread is interuppted....");
     		}
@@ -200,19 +206,19 @@ public class ClientHandler {
 		
 	}
 
-//	public void processShipSetUp(String formation) {
-//		String[] shipLocations = formation.split(",");	// split into strings containing location of each ship on board
-//		String[] params;	
-//		String shipDirection;
-//		for (String s: shipLocations) {
-//			params = s.split("-");
-//			if (params[0].indexOf("V")==0)
-//				shipDirection = "vertical";
-//			else
-//				shipDirection = "horizontal";
-//			System.out.println("Ship: " + shipDirection + ", length=" + params[1] + ", x=" + params[2] + ", y=" + params[3]);
-//		}
-//	}
+	public void processShipSetUp(String formation) {
+		String[] shipLocations = formation.split(",");	// split into strings containing location of each ship on board
+		String[] params;	
+		String shipDirection;
+		for (String s: shipLocations) {
+			params = s.split("-");
+			if (params[0].indexOf("V")==0)
+				shipDirection = "vertical";
+			else
+				shipDirection = "horizontal";
+			System.out.println("Ship: " + shipDirection + ", length=" + params[1] + ", x=" + params[2] + ", y=" + params[3]);
+		}
+	}
 
 	public ClientHandler getMatchingUser() {
 		System.out.println("check matching list");
