@@ -40,6 +40,7 @@ import model.utilities.NormalShot;
 import model.utilities.VerticalShot;
 import model.utils.MagicGenerator;
 import model.utils.SoundCollection;
+import socket.client.ClientSocket;
 
 public class GameplayController implements Initializable {
 	// data for presenting
@@ -286,11 +287,11 @@ public class GameplayController implements Initializable {
 	private void cellOfPlayer2ClickOnline(MouseEvent evt) {
 		if (currentPlayer == player1) {
 			Cell cell = (Cell) evt.getSource();
-//			ArrayList<Cell> target = currentAmmo.getTargetArea(player2, cell);
-//			if (currentAmmo.isValidTarget()) {
-//				fire(target, player2);
-//			}
+			
 			System.out.println("Cell pressed. Coordinate: " + cell.getXPosition() + ", " + cell.getYPosition());
+			String result = ClientSocket.getInstance().fire(cell.getXPosition(), cell.getYPosition());
+			
+			// TODO: process result
 		}
 	}
 
