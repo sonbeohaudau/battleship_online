@@ -35,6 +35,6 @@ Button:hover {
     -fx-border-style: solid, segments(1, 2);
     -fx-padding: 10 10 10 10;
     -fx-text-fill: white;
-    -fx-font: 30px "Orbitron";
+    -fx-font: 60px "Orbitron";
     -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
 }
