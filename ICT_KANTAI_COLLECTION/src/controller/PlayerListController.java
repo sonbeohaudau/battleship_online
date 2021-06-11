@@ -83,13 +83,13 @@ public class PlayerListController implements Initializable {
 		// TODO
 	}
 
-	//Update Player in the Player List
-	private void addSamplePlayerList() {
-		PlayerList.getItems().add("Duy" + " - " + "Playing");
-		PlayerList.getItems().add("Son" + " - " + "Playing");
-		PlayerList.getItems().add("Duong" + " - " + "Online");
-		PlayerList.getItems().add("HA" + " - " + "Online");
-	}
+//	//Update Player in the Player List
+//	private void addSamplePlayerList() {
+//		PlayerList.getItems().add("Duy" + " - " + "Playing");
+//		PlayerList.getItems().add("Son" + " - " + "Playing");
+//		PlayerList.getItems().add("Duong" + " - " + "Online");
+//		PlayerList.getItems().add("HA" + " - " + "Online");
+//	}
 	
 	//Update Challenger in the Challenger List
 	private void addSampleChallengerList() {
