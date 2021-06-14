@@ -10,9 +10,12 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
+import javafx.geometry.Orientation;
 import model.platform.Board;
+import model.unit.warship.Ship;
 
 public class ClientSocket {
 	private static ClientSocket INSTANCE = new ClientSocket();
@@ -334,7 +337,28 @@ public class ClientSocket {
 	}
 	
 	public String setupShip(Board board) {
-		sendServer("setup: V-4-2-3,H-2-1-1");
+//		sendServer("setup: V-4-2-3,H-2-1-1");
+		StringBuffer setUpMsg = new StringBuffer();
+		setUpMsg.append("setup: ");
+		List<Ship> shipList = board.getShipArmy();
+		for (Ship s: shipList) {
+			// for each ship, send its orientation, length and coordination
+			if (s.getOrien() == Orientation.HORIZONTAL) {
+				setUpMsg.append("H-");
+			} else {
+				setUpMsg.append("V-");
+			}
+			
+			setUpMsg.append(s.getShipLength());
+			setUpMsg.append('-');
+			setUpMsg.append(s.getCellList().get(0).getXPosition());
+			setUpMsg.append('-');
+			setUpMsg.append(s.getCellList().get(0).getYPosition());
+			setUpMsg.append(',');
+			
+		}
+		
+		sendServer(setUpMsg.toString());
 		
 		// wait for server to send start match signal (TODO: loading screen)
 		String startMessage = getServerMessage();

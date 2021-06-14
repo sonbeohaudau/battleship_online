@@ -41,6 +41,10 @@ public class Ship {
 	public boolean isSunk() {
 		return shipHealth <= 0;
 	}
+	
+	public List<Cell> getCellList() {
+		return cellList;
+	}
 
 	public void rotateShip() {
 		// function works only with size > 1

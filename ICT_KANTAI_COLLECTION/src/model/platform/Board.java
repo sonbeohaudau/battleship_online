@@ -77,6 +77,11 @@ public class Board extends Parent {
 		getChildren().add(hBoundBox);
 		// getChildren().add(recordBox);
 	}
+	
+	// constructor for a simple board
+	public Board() {
+		
+	}
 
 	// get Cell by Coordinate
 	public Cell getCellByCoordinate(int coorX, int coorY) {
@@ -128,6 +133,11 @@ public class Board extends Parent {
 			}
 		}
 		return adjacentList;
+	}
+	
+	// add new ship to board
+	public void addShipToArmy(Ship ship) {
+		shipArmy.add(ship);
 	}
 
 	// remove sunk ship from list of ship	
