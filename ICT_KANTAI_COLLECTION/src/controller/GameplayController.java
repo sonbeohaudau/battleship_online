@@ -88,6 +88,7 @@ public class GameplayController implements Initializable {
 	private List<Ammo> player2AmmoCollection = null;
 	private int ammoCollectionSize1;
 	private int ammoCollectionSize2;
+	
 
 	// data for storing
 	private Player player1;
@@ -123,7 +124,12 @@ public class GameplayController implements Initializable {
 		// set up event handler
 		setUpGameplayEventHandler();
 
-		processPlayer1Turn(); // Player 1 will go first by default
+		if (GameConfig.getGameMode() == GameMode.Online) {
+			processOnlineGame();
+		} else {
+			processPlayer1Turn(); // Player 1 will go first by default
+		}
+		
 	}
 
 	@FXML
@@ -284,17 +290,6 @@ public class GameplayController implements Initializable {
 		}
 	}
 	
-	private void cellOfPlayer2ClickOnline(MouseEvent evt) {
-		if (currentPlayer == player1) {
-			Cell cell = (Cell) evt.getSource();
-			
-			System.out.println("Cell pressed. Coordinate: " + cell.getXPosition() + ", " + cell.getYPosition());
-			String result = ClientSocket.getInstance().fire(cell.getXPosition(), cell.getYPosition());
-			
-			// TODO: process result
-		}
-	}
-
 	// Mouse event [Enter] Handler for cell: show cell targeted
 	private void cellOfPlayer1Entered(MouseEvent evt) {
 		Cell cell = (Cell) evt.getSource();
@@ -701,5 +696,61 @@ public class GameplayController implements Initializable {
 
 		// stop the GamePlayBackGroundSound
 		SoundCollection.INSTANCE.stopGamePlayBackGroundSound();
+	}
+	
+	//
+	//	Below are functions used for gameplay in Online mode
+	//
+	
+	
+	private void cellOfPlayer2ClickOnline(MouseEvent evt) {
+		if (currentPlayer == player1) {
+			Cell cell = (Cell) evt.getSource();
+			
+			System.out.println("Cell pressed. Coordinate: " + cell.getXPosition() + ", " + cell.getYPosition());
+			String result = ClientSocket.getInstance().fire(cell.getXPosition(), cell.getYPosition());
+			
+			// process result
+			processYourFireResult(result);
+		}
+	}
+	
+	private void processOnlineGame() {
+		if (ClientSocket.getInstance().isGoFirst()) {
+			processYourTurn();
+		} else {
+			arrowTurn.setRotate(arrowTurn.getRotate() + 180);
+			processOppoTurn();
+		}
+	}
+
+	private void processYourTurn() {
+		currentPlayer = player1;
+		oppoPlayer = player2;
+		// lock opponent combobox
+		lockAmmoBox();
+		shipHit = false;
+	}
+
+	private void processOppoTurn() {
+		currentPlayer = player2;
+		oppoPlayer = player1;
+		// lock opponent combobox
+		lockAmmoBox();
+		shipHit = false;
+	}
+	
+	private void switchPlayerOnline() {
+		arrowTurn.setRotate(arrowTurn.getRotate() + 180);
+		if (currentPlayer == player1) {
+			processOppoTurn();
+		} else { // currentPlayer == player2
+			processYourTurn();
+		}
+		System.gc();
+	}
+	
+	private void processYourFireResult(String result) {
+		
 	}
 }

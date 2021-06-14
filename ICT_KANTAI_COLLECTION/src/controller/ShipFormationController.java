@@ -172,17 +172,15 @@ public class ShipFormationController implements Initializable {
 	}
 	
 	public void confirmSetUpBoard() {
-		boolean goFirst = true;
 		
 		if (GameConfig.getGameMode() == GameMode.Online) {
-			String s = ClientSocket.getInstance().setupShip(board);
+			// send board data to server and wait for match start
+			boolean b = ClientSocket.getInstance().setupShip(board);
 			
-			if (s.indexOf("gamestart: ") != -1) {
-				if (s.indexOf("2") != -1)
-					goFirst = false;
-			}
-			else
+			if (!b) {
 				return;
+			}
+				
 		}
 
 

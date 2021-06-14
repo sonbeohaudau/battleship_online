@@ -32,6 +32,8 @@ public class ClientSocket {
     private ClientState state;
     private String opponent = "";
     
+    private boolean goFirst = true;
+    
     public ClientSocket() {
     	System.out.println("A new battlship online client");
 //    	initSocket();
@@ -61,6 +63,10 @@ public class ClientSocket {
 	public void setState(ClientState state) {
     	this.state = state;
     }
+	
+	public boolean isGoFirst() {
+		return this.goFirst;
+	}
     
     public void sendServer(String msg) {
     	
@@ -336,7 +342,7 @@ public class ClientSocket {
         }
 	}
 	
-	public String setupShip(Board board) {
+	public boolean setupShip(Board board) {
 //		sendServer("setup: V-4-2-3,H-2-1-1");
 		StringBuffer setUpMsg = new StringBuffer();
 		setUpMsg.append("setup: ");
@@ -365,14 +371,14 @@ public class ClientSocket {
 		if(startMessage.indexOf("gamestart: ") == 0) {
 			if (startMessage.indexOf("1") == 11) {
 				System.out.println("Battle start! You go first.");
-				return "gamestart: 1";
+				return true;
 			} else {
 				System.out.println("Battle start! Your opponent go first.");
-				return "gamestart: 2";
+				return true;
 			}
 		}
 		
-		return "";
+		return false;
 	}
 	
 	public String fire (int x, int y) {

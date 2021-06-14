@@ -139,4 +139,12 @@ public class GameMatchHandler {
 	public String getCurrentTurnPlayerID() {
 		return turn.getPlayerName();
 	}
+	
+	public String processPlayerFire(String user, int x, int y) {
+		String result = "";
+		Player player = getPlayer(user);
+		// TODO: process fire action from player
+		
+		return result;
+	}
 }
