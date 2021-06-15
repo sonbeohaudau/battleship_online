@@ -47,6 +47,8 @@ public class GameMatchHandler {
 		String[] shipLocations = formation.split(",");	// split into strings containing location of each ship on board
 		String[] params;	
 		String shipDirection;
+		
+		// process and set the board for Player
 		for (String s: shipLocations) {		
 			
 			// for each ship, get its direction and coordination
@@ -61,8 +63,6 @@ public class GameMatchHandler {
 		}
 		
 		this.numOfFormationReceived++;
-		
-		// TODO: process and set the board for Player
 		
 		// when server received formation from both players, switch to battle stage
 		if (this.numOfFormationReceived == 2)
@@ -173,8 +173,11 @@ public class GameMatchHandler {
 	}
 	
 	private String fire(Cell cell, Player targetPlayer) {
-//		boolean fireResult = cell.fireCellSimple();
-		boolean fireResult = cell.fireCellTest();
+		if (cell.isFired())
+			return "fired";
+		
+		boolean fireResult = cell.fireCellSimple();
+//		boolean fireResult = cell.fireCellTest();
 		
 		if (fireResult == false) {
 			return "miss";
@@ -182,9 +185,26 @@ public class GameMatchHandler {
 			Ship curShip = cell.getShip();
 			
 			if (curShip.isSunk() == true) {
+				StringBuffer sunkMsg = new StringBuffer();
+				
+				sunkMsg.append("hit,sunk,");
+				
+				if (curShip.getOrien() == Orientation.HORIZONTAL) {
+					sunkMsg.append("H-");
+				} else {
+					sunkMsg.append("V-");
+				}
+				
+				sunkMsg.append(curShip.getShipLength());
+				sunkMsg.append('-');
+				sunkMsg.append(curShip.getCellList().get(0).getXPosition());
+				sunkMsg.append('-');
+				sunkMsg.append(curShip.getCellList().get(0).getYPosition());
+				
 				// remove ship from board
 				targetPlayer.getBoard().removeShipFromArmy(curShip);
-				return "hit,sunk";
+				
+				return sunkMsg.toString();
 			} else {
 				return "hit";
 			}

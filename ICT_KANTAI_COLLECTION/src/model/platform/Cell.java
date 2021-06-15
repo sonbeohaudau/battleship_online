@@ -149,7 +149,7 @@ public class Cell extends Rectangle {
 			return false;
 		}
 		// hit ship
-		if (curShip.damage()) {
+		if (curShip.damageSimple()) {
 			// if ship is sunk
 			sunk = true;
 		} 
@@ -313,6 +313,10 @@ public class Cell extends Rectangle {
 				}
 			}
 		}
+	}
+	
+	public void setFired() {
+		fired = true;
 	}
 
 	//
