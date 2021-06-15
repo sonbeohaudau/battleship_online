@@ -3,10 +3,14 @@ package socket.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.embed.swing.SwingFXUtils;
 import javafx.geometry.Orientation;
+import javafx.scene.paint.ImagePattern;
 import model.platform.Board;
 import model.platform.Cell;
 import model.player.Player;
+import model.system.GameConfig;
+import model.system.GameMode;
 import model.unit.warship.Ship;
 import model.unit.warship.ShipType;
 import model.utils.MagicGenerator;
@@ -28,6 +32,14 @@ public class GameMatchHandler {
 			return player1;
 		if (player2.getPlayerName().equals(userID))
 			return player2;
+		return null;
+	}
+	
+	public Player getOpponent(String userID) {
+		if (player1.getPlayerName().equals(userID))
+			return player2;
+		if (player2.getPlayerName().equals(userID))
+			return player1;
 		return null;
 	}
 	
@@ -92,18 +104,27 @@ public class GameMatchHandler {
 			ship.rotateShip();
 		} 
 		
-		// add the cells to the cell list of ship
+		// add the cell to the cell list of ship
 		Cell c = board.getCellByCoordinate(x, y);
+		// set ship for cell
+		c.setShip(ship);
+		// add current cell to current ship
 		ship.getCellList().add(c);
 		if (length > 1) {
 			if (ship.getOrien() == Orientation.HORIZONTAL) {	// Horizontal ship
 				for (int i = 2; i <= length; i++) {
 					c = board.getCellByCoordinate(x + i - 1, y);
+					// set ship for cell
+					c.setShip(ship);
+					// add current cell to current ship
 					ship.getCellList().add(c);
 				}
 			} else {	// Vertical ship
 				for (int i = 2; i <= length; i++) {
 					c = board.getCellByCoordinate(x, y + i - 1);
+					// set ship for cell
+					c.setShip(ship);
+					// add current cell to current ship
 					ship.getCellList().add(c);
 				}
 			}
@@ -142,9 +163,32 @@ public class GameMatchHandler {
 	
 	public String processPlayerFire(String user, int x, int y) {
 		String result = "";
-		Player player = getPlayer(user);
-		// TODO: process fire action from player
+		Player targetPlayer = getOpponent(user);
+		
+		// process fire action from player
+		Cell c = targetPlayer.getBoard().getCellByCoordinate(x, y);
+		result = fire(c, targetPlayer);
 		
 		return result;
+	}
+	
+	private String fire(Cell cell, Player targetPlayer) {
+//		boolean fireResult = cell.fireCellSimple();
+		boolean fireResult = cell.fireCellTest();
+		
+		if (fireResult == false) {
+			return "miss";
+		} else {
+			Ship curShip = cell.getShip();
+			
+			if (curShip.isSunk() == true) {
+				// remove ship from board
+				targetPlayer.getBoard().removeShipFromArmy(curShip);
+				return "hit,sunk";
+			} else {
+				return "hit";
+			}
+			
+		}
 	}
 }

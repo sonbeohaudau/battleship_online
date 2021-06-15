@@ -81,6 +81,26 @@ public class Ship {
 		sink();
 		return true;
 	}
+	
+	public boolean damageSimple() {
+		// decrease health
+		shipHealth--;
+		if (shipHealth > 0)
+			return false;
+		// terminate all cells around the ship
+		Cell c = null;
+		List<Cell> adjacentCellList;
+		for (int pos = 0; pos < shipLength; pos++) {
+			c = cellList.get(pos);
+			// terminate surrounding cells
+			adjacentCellList = c.getBoard().getAdjacentCellList(c.getXPosition(), c.getYPosition());
+			for (Cell adjCell : adjacentCellList) {
+				adjCell.terminateCellSimple();
+			}
+		}
+
+		return true;
+	}
 
 	// set the properties for cells that ship holds
 	public void launchShip(List<Cell> curShipArea) {

@@ -384,9 +384,11 @@ public class ClientSocket {
 	public String fire (int x, int y) {
 		sendServer("fire: " + x + "-" + y);
 		
-		String result = getServerMessage();
+//		String result = getServerMessage();
+//		
+//		return result;
 		
-		return result;
+		return "";
 	}
 
 	public static void processOpponentAction() {
