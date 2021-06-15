@@ -31,6 +31,7 @@ import model.player.Player;
 import model.system.GameConfig;
 import model.system.GameMode;
 import model.unit.warship.Ship;
+import model.unit.warship.ShipType;
 import model.utilities.Ammo;
 import model.utilities.AmmoCollection;
 import model.utilities.AmmoType;
@@ -38,6 +39,7 @@ import model.utilities.BigShot;
 import model.utilities.HorizontalShot;
 import model.utilities.NormalShot;
 import model.utilities.VerticalShot;
+import model.utils.ColorCollection;
 import model.utils.MagicGenerator;
 import model.utils.SoundCollection;
 import socket.client.ClientSocket;
@@ -88,6 +90,7 @@ public class GameplayController implements Initializable {
 	private List<Ammo> player2AmmoCollection = null;
 	private int ammoCollectionSize1;
 	private int ammoCollectionSize2;
+	
 
 	// data for storing
 	private Player player1;
@@ -123,7 +126,12 @@ public class GameplayController implements Initializable {
 		// set up event handler
 		setUpGameplayEventHandler();
 
-		processPlayer1Turn(); // Player 1 will go first by default
+		if (GameConfig.getGameMode() == GameMode.Online) {
+			processOnlineGame();
+		} else {
+			processPlayer1Turn(); // Player 1 will go first by default
+		}
+		
 	}
 
 	@FXML
@@ -284,17 +292,6 @@ public class GameplayController implements Initializable {
 		}
 	}
 	
-	private void cellOfPlayer2ClickOnline(MouseEvent evt) {
-		if (currentPlayer == player1) {
-			Cell cell = (Cell) evt.getSource();
-			
-			System.out.println("Cell pressed. Coordinate: " + cell.getXPosition() + ", " + cell.getYPosition());
-			String result = ClientSocket.getInstance().fire(cell.getXPosition(), cell.getYPosition());
-			
-			// TODO: process result
-		}
-	}
-
 	// Mouse event [Enter] Handler for cell: show cell targeted
 	private void cellOfPlayer1Entered(MouseEvent evt) {
 		Cell cell = (Cell) evt.getSource();
@@ -701,5 +698,166 @@ public class GameplayController implements Initializable {
 
 		// stop the GamePlayBackGroundSound
 		SoundCollection.INSTANCE.stopGamePlayBackGroundSound();
+	}
+	
+	//
+	//	Below are functions used for gameplay in Online mode
+	//
+	
+	
+	private void cellOfPlayer2ClickOnline(MouseEvent evt) {
+		if (currentPlayer == player1) {
+			Cell cell = (Cell) evt.getSource();
+			
+			System.out.println("Cell pressed. Coordinate: " + cell.getXPosition() + ", " + cell.getYPosition());
+			String result = ClientSocket.getInstance().fire(cell.getXPosition(), cell.getYPosition());
+			
+			// process result
+			processYourFireResult(cell, result);
+		}
+	}
+	
+	private void processOnlineGame() {
+		if (ClientSocket.getInstance().isGoFirst()) {
+			processYourTurn();
+		} else {
+			arrowTurn.setRotate(arrowTurn.getRotate() + 180);
+			processOppoTurn();
+		}
+	}
+
+	private void processYourTurn() {
+		currentPlayer = player1;
+		oppoPlayer = player2;
+		// lock opponent combobox
+		lockAmmoBox();
+		shipHit = false;
+	}
+
+	private void processOppoTurn() {
+		currentPlayer = player2;
+		oppoPlayer = player1;
+		// lock opponent combobox
+		lockAmmoBox();
+		shipHit = false;
+	}
+	
+	private void switchPlayerOnline() {
+		arrowTurn.setRotate(arrowTurn.getRotate() + 180);
+		if (currentPlayer == player1) {
+			processOppoTurn();
+		} else { // currentPlayer == player2
+			processYourTurn();
+		}
+		System.gc();
+	}
+	
+	private void processYourFireResult(Cell cell, String result) {
+		cell.setFired();
+		cell.stopSeaAnimation();
+		
+		if (result.indexOf("hit") != -1) {
+			SoundCollection.INSTANCE.playHitSFX();
+			
+			if (result.indexOf("sunk") != -1) {
+				
+				displaySunkShip(result);
+				
+			} else {
+				cell.storeNewColor(ColorCollection.RED.getRGBColor(), ColorCollection.WATERBORDER.getRGBColor());
+				cell.showStoredPaint();
+			}
+		}
+		
+		if (result.indexOf("miss") != -1) {
+			SoundCollection.INSTANCE.playMissSFX();
+			cell.showExplosion();
+		}
+		
+		if (result.indexOf("fired") != -1) {
+			
+		}
+	}
+
+	private void displaySunkShip(String result) {
+		String[] params;	
+		String shipDirection;
+		
+		// analyse the result string to get enemy's sunk ship
+		params = result.substring(9).split("-");
+		if (params[0].indexOf("V") != -1)
+			shipDirection = "vertical";
+		else
+			shipDirection = "horizontal";
+		System.out.println("Sunk Ship: " + shipDirection + ", length=" + params[1] + ", x=" + params[2] + ", y=" + params[3]);
+					
+		// place sunk ship on board
+		Ship ship = setOppoShip(shipDirection, params[1], params[2], params[3]);
+		
+		// display sunk ship
+		ship.sink();
+		
+	}
+	
+	private Ship setOppoShip(String shipDirection, String shipLength, String xPos, String yPos) {
+		int length, x, y;
+		Ship ship;
+		Board board = player2.getBoard();
+		
+		// preprocess parameters
+		length = Integer.parseInt(shipLength);
+		x = Integer.parseInt(xPos);
+		y = Integer.parseInt(yPos);
+		
+		// get the ship type according to length
+		switch(length) {
+		case 4:
+			ship = new Ship (ShipType.Carrier.getShipTypeID(), ShipType.Carrier.getShipLength());
+			break;
+		case 3:
+			ship = new Ship (ShipType.Battleship.getShipTypeID(), ShipType.Battleship.getShipLength());
+			break;
+		case 2:
+			ship = new Ship (ShipType.Cruiser.getShipTypeID(), ShipType.Cruiser.getShipLength());
+			break;
+		case 1:
+			ship = new Ship (ShipType.Destroyer.getShipTypeID(), ShipType.Destroyer.getShipLength());
+			break;
+		default:
+			//TODO: error?
+			ship = new Ship (ShipType.Destroyer.getShipTypeID(), ShipType.Destroyer.getShipLength());
+			break;
+		}
+		
+		if (shipDirection.indexOf("vertical") != -1) {
+			ship.rotateShip();
+		} 
+		
+		List<Cell> cellList = new ArrayList<Cell>();
+		
+		// add the cell to the cell list of the new ship
+		Cell c = board.getCellByCoordinate(x, y);
+		// add current cell to the new ship's cell list
+		cellList.add(c);
+		if (length > 1) {
+			if (ship.getOrien() == Orientation.HORIZONTAL) {	// Horizontal ship
+				for (int i = 2; i <= length; i++) {
+					c = board.getCellByCoordinate(x + i - 1, y);
+					cellList.add(c);
+				}
+			} else {	// Vertical ship
+				for (int i = 2; i <= length; i++) {
+					c = board.getCellByCoordinate(x, y + i - 1);
+					cellList.add(c);
+				}
+			}
+		}
+		
+		ship.launchShip(cellList);		
+		
+		// add the ship to player's board/army 
+		board.addShipToArmy(ship);
+
+		return ship;
 	}
 }

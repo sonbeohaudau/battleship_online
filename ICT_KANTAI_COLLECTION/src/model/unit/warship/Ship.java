@@ -41,6 +41,10 @@ public class Ship {
 	public boolean isSunk() {
 		return shipHealth <= 0;
 	}
+	
+	public List<Cell> getCellList() {
+		return cellList;
+	}
 
 	public void rotateShip() {
 		// function works only with size > 1
@@ -60,21 +64,28 @@ public class Ship {
 		shipHealth--;
 		if (shipHealth > 0)
 			return false;
+		
+		sink();
+		return true;
+	}
+	
+	public boolean damageSimple() {
+		// decrease health
+		shipHealth--;
+		if (shipHealth > 0)
+			return false;
 		// terminate all cells around the ship
 		Cell c = null;
 		List<Cell> adjacentCellList;
 		for (int pos = 0; pos < shipLength; pos++) {
 			c = cellList.get(pos);
-			// show explosion for each cell
-			c.showExplosion();
 			// terminate surrounding cells
 			adjacentCellList = c.getBoard().getAdjacentCellList(c.getXPosition(), c.getYPosition());
 			for (Cell adjCell : adjacentCellList) {
-				adjCell.terminateCell();
+				adjCell.terminateCellSimple();
 			}
 		}
-		// play music for ship when sunk
-		sink();
+
 		return true;
 	}
 
@@ -143,6 +154,22 @@ public class Ship {
 	}
 
 	public void sink() {
+		
+		// terminate all cells around the ship
+		Cell c = null;
+		List<Cell> adjacentCellList;
+		for (int pos = 0; pos < shipLength; pos++) {
+			c = cellList.get(pos);
+			// show explosion for each cell
+			c.showExplosion();
+			// terminate surrounding cells
+			adjacentCellList = c.getBoard().getAdjacentCellList(c.getXPosition(), c.getYPosition());
+			for (Cell adjCell : adjacentCellList) {
+				adjCell.terminateCell();
+			}
+		}
+		
+		// play music for ship when sunk
 		if (shipTypeID == 0) {
 			SoundCollection.INSTANCE.playShipSinkSFX(getShipTypeID());
 		} else if (shipTypeID == 1) {

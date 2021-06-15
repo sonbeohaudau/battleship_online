@@ -219,6 +219,9 @@ public class ClientHandler {
 				if (msg.indexOf("fire: ") == 0) {
 					String[] cellCoordinate = msg.substring(6).split("-");
 					System.out.println(this.userID + " fire at cell: " + cellCoordinate[0] + "," + cellCoordinate[1]);
+					String result = match.processPlayerFire(userID, Integer.parseInt(cellCoordinate[0]), Integer.parseInt(cellCoordinate[1]));
+//					System.out.println(result);
+					sendMessage(result);
 				}
 			}
 			

@@ -96,6 +96,10 @@ public class Cell extends Rectangle {
 		setFill(curPaint);
 		explosionFrame = ImageCollection.INSTANCE.shipExplosionFrames;
 	}
+	
+	public void setShip(Ship curShip) {
+		this.curShip = curShip;
+	}
 
 	// use when ship is sunk, surrounding cells will be terminated
 	public void terminateCell() {
@@ -106,6 +110,13 @@ public class Cell extends Rectangle {
 			showStoredPaint();			
 		}
 	}
+	
+	public void terminateCellSimple() {
+		if (curShip == null) {
+			fired = true;
+		}
+	}
+
 
 	// use when player shoot at a cell
 	public boolean fireCell() {
@@ -128,6 +139,32 @@ public class Cell extends Rectangle {
 			storeNewColor(ColorCollection.RED.getRGBColor(), ColorCollection.WATERBORDER.getRGBColor());
 			showStoredPaint();
 		}
+		return true;
+	}
+	
+	public boolean fireCellSimple() {
+		fired = true;
+		// miss
+		if (curShip == null) {
+			return false;
+		}
+		// hit ship
+		if (curShip.damageSimple()) {
+			// if ship is sunk
+			sunk = true;
+		} 
+		
+		return true;
+	}
+	
+	public boolean fireCellTest() {
+
+		// miss
+		if (curShip == null) {
+			return false;
+		}
+		
+		// hit ship
 		return true;
 	}
 
@@ -276,6 +313,10 @@ public class Cell extends Rectangle {
 				}
 			}
 		}
+	}
+	
+	public void setFired() {
+		fired = true;
 	}
 
 	//

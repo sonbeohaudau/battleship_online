@@ -77,6 +77,57 @@ public class Board extends Parent {
 		getChildren().add(hBoundBox);
 		// getChildren().add(recordBox);
 	}
+	
+	// constructor for a simple board
+	public Board() {
+		// create a horizontal box to bound column ruler and (row ruler & battlefield)
+				HBox hBoundBox = new HBox();
+
+				// create ruler A -> J
+				VBox rulerCol = new VBox();
+				rulerCol.getChildren().add(new Cell());
+				Text txt;
+				for (int j = 0; j < GameConfig.NUM_OF_ROWS; j++) {
+					txt = new Text(Character.toString((char) (j + 65)));
+					StackPane stack = new StackPane();
+					stack.getChildren().addAll(new Cell(), txt);
+					rulerCol.getChildren().addAll(stack);
+				}
+				hBoundBox.getChildren().add(rulerCol);
+
+				// create a vertical box to bound row ruler and battlefield
+				VBox vBoundBox = new VBox();
+
+				// create ruler 1 -> 10
+				HBox rulerRow = new HBox();
+				for (int i = 0; i < GameConfig.NUM_OF_COLS; i++) {
+					txt = new Text(Integer.toString(i + 1));
+					StackPane stack = new StackPane();
+					stack.getChildren().addAll(new Cell(), txt);
+					rulerRow.getChildren().addAll(stack);
+				}
+				vBoundBox.getChildren().add(rulerRow);
+
+				for (int i = 0; i < GameConfig.NUM_OF_COLS; i++) {
+					// create new columns of cell to add to recordBox -> form a board
+					VBox colBox = new VBox();
+					for (int j = 0; j < GameConfig.NUM_OF_ROWS; j++) {
+						// init cell with coordinate and set event handler for it
+						Cell c = new Cell(this, i, j);
+						// add cell to column
+						colBox.getChildren().add(c);
+					}
+					// add column to recordBox
+					recordBox.getChildren().add(colBox);
+				}
+				// add recordBox to the vertical box
+				vBoundBox.getChildren().add(recordBox);
+				// add vertical box to horizontal box
+				hBoundBox.getChildren().add(vBoundBox);
+				// add horizontal box to the fxml
+				getChildren().add(hBoundBox);
+				// getChildren().add(recordBox);
+	}
 
 	// get Cell by Coordinate
 	public Cell getCellByCoordinate(int coorX, int coorY) {
@@ -128,6 +179,11 @@ public class Board extends Parent {
 			}
 		}
 		return adjacentList;
+	}
+	
+	// add new ship to board
+	public void addShipToArmy(Ship ship) {
+		shipArmy.add(ship);
 	}
 
 	// remove sunk ship from list of ship	
