@@ -133,7 +133,7 @@ public class Cell extends Rectangle {
 		if (curShip.damage()) {
 			// if ship is sunk
 			sunk = true;
-			SoundCollection.INSTANCE.playShipExploSFX();
+//			SoundCollection.INSTANCE.playShipExploSFX();
 		} else {
 			// if ship still survives
 			storeNewColor(ColorCollection.RED.getRGBColor(), ColorCollection.WATERBORDER.getRGBColor());

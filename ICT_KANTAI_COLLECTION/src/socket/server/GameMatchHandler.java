@@ -36,10 +36,14 @@ public class GameMatchHandler {
 	}
 	
 	public Player getOpponent(String userID) {
-		if (player1.getPlayerName().equals(userID))
+		if (player1.getPlayerName().equals(userID)) {
 			return player2;
-		if (player2.getPlayerName().equals(userID))
+		}
+			
+		if (player2.getPlayerName().equals(userID)) {
 			return player1;
+		}
+			
 		return null;
 	}
 	
@@ -148,6 +152,20 @@ public class GameMatchHandler {
 		
 		this.battleStage = true;
 	}
+	
+	private void switchTurn() {
+		if (turn == player1) {
+			System.out.println("Turn of " + player2.getPlayerName());
+			turn = player2;
+			return;
+		}
+			
+		if (turn == player2) {
+			System.out.println("Turn of " + player1.getPlayerName());
+			turn = player1;
+		}
+			
+	}
 
 	public int getNumOfFormationReceived() {
 		return numOfFormationReceived;
@@ -163,11 +181,19 @@ public class GameMatchHandler {
 	
 	public String processPlayerFire(String user, int x, int y) {
 		String result = "";
+		
+		if (getPlayer(user) != turn) 
+			return result;
+		
 		Player targetPlayer = getOpponent(user);
 		
 		// process fire action from player
 		Cell c = targetPlayer.getBoard().getCellByCoordinate(x, y);
 		result = fire(c, targetPlayer);
+		
+		if (result.indexOf("miss") != -1) {
+			switchTurn();
+		}
 		
 		return result;
 	}

@@ -753,10 +753,10 @@ public class GameplayController implements Initializable {
 	}
 	
 	private void processYourFireResult(Cell cell, String result) {
-		cell.setFired();
-		cell.stopSeaAnimation();
 		
 		if (result.indexOf("hit") != -1) {
+			cell.setFired();
+			cell.stopSeaAnimation();
 			SoundCollection.INSTANCE.playHitSFX();
 			
 			if (result.indexOf("sunk") != -1) {
@@ -770,8 +770,12 @@ public class GameplayController implements Initializable {
 		}
 		
 		if (result.indexOf("miss") != -1) {
+			cell.setFired();
+			cell.stopSeaAnimation();
 			SoundCollection.INSTANCE.playMissSFX();
 			cell.showExplosion();
+			
+//			switchPlayerOnline();
 		}
 		
 		if (result.indexOf("fired") != -1) {

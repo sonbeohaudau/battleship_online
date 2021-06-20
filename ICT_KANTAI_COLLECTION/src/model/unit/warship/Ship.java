@@ -169,6 +169,9 @@ public class Ship {
 			}
 		}
 		
+		// play sunk SE
+		SoundCollection.INSTANCE.playShipExploSFX();
+		
 		// play music for ship when sunk
 		if (shipTypeID == 0) {
 			SoundCollection.INSTANCE.playShipSinkSFX(getShipTypeID());
