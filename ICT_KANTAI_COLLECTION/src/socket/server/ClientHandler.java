@@ -222,13 +222,14 @@ public class ClientHandler {
 					String result = match.processPlayerFire(userID, Integer.parseInt(cellCoordinate[0]), Integer.parseInt(cellCoordinate[1]));
 //					System.out.println(result);
 					sendMessage(result);
+					opponent.sendMessage(msg + "-" + result);
 				}
 			}
 			
 		}
 		
 	}
-
+	
 	public void processShipSetUp(String formation) {
 		String[] shipLocations = formation.split(",");	// split into strings containing location of each ship on board
 		String[] params;	

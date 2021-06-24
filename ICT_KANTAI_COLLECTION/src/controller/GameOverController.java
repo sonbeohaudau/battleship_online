@@ -51,6 +51,16 @@ public class GameOverController implements Initializable {
 					resultDisplay.setText("DEFEAT!!");
 					System.out.println("DEFEAT!!");
 				}
+			} else if (GameConfig.getGameMode() == GameMode.Online) {
+				if (gameResult == 1) {
+					SoundCollection.INSTANCE.playVictorySound();
+					resultDisplay.setText("VICTORY!!");
+					System.out.println("VICTORY!!");
+				} else {
+					SoundCollection.INSTANCE.playDefeatSound();
+					resultDisplay.setText("DEFEAT!!");
+					System.out.println("DEFEAT!!");
+				}
 			}
 		}
 

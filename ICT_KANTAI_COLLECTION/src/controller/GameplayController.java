@@ -132,6 +132,8 @@ public class GameplayController implements Initializable {
 			processPlayer1Turn(); // Player 1 will go first by default
 		}
 		
+		GameConfig.setGameMatch(this);
+		
 	}
 
 	@FXML
@@ -740,6 +742,7 @@ public class GameplayController implements Initializable {
 		// lock opponent combobox
 		lockAmmoBox();
 		shipHit = false;
+		ClientSocket.getInstance().processOpponentAction();
 	}
 	
 	private void switchPlayerOnline() {
@@ -763,6 +766,10 @@ public class GameplayController implements Initializable {
 				
 				displaySunkShip(result);
 				
+				if (result.indexOf("matchend") != -1) {
+					gameOver(1);
+				}
+				
 			} else {
 				cell.storeNewColor(ColorCollection.RED.getRGBColor(), ColorCollection.WATERBORDER.getRGBColor());
 				cell.showStoredPaint();
@@ -775,7 +782,7 @@ public class GameplayController implements Initializable {
 			SoundCollection.INSTANCE.playMissSFX();
 			cell.showExplosion();
 			
-//			switchPlayerOnline();
+			switchPlayerOnline();
 		}
 		
 		if (result.indexOf("fired") != -1) {
@@ -788,7 +795,7 @@ public class GameplayController implements Initializable {
 		String shipDirection;
 		
 		// analyse the result string to get enemy's sunk ship
-		params = result.substring(9).split("-");
+		params = result.substring(9,16).split("-");
 		if (params[0].indexOf("V") != -1)
 			shipDirection = "vertical";
 		else
@@ -863,5 +870,32 @@ public class GameplayController implements Initializable {
 		board.addShipToArmy(ship);
 
 		return ship;
+	}
+	
+	public void processOppoFire(String msg) {
+//		if (currentPlayer == player1)
+//			return;
+		
+		System.out.println("Process enemy fire: " + msg);
+		
+		if (msg.indexOf("hit") != -1) {
+			
+			// TODO: display hit animation
+			
+			if (msg.indexOf("sunk") != -1) {
+				
+				// TODO: display sunk animation
+				
+				if (msg.indexOf("matchend") != -1) {
+					gameOver(2);
+				}
+			}
+			
+				
+		}
+		
+		if (msg.indexOf("miss") != -1) {
+			switchPlayerOnline();
+		}
 	}
 }
