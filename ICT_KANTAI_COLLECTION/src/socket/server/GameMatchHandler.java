@@ -230,6 +230,9 @@ public class GameMatchHandler {
 				// remove ship from board
 				targetPlayer.getBoard().removeShipFromArmy(curShip);
 				
+				if (targetPlayer.getBoard().getNumOfShipLeft() == 0)
+					sunkMsg.append(",matchend");
+				
 				return sunkMsg.toString();
 			} else {
 				return "hit";

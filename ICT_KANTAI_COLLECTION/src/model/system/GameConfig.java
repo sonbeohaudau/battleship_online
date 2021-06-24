@@ -1,5 +1,6 @@
 package model.system;
 
+import controller.GameplayController;
 import model.player.Player;
 import model.utils.SoundCollection;
 
@@ -19,6 +20,8 @@ public class GameConfig {
 	public final static int CELL_HEIGHT = 50;
 	public final static int NUM_OF_ROWS = 10;
 	public final static int NUM_OF_COLS = 10;
+	
+	public static GameplayController currentGameMatch;
 	
 	public static String getGameTitle() {
 		return gameTitle;
@@ -101,6 +104,14 @@ public class GameConfig {
 
 	public static void setAdvancedMode(boolean checked) {
 		advancedMode = checked;
+	}
+	
+	public static void setGameMatch(GameplayController match) {
+		currentGameMatch = match;
+	}
+	
+	public static GameplayController getGameMatch() {
+		return currentGameMatch;
 	}
 	
 }

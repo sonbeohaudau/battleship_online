@@ -25,6 +25,7 @@ public class ClientSocket {
     private Socket socketOfClient = null;
     private BufferedWriter os = null;
     private BufferedReader is = null;
+    private ClientExtraSocket extraSocket = new ClientExtraSocket();
     
     private Scanner scanner = new Scanner(System.in);
     
@@ -37,6 +38,8 @@ public class ClientSocket {
     public ClientSocket() {
     	System.out.println("A new battlship online client");
 //    	initSocket();
+//    	extraSocket.start();
+    	
     }
     
     public static ClientSocket getInstance() {
@@ -81,8 +84,13 @@ public class ClientSocket {
         
     }
     
+    public String getServerReply() {
+    	return extraSocket.getServerReply();
+    }
+    
     public String getServerMessage() {
-    	String msg;
+    	String msg = "";
+    	
 //    	try {
 //			while ((msg = is.readLine()) != null) {
 //				System.out.println("Server: " + msg);
@@ -94,6 +102,7 @@ public class ClientSocket {
 //		}
 //    	
 //    	return null;
+    	
     	try {
 			msg = is.readLine();
 			System.out.println("Server: " + msg);
@@ -150,7 +159,7 @@ public class ClientSocket {
 
 	public boolean handleMatching() {
 		String reply;
-		reply = getServerMessage();
+		reply = getServerReply();
 		
 		while (true) {
 			if (reply.indexOf("continue?")==0) {	
@@ -163,7 +172,7 @@ public class ClientSocket {
 					return false;
 				}
 					
-				reply = getServerMessage();
+				reply = getServerReply();
 
 				
 			} else if (reply.indexOf("matchstart: ")==0) {
@@ -180,7 +189,7 @@ public class ClientSocket {
 	
 	public boolean handlePending() {
 		String reply;
-		reply = getServerMessage();
+		reply = getServerReply();
 		
 		while (true) {
 			if (reply.indexOf("continue?")==0) {	
@@ -193,7 +202,7 @@ public class ClientSocket {
 					return false;
 				}
 					
-				reply = getServerMessage();
+				reply = getServerReply();
 
 				
 			} else if (reply.indexOf("matchstart: ")==0) {	// challenge accepted
@@ -211,40 +220,40 @@ public class ClientSocket {
 		return true;
 	}
 
-	public String handlePlayingState(String msg) {
-		String input;
-		boolean battleStage = false;
-		while (true) {
-			System.out.println("Enter command: ");
-			input = getUserInput();
-			sendServer(input);
-
-			if (input.indexOf("quit") == 0) {
-				break;
-			}
-			
-			if (!battleStage) {	// Setup stage
-				if (input.indexOf("setup: ") == 0) {
-					// wait for server to send start match signal (TODO: loading screen)
-					String startMessage = getServerMessage();
-					if(startMessage.indexOf("gamestart: ") == 0) {
-						battleStage = true;
-						if (startMessage.indexOf("1") == 11) {
-							System.out.println("Battle start! You go first.");
-						} else {
-							System.out.println("Battle start! Your opponent go first.");
-							processOpponentAction();
-						}
-					}
-				}
-			} else {	// Battle stage
-				// TODO: send action message
-			}
-			
-		}
-		
-		return "";
-	}
+//	public String handlePlayingState(String msg) {
+//		String input;
+//		boolean battleStage = false;
+//		while (true) {
+//			System.out.println("Enter command: ");
+//			input = getUserInput();
+//			sendServer(input);
+//
+//			if (input.indexOf("quit") == 0) {
+//				break;
+//			}
+//			
+//			if (!battleStage) {	// Setup stage
+//				if (input.indexOf("setup: ") == 0) {
+//					// wait for server to send start match signal (TODO: loading screen)
+//					String startMessage = getServerMessage();
+//					if(startMessage.indexOf("gamestart: ") == 0) {
+//						battleStage = true;
+//						if (startMessage.indexOf("1") == 11) {
+//							System.out.println("Battle start! You go first.");
+//						} else {
+//							System.out.println("Battle start! Your opponent go first.");
+//							processOpponentAction();
+//						}
+//					}
+//				}
+//			} else {	// Battle stage
+//				// TODO: send action message
+//			}
+//			
+//		}
+//		
+//		return "";
+//	}
 	
 	public boolean logIn(String name) {
 		if (!isValidUsername(name)) {	// check validity of username (TODO: move this step to server)
@@ -253,27 +262,27 @@ public class ClientSocket {
 			return false;
 		}
 		
-		try {
-				initSocket();
-			
-	    	   	sendServer("login: " + name);
-//	    	   	sendServer("New client connected at " + new Date());
-	    	   	state = ClientState.Idle;
-	           
-	           listenServer();
-
-	           // TODO: get name tag from server and add to player's name
-
-	           	 
-	           return true;
-	           
-		} catch (UnknownHostException e) {
-	           System.err.println("Trying to connect to unknown host: " + e);
-		} catch (IOException e) {
-	           System.err.println("IOException:  " + e);
-		}
+		initSocket();
+		extraSocket.start();
 		
-		return false;
+		sendServer("login: " + name);
+//	    	   	sendServer("New client connected at " + new Date());
+		state = ClientState.Idle;
+         
+//	           listenServer();
+
+         // get name tag from server and add to player's name
+         String response = getServerReply();
+         System.out.println("Server: " + response);
+            
+         if (response.indexOf("login-1: ") == 0) {
+			username = response.substring(9);
+			System.out.println("Welcome to Battleship Online, " + username);
+			return true;
+         }
+		 
+         return false;
+		
 	}
 	
 	public ArrayList<String> getUserList() {
@@ -281,7 +290,7 @@ public class ClientSocket {
 		String reply;
 		
 		sendServer("getlist");
-		reply = getServerMessage();
+		reply = getServerReply();
 		while (reply.indexOf("userlist-done") != 0) {
 			if (reply.indexOf("userlist: ") != -1) {
 				
@@ -290,7 +299,7 @@ public class ClientSocket {
 				System.out.println(reply.substring(10));
 				
 			}
-			reply = getServerMessage();
+			reply = getServerReply();
 		}
 		
 		return userList;
@@ -312,7 +321,7 @@ public class ClientSocket {
 	public boolean responseChallenge (String opponent, boolean response) {
 		if (response) {
 			sendServer("accept: " + opponent);
-			if (getServerMessage().indexOf("matchstart") == 0) {
+			if (getServerReply().indexOf("matchstart") == 0) {
 				state = ClientState.Playing;
 				this.opponent = opponent;
 				return true;
@@ -330,7 +339,7 @@ public class ClientSocket {
 		
 		sendServer("quit");
 		
-		String reply = getServerMessage();
+		String reply = getServerReply();
 		if (reply.indexOf("OK") != -1) {
 			try {
 	        	os.close();
@@ -367,13 +376,18 @@ public class ClientSocket {
 		sendServer(setUpMsg.toString());
 		
 		// wait for server to send start match signal (TODO: loading screen)
-		String startMessage = getServerMessage();
+		String startMessage = getServerReply();
 		if(startMessage.indexOf("gamestart: ") == 0) {
+//			extraSocket.start();
+//			extraSocket.pause();
+			
 			if (startMessage.indexOf("1") == 11) {
 				System.out.println("Battle start! You go first.");
+				goFirst = true;
 				return true;
 			} else {
 				System.out.println("Battle start! Your opponent go first.");
+				goFirst = false;
 				return true;
 			}
 		}
@@ -384,14 +398,23 @@ public class ClientSocket {
 	public String fire (int x, int y) {
 		sendServer("fire: " + x + "-" + y);
 		
-		String result = getServerMessage();
+		String result = getServerReply();
 		
 		return result;
 		
 //		return "";
 	}
 
-	public static void processOpponentAction() {
-		// TODO: get server message (opponent's action) and process it
+	public void processOpponentAction() {
+//		if (extraSocket.isAlive()) {
+//			// Activate the socket to wait for opponent's move via server
+//			extraSocket.unpause();
+//		} else {
+//			extraSocket.start();
+//		}
+//		
+		
+		
+		
 	}
 }

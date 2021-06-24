@@ -241,8 +241,9 @@ public class ShipFormationController implements Initializable {
 					// if (GameConfig.isAdvancedMode()==true) {
 					// GameConfig.loadDataPlayer2(new Player("BADASS BOT", board, ammoCollection ));
 					// } else {
-					if (GameConfig.getGameMode() == GameMode.Online)
+					if (GameConfig.getGameMode() == GameMode.Online) {
 						GameConfig.loadDataPlayer2(new Player(this.opponentName, new Board()));
+					}
 					else
 						GameConfig.loadDataPlayer2(new Player("BADASS BOT", board));
 					// }
