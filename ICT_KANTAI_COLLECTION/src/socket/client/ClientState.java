@@ -5,5 +5,6 @@ public enum ClientState {
 	Idle,
 	Pending,
 	Playing,
-	Matching
+	Matching,
+	Disconnected
 }
