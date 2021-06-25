@@ -878,13 +878,18 @@ public class GameplayController implements Initializable {
 		
 		System.out.println("Process enemy fire: " + msg);
 		
+		String[] cellCoordinate = msg.substring(6).split("-");
+		Cell c = player1.getBoard().getCellByCoordinate(Integer.parseInt(cellCoordinate[0]), Integer.parseInt(cellCoordinate[1]));
+		
 		if (msg.indexOf("hit") != -1) {
 			
-			// TODO: display hit animation
+			// TODO: display hit animation on cell c
+			System.out.println("Hit in cell " + c.getXPosition() + "," + c.getYPosition());
 			
 			if (msg.indexOf("sunk") != -1) {
 				
 				// TODO: display sunk animation
+				System.out.println("a ship sunk");
 				
 				if (msg.indexOf("matchend") != -1) {
 					gameOver(2);
