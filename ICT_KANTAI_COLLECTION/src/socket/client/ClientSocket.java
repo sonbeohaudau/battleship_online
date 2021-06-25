@@ -9,6 +9,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -286,21 +287,24 @@ public class ClientSocket {
 	}
 	
 	public ArrayList<String> getUserList() {
-		ArrayList<String> userList = new ArrayList<String>();
+		ArrayList<String> userList;
 		String reply;
 		
 		sendServer("getlist");
 		reply = getServerReply();
-		while (reply.indexOf("userlist-done") != 0) {
-			if (reply.indexOf("userlist: ") != -1) {
-				
-				// add online users to list until receive "userlist-done"
-				userList.add(reply.substring(10));
-				System.out.println(reply.substring(10));
-				
-			}
-			reply = getServerReply();
-		}
+		String[] users = reply.substring(10).split(",");
+		userList = new ArrayList<String>(Arrays.asList(users));
+		
+//		while (reply.indexOf("userlist-done") != 0) {
+//			if (reply.indexOf("userlist: ") != -1) {
+//				
+//				// add online users to list until receive "userlist-done"
+//				userList.add(reply.substring(10));
+//				System.out.println(reply.substring(10));
+//				
+//			}
+//			reply = getServerReply();
+//		}
 		
 		return userList;
 	}

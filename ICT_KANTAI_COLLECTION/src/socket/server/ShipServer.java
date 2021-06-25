@@ -30,7 +30,7 @@ public class ShipServer {
 		return null;
 	}
 	
-	public void echoToClient(String userID) {
+	public void handleClient(String userID) {
 		getClient(userID).handleIdleUser();
 	}
 	
@@ -106,7 +106,7 @@ public class ShipServer {
 	    	   
 	    	   ClientHandler client = new ClientHandler(socketOfServer, clientNumber);
 	    	   clients.add(client);
-	           echoToClient(client.getUserID());
+	           handleClient(client.getUserID());
 	           
 	       }
 	}
