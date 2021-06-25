@@ -171,7 +171,7 @@ public class GameplayController implements Initializable {
 
 	private void drawBoard() {
 		// hide all the ships
-		player1.getBoard().hideAllCellOfBoard();
+//		player1.getBoard().hideAllCellOfBoard();
 		player2.getBoard().hideAllCellOfBoard();
 		// add boards to the battlefields
 		battleField1.getChildren().addAll(player1.getBoard());
@@ -252,8 +252,10 @@ public class GameplayController implements Initializable {
 			for (int j = 0; j < GameConfig.NUM_OF_ROWS; j++) {
 				// board of player 1
 				Cell c = player1.getBoard().getCellByCoordinate(i, j);
-				c.setMouseEvtHandler(this::cellOfPlayer1Entered, this::cellOfPlayer1Exited, this::cellOfPlayer1Click);
-				c.setSeaAnimation();
+//				c.setMouseEvtHandler(this::cellOfPlayer1Entered, this::cellOfPlayer1Exited, this::cellOfPlayer1Click);
+				if(c.getShip()==null) {
+					c.setSeaAnimation();
+				}
 				// board of player 2
 				c = player2.getBoard().getCellByCoordinate(i, j);
 				if (GameConfig.getGameMode() == GameMode.Online)
@@ -295,16 +297,16 @@ public class GameplayController implements Initializable {
 	}
 	
 	// Mouse event [Enter] Handler for cell: show cell targeted
-	private void cellOfPlayer1Entered(MouseEvent evt) {
-		Cell cell = (Cell) evt.getSource();
-		ArrayList<Cell> target = currentAmmo.getTargetArea(player1, cell);
-		for (Cell c : target) {
-			if (!c.isSunk()) {
-				c.stopSeaAnimation();
-				// c.showNewColor(ColorCollection.DARKPURPLE.getRGBColor());
-			}
-		}
-	}
+//	private void cellOfPlayer1Entered(MouseEvent evt) {
+//		Cell cell = (Cell) evt.getSource();
+//		ArrayList<Cell> target = currentAmmo.getTargetArea(player1, cell);
+//		for (Cell c : target) {
+//			if (!c.isSunk()) {
+//				c.stopSeaAnimation();
+//				// c.showNewColor(ColorCollection.DARKPURPLE.getRGBColor());
+//			}
+//		}
+//	}
 
 	private void cellOfPlayer2Entered(MouseEvent evt) {
 		Cell cell = (Cell) evt.getSource();
@@ -319,13 +321,13 @@ public class GameplayController implements Initializable {
 
 	// Mouse event [Exit] Handler for cell: restore to default cell state or show
 	// appropriate view
-	private void cellOfPlayer1Exited(MouseEvent evt) {
-		Cell cell = (Cell) evt.getSource();
-		ArrayList<Cell> target = currentAmmo.getTargetArea(player1, cell);
-		for (Cell c : target) {
-			c.showAppropriateView();
-		}
-	}
+//	private void cellOfPlayer1Exited(MouseEvent evt) {
+//		Cell cell = (Cell) evt.getSource();
+//		ArrayList<Cell> target = currentAmmo.getTargetArea(player1, cell);
+//		for (Cell c : target) {
+//			c.showAppropriateView();
+//		}
+//	}
 
 	private void cellOfPlayer2Exited(MouseEvent evt) {
 		Cell cell = (Cell) evt.getSource();
@@ -882,24 +884,18 @@ public class GameplayController implements Initializable {
 		Cell c = player1.getBoard().getCellByCoordinate(Integer.parseInt(cellCoordinate[0]), Integer.parseInt(cellCoordinate[1]));
 		
 		if (msg.indexOf("hit") != -1) {
-			
-			// TODO: display hit animation on cell c
+			fire(c,player1);
 			System.out.println("Hit in cell " + c.getXPosition() + "," + c.getYPosition());
-			
 			if (msg.indexOf("sunk") != -1) {
-				
-				// TODO: display sunk animation
-				System.out.println("a ship sunk");
-				
+				System.out.println("a ship sunk");				
 				if (msg.indexOf("matchend") != -1) {
 					gameOver(2);
 				}
 			}
-			
-				
 		}
 		
 		if (msg.indexOf("miss") != -1) {
+			fire(c,player1);
 			switchPlayerOnline();
 		}
 	}

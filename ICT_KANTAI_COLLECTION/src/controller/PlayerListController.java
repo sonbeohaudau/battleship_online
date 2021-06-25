@@ -2,12 +2,8 @@ package controller;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -136,7 +132,8 @@ public class PlayerListController implements Initializable {
 			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
 			System.out.println("Back to main menu");
 			
-			// Todo: load startMenu and client exit server
+			// TODO: load startMenu and client exit server
+			
 //			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
 
 			System.gc();
@@ -147,7 +144,8 @@ public class PlayerListController implements Initializable {
 			// stop the FormationBackGroundSound
 			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
 
-			//Todo: client exit server
+			//TODO: client exit server
+			
 //			System.out.println("Game is shutting down...");
 //			Platform.exit();
 //			System.exit(0);
