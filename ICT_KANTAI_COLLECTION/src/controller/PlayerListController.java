@@ -48,7 +48,7 @@ public class PlayerListController implements Initializable {
 	private Button ResetListBtn1;
 	
 	@FXML
-	private Button AcceptBtn;
+	private Button ChallengeBtn;
 	
 	@FXML
 	private Button DeclineBtn;
@@ -57,7 +57,7 @@ public class PlayerListController implements Initializable {
 	private Button ResetListBtn2;
 	
 	@FXML
-	private Button ChallengeBtn;
+	private Button AcceptBtn;
 	
 	@FXML
 	private CheckMenuItem bgmCheckMenu;
@@ -192,7 +192,7 @@ public class PlayerListController implements Initializable {
 	}
 	
 	@FXML
-	//Action click on Accept button in the Player List tag
+	//Action click on Challenge button in the Player List tag
 	private void ChallengePlayer(ActionEvent evt) {
 		String ChosenPlayer = PlayerList.getSelectionModel().getSelectedItem();
 		String message = "Player " + ChosenPlayer + " has been chosen !";
@@ -228,8 +228,8 @@ public class PlayerListController implements Initializable {
 	}
 	
 	@FXML
-	//Action click on Challenge button in the Challenger tag
-	private void ConfirmChallenge(ActionEvent evt) {
+	//Action click on Accept button in the Challenger tag
+	private void AcceptChallenge(ActionEvent evt) {
 		String ChosenPlayer = ChallengerList.getSelectionModel().getSelectedItem();
 		String message = "Player " + ChosenPlayer + " has been chosen !";
 		System.out.print(message);

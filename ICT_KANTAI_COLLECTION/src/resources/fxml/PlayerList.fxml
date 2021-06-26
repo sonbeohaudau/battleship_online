@@ -55,7 +55,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button fx:id="AcceptBtn" layoutX="419.0" layoutY="320.0" mnemonicParsing="false" onAction="#ChallengePlayer" prefHeight="35.0" prefWidth="68.0" text="Accept">
+                        <Button fx:id="ChallengeBtn" layoutX="405.0" layoutY="320.0" mnemonicParsing="false" onAction="#ChallengePlayer" prefHeight="35.0" prefWidth="82.0" text="Challenge">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -65,7 +65,7 @@
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="ResetListBtn1" layoutX="334.0" layoutY="320.0" mnemonicParsing="false" onAction="#ResetListPlayer" prefHeight="35.0" prefWidth="79.0" text="Reset List">
+                        <Button fx:id="ResetListBtn1" layoutX="319.0" layoutY="320.0" mnemonicParsing="false" onAction="#ResetListPlayer" prefHeight="35.0" prefWidth="79.0" text="Reset List">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -87,17 +87,17 @@
                               </AnchorPane>
                            </content>
                         </ScrollPane>
-                        <Label layoutX="16.0" layoutY="9.0" text="Choose Your Fighter:">
+                        <Label layoutX="16.0" layoutY="9.0" prefHeight="20.0" prefWidth="384.0" text="Choose The Player You Want To Accept Challenge:">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button fx:id="ChallengeBtn" layoutX="398.0" layoutY="321.0" mnemonicParsing="false" onAction="#ConfirmChallenge" prefHeight="35.0" prefWidth="88.0" text="Challenge">
+                        <Button fx:id="AcceptBtn" layoutX="409.0" layoutY="321.0" mnemonicParsing="false" onAction="#AcceptChallenge" prefHeight="35.0" prefWidth="77.0" text="Accept">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="ResetListBtn2" layoutX="313.0" layoutY="321.0" mnemonicParsing="false" onAction="#ResetListChallenger" prefHeight="35.0" prefWidth="79.0" text="Reset List">
+                        <Button fx:id="ResetListBtn2" layoutX="324.0" layoutY="321.0" mnemonicParsing="false" onAction="#ResetListChallenger" prefHeight="35.0" prefWidth="79.0" text="Reset List">
                            <font>
                               <Font size="14.0" />
                            </font>

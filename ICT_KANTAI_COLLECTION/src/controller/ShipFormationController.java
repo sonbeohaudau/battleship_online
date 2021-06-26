@@ -57,7 +57,9 @@ public class ShipFormationController implements Initializable {
 	@FXML
 	private Label numOfShipLeftLabel;
 	@FXML
-	private Label playerNameLabel;
+	private Label playerNameLabel1;
+	@FXML
+	private Label playerNameLabel2;
 	@FXML
 	private VBox ShipArmySelectionBox;
 	@FXML
@@ -364,7 +366,8 @@ public class ShipFormationController implements Initializable {
 		playerName = StartMenuController.getPlayerName();
 //		if (playerName == null || playerName.isEmpty())
 //			playerName = "Player " + playerNum;
-		playerNameLabel.setText(playerName);
+		playerNameLabel1.setText(playerName);
+		playerNameLabel2.setText(opponentName);
 	}
 
 	private void randShipFormation() {
