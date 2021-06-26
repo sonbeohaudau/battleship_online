@@ -106,7 +106,6 @@ public class ClientHandler {
 				challengerList.remove(opponent);
 				
 				opponent.setOpponent(this);
-            	System.out.println("A match created between " + this.userID + " and " + this.opponent.getUserID());
             	createMatch();
             	playGame();
 			}
@@ -196,7 +195,6 @@ public class ClientHandler {
             if (oppo != null) {
             	this.opponent = oppo;
             	oppo.setOpponent(this);
-            	System.out.println("A match created between " + this.userID + " and " + this.opponent.getUserID());
             	createMatch();
             	break;
             }
