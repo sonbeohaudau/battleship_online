@@ -16,6 +16,7 @@ import java.util.Scanner;
 
 import javafx.geometry.Orientation;
 import model.platform.Board;
+import model.system.GameConfig;
 import model.unit.warship.Ship;
 
 public class ClientSocket {
@@ -185,6 +186,8 @@ public class ClientSocket {
 			}
 		}
 		
+		System.out.println(13);
+		
 		return true;
 	}
 	
@@ -225,6 +228,8 @@ public class ClientSocket {
 		this.opponent = opponent;
 		System.out.println("Start playing. Your opponent is " + this.opponent);
 		state = ClientState.Playing;
+		
+		GameConfig.getOnlineLobby().goToGameWindow();
 	}
 
 //	public String handlePlayingState(String msg) {
@@ -327,10 +332,17 @@ public class ClientSocket {
 		// TODO: update to list window
 	}
 	
-	public boolean matchRandom() {
-		sendServer("random");
+//	public boolean matchRandom() {
+//		sendServer("random");
+//		state = ClientState.Matching;
+//		return handleMatching();
+//	}
+	
+	public void matchRandom() {
+		
 		state = ClientState.Matching;
-		return handleMatching();
+		sendServer("random");
+		
 	}
 	
 	public boolean challenge(String opponent) {

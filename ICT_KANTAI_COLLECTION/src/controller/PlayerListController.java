@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -91,6 +92,8 @@ public class PlayerListController implements Initializable {
 		seCheckMenu.setSelected(GameConfig.checkSE());
 		
 		playerName.setText(StartMenuController.getPlayerName());
+		
+		GameConfig.setOnlineLobby(this);
 	}
 
 	private void updatePlayerList() {
@@ -161,20 +164,22 @@ public class PlayerListController implements Initializable {
 	//Action click on Random button
 	private void RandomPickPlayer(ActionEvent evt) {
 		
+		ClientSocket.getInstance().matchRandom();
+		
 		// TODO: add a Cancel Button
 		
-		if (ClientSocket.getInstance().matchRandom()) {
-			// match found with random opponent
-			FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
-			
-			// stop music
-			SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
-						
-			// hide main stage
-			((Node) (evt.getSource())).getScene().getWindow().hide();
-			
-			System.gc();
-		}
+//		if (ClientSocket.getInstance().matchRandom()) {
+//			// match found with random opponent
+//			FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
+//			
+//			// stop music
+//			SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
+//						
+//			// hide main stage
+//			((Node) (evt.getSource())).getScene().getWindow().hide();
+//			
+//			System.gc();
+//		}
 		
 //		((Node) (evt.getSource())).getScene().getWindow().hide();
 	}
@@ -234,5 +239,37 @@ public class PlayerListController implements Initializable {
 		String message = "Player " + ChosenPlayer + " has been chosen !";
 		System.out.print(message);
 		((Node) (evt.getSource())).getScene().getWindow().hide();
+	}
+	
+	@FXML
+	public void goToGameWindow() {
+		Platform.runLater(new Runnable(){
+
+			@Override
+			public void run() {
+				// get to ship set up window
+				FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
+				
+				// stop music
+				SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
+							
+				// hide main stage
+				playerName.getScene().getWindow().hide();
+				
+				System.gc();
+			}
+			
+		});
+		
+//		// get to ship set up window
+//		FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
+//		
+//		// stop music
+//		SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
+//					
+//		// hide main stage
+//		playerName.getScene().getWindow().hide();
+//		
+//		System.gc();
 	}
 }
