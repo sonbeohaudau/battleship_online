@@ -2,17 +2,17 @@ package controller;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
 import model.system.GameConfig;
@@ -21,6 +21,9 @@ import socket.client.ClientSocket;
 import socket.client.ClientState;
 
 public class PlayerListController implements Initializable {
+	
+	@FXML
+	private Label playerName;
 	
 	@FXML
 	private Tab PlayerListTab;
@@ -48,11 +51,22 @@ public class PlayerListController implements Initializable {
 	
 	@FXML
 	private Button AcceptBtn2;
+	
+	@FXML
+	private CheckMenuItem bgmCheckMenu;
+	
+	@FXML
+	private CheckMenuItem seCheckMenu;
+	
+	@FXML
+	private MenuItem backToMenuItem;
+	
+	@FXML
+	private MenuItem exitMenuItem;
 
-	
-	
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
 //		addSamplePlayerList();
 //		addSampleChallengerList();
 		//Challenger List
@@ -65,7 +79,11 @@ public class PlayerListController implements Initializable {
 		PlayerList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		ChallengerList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		
-		// TODO: show your username
+		// setup data for sound check menu
+		bgmCheckMenu.setSelected(GameConfig.checkBGM());
+		seCheckMenu.setSelected(GameConfig.checkSE());
+		
+		playerName.setText(StartMenuController.getPlayerName());
 	}
 
 	private void updatePlayerList() {
@@ -94,6 +112,44 @@ public class PlayerListController implements Initializable {
 	//Update Challenger in the Challenger List
 	private void addSampleChallengerList() {
 		ChallengerList.getItems().add("Hung" + "     " + "Playing");
+	}
+	
+	//action on Help and Setting menuBar
+	@FXML
+	public void handleBtnMenu(ActionEvent evt) {
+		if (evt.getSource() == bgmCheckMenu) {
+			SoundCollection.INSTANCE.playButtonClickSound();
+			GameConfig.setBGM1On(bgmCheckMenu.isSelected());
+		}
+		if (evt.getSource() == seCheckMenu) {
+			SoundCollection.INSTANCE.playButtonClickSound();
+			GameConfig.setSEOn(seCheckMenu.isSelected());
+		}
+		if (evt.getSource() == backToMenuItem) {
+			// the button sound effect
+			SoundCollection.INSTANCE.playButtonClickSound();
+			// stop the FormationBackGroundSound
+			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
+			System.out.println("Back to main menu");
+			
+			// TODO: load startMenu and client exit server
+			
+//			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
+
+			System.gc();
+		}
+		if (evt.getSource() == exitMenuItem) {
+			// the button sound effect
+			SoundCollection.INSTANCE.playButtonClickSound();
+			// stop the FormationBackGroundSound
+			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
+
+			//TODO: client exit server
+			
+//			System.out.println("Game is shutting down...");
+//			Platform.exit();
+//			System.exit(0);
+		}
 	}
 	
 	@FXML

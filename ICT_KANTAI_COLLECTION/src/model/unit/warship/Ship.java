@@ -152,7 +152,7 @@ public class Ship {
 			c.showStoredPaint();
 		}
 	}
-
+	
 	public void sink() {
 		
 		// terminate all cells around the ship
