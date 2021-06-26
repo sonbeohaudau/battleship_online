@@ -8,14 +8,14 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="684.0" prefWidth="864.0" styleClass="pane" stylesheets="@../css/StartMenu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartMenuController">
+<AnchorPane prefHeight="902.0" prefWidth="1267.0" styleClass="pane" stylesheets="@../css/StartMenu.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.StartMenuController">
    <children>
-      <Label alignment="CENTER" layoutX="87.0" layoutY="62.0" lineSpacing="10.0" prefHeight="135.0" prefWidth="691.0" text="Battleship Online " textAlignment="CENTER">
+      <Label alignment="CENTER" layoutX="32.0" layoutY="62.0" lineSpacing="10.0" prefHeight="65.0" prefWidth="647.0" text="Battleship Online " textAlignment="CENTER">
          <font>
             <Font name="System Bold" size="24.0" />
          </font>
       </Label>
-      <VBox layoutX="209.0" layoutY="211.0" prefHeight="537.0" prefWidth="446.0" spacing="20.0">
+      <VBox layoutX="133.0" layoutY="196.0" prefHeight="537.0" prefWidth="446.0" spacing="20.0">
          <children>
             <TextField fx:id="nameInput" prefHeight="73.0" prefWidth="360.0" promptText="Enter Your User Name">
                <font>

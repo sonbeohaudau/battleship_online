@@ -3,38 +3,34 @@
 }
 
 .pane {
-	-fx-background-image: url("../imgs/menu-background.jpg");
+	-fx-background-image: url("../imgs/final-bg.jpg");
 	-fx-background-repeat: no-repeat;
 	-fx-background-size: cover, auto;
 }
 
 Label {
-    -fx-text-fill: linear-gradient(repeat, white 50%, gray 70%);
-    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
-    -fx-font: 80px "Orbitron";
+    -fx-text-fill: linear-gradient(repeat, white 50%, yellow 70%);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10, 0.5 , 2 , 2 );
+    -fx-font: 60px "Orbitron";
 }
 
 Button {
     -fx-background-color: transparent;
-    -fx-border-color: linear-gradient(from 0% 0% to 100% 200%, repeat, white 0%, gray 50%);
-    -fx-border-width: 2, 3;
-    -fx-border-radius: 2, 3, 2, 2, 2;
-    -fx-border-style: solid, segments(1, 2);
+
     -fx-padding: 10 10 10 10;
-    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
-    -fx-text-fill: linear-gradient(repeat, white 50%, gray 70%);
-    -fx-underline:true;
-    -fx-font: 70px "Orbitron";
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10, 0.5 , 2 , 2 );
+    -fx-text-fill: linear-gradient(repeat, white 50%, yellow 70%);
+    -fx-font: 50px "Orbitron";
 }
 
 Button:hover {
-    -fx-background-color: linear-gradient(from 0% 0% to 100% 200%, repeat, silver 30%, snow 70%);
+    -fx-background-color: black;
     -fx-border-color: linear-gradient(from 0% 0% to 100% 200%, repeat, silver 30%, snow 70%);
     -fx-border-width: 6, 9;
     -fx-border-radius: 2, 3, 2, 2, 2;
     -fx-border-style: solid, segments(1, 2);
     -fx-padding: 10 10 10 10;
     -fx-text-fill: white;
-    -fx-font: 60px "Orbitron";
-    -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
+    -fx-font: 50px "Orbitron";
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10, 0.5 , 2 , 2 );
 }
