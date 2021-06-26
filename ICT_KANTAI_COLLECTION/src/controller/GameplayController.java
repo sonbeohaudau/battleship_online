@@ -744,7 +744,6 @@ public class GameplayController implements Initializable {
 		// lock opponent combobox
 		lockAmmoBox();
 		shipHit = false;
-		ClientSocket.getInstance().processOpponentAction();
 	}
 	
 	private void switchPlayerOnline() {
@@ -899,5 +898,9 @@ public class GameplayController implements Initializable {
 			fire(c,player1);
 			switchPlayerOnline();
 		}
+	}
+	
+	public void winByDefault() {
+		gameOver(1);
 	}
 }

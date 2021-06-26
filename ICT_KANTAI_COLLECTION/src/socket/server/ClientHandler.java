@@ -104,10 +104,6 @@ public class ClientHandler {
             if (msg.indexOf("accept:") == 0) {
 				opponent = ShipServer.getInstance().getClient(msg.substring(8));
 				challengerList.remove(opponent);
-				for (ClientHandler oppo: challengerList) {	// decline all challenges after accepting one
-					oppo.declineChallenge();
-					challengerList.remove(oppo);
-				}
 				
 				opponent.setOpponent(this);
             	System.out.println("A match created between " + this.userID + " and " + this.opponent.getUserID());
@@ -128,7 +124,7 @@ public class ClientHandler {
 				
 				challengedPlayer.addChallenger(this);
 				
-				this.clientState = ClientState.Matching;
+				this.clientState = ClientState.Pending;
             	handlePendingUser();
 				
 				// TODO: reply
@@ -140,14 +136,21 @@ public class ClientHandler {
 	}
 
 	public void handlePendingUser() {
+		String msg = "";
 		opponent = null;
 		
 		while (!challengeDeclined && isConnected()) {
 			try {
-    			TimeUnit.SECONDS.sleep(1);
+    			TimeUnit.MILLISECONDS.sleep(100);
     		} catch (InterruptedException e) {
     			System.out.println("Thread is interuppted....");
     		}
+			
+			// check if the client still want to challenge
+			sendMessage("continue?");
+            msg = getClientInput();
+            if (msg.indexOf("n") == 0) 
+            	break;
 			
 			if (this.opponent != null) {
 				break;				
@@ -173,10 +176,16 @@ public class ClientHandler {
 		while (isConnected()) {
 			// wait for an amount of time then try to find another matching user
 			try {
-    			TimeUnit.SECONDS.sleep(2);
+				TimeUnit.MILLISECONDS.sleep(100);
     		} catch (InterruptedException e) {
     			System.out.println("Thread is interuppted....");
     		}
+			
+			// check if the client still want to match
+			sendMessage("continue?");
+            msg = getClientInput();
+            if (msg.indexOf("n") == 0) 
+            	break;
 			
 			if (this.opponent != null) {
 				break;				
@@ -192,11 +201,6 @@ public class ClientHandler {
             	break;
             }
             
-            sendMessage("continue?");
-            msg = getClientInput();
-            if (msg.indexOf("n") == 0) 
-            	break;
-
         }
 				
 		if (this.opponent != null) {	
@@ -210,6 +214,12 @@ public class ClientHandler {
 	private void playGame() {
 		sendMessage("matchstart: " + this.opponent.userID);
 		this.clientState = ClientState.Playing;
+		
+		for (ClientHandler oppo: challengerList) {	// decline all challenges after accepting one
+			oppo.declineChallenge();
+			challengerList.remove(oppo);
+		}
+		
 		handlePlayingUser();
 		if (isConnected())
 			this.clientState = ClientState.Idle;	// return to Idle after playing
@@ -322,6 +332,22 @@ public class ClientHandler {
 					state = "idle";
 //				sendMessage("userlist: " + client.getUserID() + " / " + state);
 				userList.append(client.getUserID() + " / " + state + ",");
+			}
+		}
+		
+//		sendMessage("userlist-done");
+		sendMessage(userList.toString());
+	}
+	
+	public void sendChallengeList() {
+		StringBuffer userList = new StringBuffer();
+		
+		userList.append("challenge-list: ");
+		
+		for (ClientHandler client: challengerList) {
+			if (!client.equals(this)) {
+				
+				userList.append(client.getUserID() + ",");
 			}
 		}
 		

@@ -31,7 +31,7 @@ public class ClientSocket {
     private Scanner scanner = new Scanner(System.in);
     
     private String username = "";
-    private ClientState state;
+    private ClientState state = ClientState.Disconnected;
     private String opponent = "";
     
     private boolean goFirst = true;
@@ -220,6 +220,12 @@ public class ClientSocket {
 		
 		return true;
 	}
+	
+	public void enterMatch(String opponent) {
+		this.opponent = opponent;
+		System.out.println("Start playing. Your opponent is " + this.opponent);
+		state = ClientState.Playing;
+	}
 
 //	public String handlePlayingState(String msg) {
 //		String input;
@@ -267,22 +273,20 @@ public class ClientSocket {
 		extraSocket.start();
 		
 		sendServer("login: " + name);
-//	    	   	sendServer("New client connected at " + new Date());
 		state = ClientState.Idle;
          
-//	           listenServer();
 
-         // get name tag from server and add to player's name
-         String response = getServerReply();
-         System.out.println("Server: " + response);
+        // get name tag from server and add to player's name
+        String response = getServerReply();
+        System.out.println("Server: " + response);
             
-         if (response.indexOf("login-1: ") == 0) {
-			username = response.substring(9);
+        if (response.indexOf("login-1: ") == 0) {
+        	username = response.substring(9);
 			System.out.println("Welcome to Battleship Online, " + username);
 			return true;
-         }
+        }
 		 
-         return false;
+        return false;
 		
 	}
 	
@@ -307,6 +311,20 @@ public class ClientSocket {
 //		}
 		
 		return userList;
+	}
+	
+	public void updateUserList(String msg) {
+		String[] users = msg.substring(10).split(",");
+		ArrayList<String> userList = new ArrayList<String>(Arrays.asList(users));
+		
+		// TODO: update to list window
+	}
+	
+	public void updateChallengeList(String msg) {
+		String[] challenges = msg.substring(10).split(",");
+		ArrayList<String> challengeList = new ArrayList<String>(Arrays.asList(challenges));
+		
+		// TODO: update to list window
 	}
 	
 	public boolean matchRandom() {
@@ -337,6 +355,11 @@ public class ClientSocket {
 		}
 		
 		return false;
+	}
+	
+	public void processDeclinedChallenge() {
+		state = ClientState.Idle;
+		// TODO
 	}
 	
 	public void quitOnline() {
@@ -408,17 +431,6 @@ public class ClientSocket {
 		
 //		return "";
 	}
-
-	public void processOpponentAction() {
-//		if (extraSocket.isAlive()) {
-//			// Activate the socket to wait for opponent's move via server
-//			extraSocket.unpause();
-//		} else {
-//			extraSocket.start();
-//		}
-//		
-		
-		
-		
-	}
+	
+	
 }
