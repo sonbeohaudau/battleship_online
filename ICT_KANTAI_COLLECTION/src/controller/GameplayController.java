@@ -884,6 +884,7 @@ public class GameplayController implements Initializable {
 		Cell c = player1.getBoard().getCellByCoordinate(Integer.parseInt(cellCoordinate[0]), Integer.parseInt(cellCoordinate[1]));
 		
 		if (msg.indexOf("hit") != -1) {
+			// player is always be Player1
 			fire(c,player1);
 			System.out.println("Hit in cell " + c.getXPosition() + "," + c.getYPosition());
 			if (msg.indexOf("sunk") != -1) {

@@ -15,12 +15,16 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.AnchorPane;
 import model.system.GameConfig;
 import model.utils.SoundCollection;
 import socket.client.ClientSocket;
 import socket.client.ClientState;
 
 public class PlayerListController implements Initializable {
+	
+	@FXML
+	public AnchorPane playerListPane;
 	
 	@FXML
 	private Label playerName;
@@ -133,13 +137,11 @@ public class PlayerListController implements Initializable {
 			SoundCollection.INSTANCE.playButtonClickSound();
 			// stop the FormationBackGroundSound
 			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
-			System.out.println("Back to main menu");
-			
 			// TODO: load startMenu and client exit server
-			
+//			System.out.println("Back to main menu");
 //			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
-
-			System.gc();
+//			playerListPane.getScene().getWindow().hide();
+//			System.gc();
 		}
 		if (evt.getSource() == exitMenuItem) {
 			// the button sound effect
