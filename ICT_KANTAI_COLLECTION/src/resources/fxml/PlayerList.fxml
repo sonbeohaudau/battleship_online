@@ -55,7 +55,7 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button fx:id="AcceptBtn1" layoutX="419.0" layoutY="320.0" mnemonicParsing="false" onAction="#ChallengePlayer" prefHeight="35.0" prefWidth="68.0" text="Accept">
+                        <Button fx:id="AcceptBtn" layoutX="419.0" layoutY="320.0" mnemonicParsing="false" onAction="#ChallengePlayer" prefHeight="35.0" prefWidth="68.0" text="Accept">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -92,12 +92,17 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button fx:id="AcceptBtn2" layoutX="418.0" layoutY="321.0" mnemonicParsing="false" onAction="#ConfirmChallenge" prefHeight="35.0" prefWidth="68.0" text="Accept">
+                        <Button fx:id="ChallengeBtn" layoutX="398.0" layoutY="321.0" mnemonicParsing="false" onAction="#ConfirmChallenge" prefHeight="35.0" prefWidth="88.0" text="Challenge">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="ResetListBtn2" layoutX="332.0" layoutY="321.0" mnemonicParsing="false" onAction="#ResetListChallenger" prefHeight="35.0" prefWidth="79.0" text="Reset List">
+                        <Button fx:id="ResetListBtn2" layoutX="313.0" layoutY="321.0" mnemonicParsing="false" onAction="#ResetListChallenger" prefHeight="35.0" prefWidth="79.0" text="Reset List">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="DeclineBtn" layoutX="15.0" layoutY="321.0" mnemonicParsing="false" prefHeight="36.0" prefWidth="76.0" text="Decline">
                            <font>
                               <Font size="14.0" />
                            </font>

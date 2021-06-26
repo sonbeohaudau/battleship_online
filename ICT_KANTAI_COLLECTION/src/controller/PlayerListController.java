@@ -44,13 +44,16 @@ public class PlayerListController implements Initializable {
 	private Button ResetListBtn1;
 	
 	@FXML
-	private Button AcceptBtn1;
+	private Button AcceptBtn;
+	
+	@FXML
+	private Button DeclineBtn;
 	
 	@FXML
 	private Button ResetListBtn2;
 	
 	@FXML
-	private Button AcceptBtn2;
+	private Button ChallengeBtn;
 	
 	@FXML
 	private CheckMenuItem bgmCheckMenu;
@@ -211,13 +214,19 @@ public class PlayerListController implements Initializable {
 	}
 	
 	@FXML
-	//Action click on Reset Button in the Challenger tag
+	//Action click on ResetList Button in the Challenger tag
+	private void DeclineChallenger(ActionEvent evt) {
+		//TODO remove a challenge in challenger list
+	}
+	
+	@FXML
+	//Action click on ResetList Button in the Challenger tag
 	private void ResetListChallenger(ActionEvent evt) {
 		updateChallengerList();
 	}
 	
 	@FXML
-	//Action click on Accept button in the Challenger tag
+	//Action click on Challenge button in the Challenger tag
 	private void ConfirmChallenge(ActionEvent evt) {
 		String ChosenPlayer = ChallengerList.getSelectionModel().getSelectedItem();
 		String message = "Player " + ChosenPlayer + " has been chosen !";
