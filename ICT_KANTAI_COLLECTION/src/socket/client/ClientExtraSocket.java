@@ -14,9 +14,16 @@ public class ClientExtraSocket extends Thread{
  	   
 		while (true) {
 			String msg = ClientSocket.getInstance().getServerMessage();
+			
+			if (msg.indexOf("OK") != -1) {
+				serverReply = msg;
+				break;
+			}
 		 	processMsg(msg);
+		 	
 		}
-
+		
+		return;
     }
 
 	private void processMsg(String msg) {
