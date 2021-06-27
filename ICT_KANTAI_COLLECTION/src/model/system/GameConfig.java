@@ -1,6 +1,7 @@
 package model.system;
 
 import controller.GameplayController;
+import controller.PlayerListController;
 import model.player.Player;
 import model.utils.SoundCollection;
 
@@ -22,6 +23,7 @@ public class GameConfig {
 	public final static int NUM_OF_COLS = 10;
 	
 	public static GameplayController currentGameMatch;
+	public static PlayerListController onlineLobby;
 	
 	public static String getGameTitle() {
 		return gameTitle;
@@ -112,6 +114,14 @@ public class GameConfig {
 	
 	public static GameplayController getGameMatch() {
 		return currentGameMatch;
+	}
+	
+	public static void setOnlineLobby(PlayerListController lobby) {
+		onlineLobby = lobby;
+	}
+	
+	public static PlayerListController getOnlineLobby() {
+		return onlineLobby;
 	}
 	
 }

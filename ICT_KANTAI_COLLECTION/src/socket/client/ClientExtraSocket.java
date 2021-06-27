@@ -26,6 +26,41 @@ public class ClientExtraSocket extends Thread{
 			return;
 		}
 		
+		if (msg.indexOf("matchend:1") == 0) {	// opponent leave match then win by default
+			GameConfig.getGameMatch().winByDefault();
+			return;
+		}
+		
+		if (msg.indexOf("continue?") == 0) {
+//			ClientState state = ClientSocket.getInstance().getClientState();
+			if (ClientSocket.getInstance().getClientState() == ClientState.Idle)
+				ClientSocket.getInstance().sendServer("n");
+			else 
+				ClientSocket.getInstance().sendServer("y");
+			
+			return;
+		}
+		
+		if (msg.indexOf("matchstart: ") == 0) {
+			ClientSocket.getInstance().enterMatch(msg.substring(12));
+			return;
+		}
+		
+		if (msg.indexOf("decline") == 0) {
+			ClientSocket.getInstance().processDeclinedChallenge();
+			return;
+		}
+		
+		if (msg.indexOf("userlist: ") == 0) {
+			ClientSocket.getInstance().updateUserList(msg);
+			return;
+		}
+		
+		if (msg.indexOf("challengelist: ") == 0) {
+			ClientSocket.getInstance().updateChallengeList(msg);
+			return;
+		}
+		
 		// if the msg not belong to above categories, save to variable serverReply so the ClientSocket
 		// could get it
 		serverReply = msg;

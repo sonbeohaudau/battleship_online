@@ -9,12 +9,14 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 import javafx.geometry.Orientation;
 import model.platform.Board;
+import model.system.GameConfig;
 import model.unit.warship.Ship;
 
 public class ClientSocket {
@@ -30,7 +32,7 @@ public class ClientSocket {
     private Scanner scanner = new Scanner(System.in);
     
     private String username = "";
-    private ClientState state;
+    private ClientState state = ClientState.Disconnected;
     private String opponent = "";
     
     private boolean goFirst = true;
@@ -61,10 +63,6 @@ public class ClientSocket {
 
     public String getUserInput() {
     	return scanner.nextLine().trim();
-    }
-
-	public void setState(ClientState state) {
-    	this.state = state;
     }
 	
 	public boolean isGoFirst() {
@@ -184,6 +182,8 @@ public class ClientSocket {
 			}
 		}
 		
+		System.out.println(13);
+		
 		return true;
 	}
 	
@@ -218,6 +218,14 @@ public class ClientSocket {
 		}
 		
 		return true;
+	}
+	
+	public void enterMatch(String opponent) {
+		this.opponent = opponent;
+		System.out.println("Start playing. Your opponent is " + this.opponent);
+		state = ClientState.Playing;
+		
+		GameConfig.getOnlineLobby().goToGameWindow();
 	}
 
 //	public String handlePlayingState(String msg) {
@@ -266,73 +274,100 @@ public class ClientSocket {
 		extraSocket.start();
 		
 		sendServer("login: " + name);
-//	    	   	sendServer("New client connected at " + new Date());
-		state = ClientState.Idle;
-         
-//	           listenServer();
 
-         // get name tag from server and add to player's name
-         String response = getServerReply();
-         System.out.println("Server: " + response);
+        // get name tag from server and add to player's name
+        String response = getServerReply();
             
-         if (response.indexOf("login-1: ") == 0) {
-			username = response.substring(9);
+        if (response.indexOf("login-1: ") == 0) {
+        	state = ClientState.Idle;
+        	username = response.substring(9);
 			System.out.println("Welcome to Battleship Online, " + username);
 			return true;
-         }
+        }
 		 
-         return false;
+        return false;
 		
 	}
 	
-	public ArrayList<String> getUserList() {
-		ArrayList<String> userList = new ArrayList<String>();
-		String reply;
-		
+//	public ArrayList<String> getUserList() {
+//		ArrayList<String> userList;
+//		String reply;
+//		
+//		sendServer("getlist");
+//		reply = getServerReply();
+//		String[] users = reply.substring(10).split(",");
+//		userList = new ArrayList<String>(Arrays.asList(users));
+//		
+////		while (reply.indexOf("userlist-done") != 0) {
+////			if (reply.indexOf("userlist: ") != -1) {
+////				
+////				// add online users to list until receive "userlist-done"
+////				userList.add(reply.substring(10));
+////				System.out.println(reply.substring(10));
+////				
+////			}
+////			reply = getServerReply();
+////		}
+//		
+//		return userList;
+//	}
+	
+	public void getUserList() {
 		sendServer("getlist");
-		reply = getServerReply();
-		while (reply.indexOf("userlist-done") != 0) {
-			if (reply.indexOf("userlist: ") != -1) {
-				
-				// add online users to list until receive "userlist-done"
-				userList.add(reply.substring(10));
-				System.out.println(reply.substring(10));
-				
-			}
-			reply = getServerReply();
-		}
+	}
+
+	
+	public void getChallengeList() {
+		sendServer("getchallengelist");
+	}
+
+	public void updateUserList(String msg) {
+		String[] users = msg.substring(10).split(",");
+		ArrayList<String> userList = new ArrayList<String>(Arrays.asList(users));
 		
-		return userList;
+		GameConfig.getOnlineLobby().updatePlayerList(userList);
 	}
 	
-	public boolean matchRandom() {
-		sendServer("random");
+	public void updateChallengeList(String msg) {
+		String[] challenges = msg.substring(15).split(",");
+		ArrayList<String> challengeList = new ArrayList<String>(Arrays.asList(challenges));
+		
+		GameConfig.getOnlineLobby().updateChallengeList(challengeList);
+	}
+	
+//	public boolean matchRandom() {
+//		sendServer("random");
+//		state = ClientState.Matching;
+//		return handleMatching();
+//	}
+	
+	public void matchRandom() {
+		
 		state = ClientState.Matching;
-		return handleMatching();
+		sendServer("random");
+		
 	}
 	
-	public boolean challenge(String opponent) {
+	public void challenge(String opponent) {
 		System.out.println("Challenging " + opponent);
 		sendServer("challenge: " + opponent);
 		state = ClientState.Pending;
-		return handlePending();
+//		return handlePending();
 	}
 	
-	public boolean responseChallenge (String opponent, boolean response) {
+	public void responseChallenge (String opponent, boolean response) {
 		if (response) {
 			sendServer("accept: " + opponent);
-			if (getServerReply().indexOf("matchstart") == 0) {
-				state = ClientState.Playing;
-				this.opponent = opponent;
-				return true;
-			}
 			
-			System.out.println("Opponent missing");
 		} else {
 			sendServer("decline: " + opponent);
 		}
 		
-		return false;
+	}
+	
+	public void processDeclinedChallenge() {
+		state = ClientState.Idle;
+		// TODO
 	}
 	
 	public void quitOnline() {
@@ -341,6 +376,7 @@ public class ClientSocket {
 		
 		String reply = getServerReply();
 		if (reply.indexOf("OK") != -1) {
+			state = ClientState.Disconnected;
 			try {
 	        	os.close();
 				is.close();
@@ -405,16 +441,9 @@ public class ClientSocket {
 //		return "";
 	}
 
-	public void processOpponentAction() {
-//		if (extraSocket.isAlive()) {
-//			// Activate the socket to wait for opponent's move via server
-//			extraSocket.unpause();
-//		} else {
-//			extraSocket.start();
-//		}
-//		
-		
-		
-		
+	public void surrender() {
+		sendServer("surrender");
 	}
+	
+	
 }
