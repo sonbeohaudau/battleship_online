@@ -908,7 +908,4 @@ public class GameplayController implements Initializable {
 		gameOver(1);
 	}
 	
-	public void winByDefault() {
-		gameOver(1);
-	}
 }
