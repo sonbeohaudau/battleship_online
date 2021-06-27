@@ -36,11 +36,39 @@
 	<center>
 		<VBox>
    <children>
-   			<Label fx:id="playerNameLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="27.0" prefWidth="161.0" text="Player 1" textAlignment="CENTER">
-   				<font>
-   					<Font name="System Bold" size="30.0" />
-   				</font>
-   			</Label>
+            <HBox>
+               <children>
+                  <VBox>
+                     <children>
+               			<Label fx:id="playerNameLabel1" alignment="CENTER" contentDisplay="CENTER" text="Player 1" textAlignment="CENTER">
+               				<font>
+               					<Font name="System Bold" size="30.0" />
+               				</font>
+               			</Label>
+                     </children>
+                  </VBox>
+                  <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+                  <VBox>
+                     <children>
+                        <Label text="VS" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+                  <Separator orientation="VERTICAL" prefHeight="44.0" prefWidth="6.0" />
+                  <VBox>
+                     <children>
+                        <Label fx:id="playerNameLabel2" alignment="CENTER" contentDisplay="CENTER" text="Player 2" textAlignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="30.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </VBox>
+               </children>
+            </HBox>
    			<HBox alignment="CENTER">
    				<children>
    					<VBox fx:id="ShipArmySelectionBox">
