@@ -49,6 +49,8 @@ public class ClientHandler {
 		}
 		// TODO: handle else situation ?
         
+		
+		
 	}
 	
 	public String getClientInput() {
@@ -123,14 +125,18 @@ public class ClientHandler {
 			}
 			
 			if (msg.indexOf("challenge:") == 0) {
-				System.out.println(this.userID + " has challenged " + msg.substring(11));
-				
-				challengedPlayer = ShipServer.getInstance().getClient(msg.substring(11));
-				
-				challengedPlayer.addChallenger(this);
-				
-				this.clientState = ClientState.Pending;
-            	handlePendingUser();
+				if (challengedPlayer.getState() == ClientState.Idle || challengedPlayer.getState() == ClientState.Pending || challengedPlayer.getState() == ClientState.Matching) {
+					System.out.println(this.userID + " has challenged " + msg.substring(11));
+					
+					challengedPlayer = ShipServer.getInstance().getClient(msg.substring(11));
+					
+					challengedPlayer.addChallenger(this);
+					
+					this.clientState = ClientState.Pending;
+	            	handlePendingUser();
+				} else {
+					sendMessage("decline");
+				}
 				
 			}
             
@@ -228,6 +234,8 @@ public class ClientHandler {
 			oppo.declineChallenge();
 			challengerList.remove(oppo);
 		}
+		
+		broadcastUserList();
 		
 		handlePlayingUser();
 		if (isConnected())
@@ -353,6 +361,14 @@ public class ClientHandler {
 		sendMessage(userList.toString());
 	}
 	
+	public void broadcastUserList() {
+		ArrayList<ClientHandler> list = ShipServer.getInstance().getClientList();
+		
+		for (ClientHandler user: list) {
+			user.sendUserList();
+		}
+	}
+	
 	public void sendChallengeList() {
 		StringBuffer userList = new StringBuffer();
 		
@@ -406,6 +422,7 @@ public class ClientHandler {
 	public void disconnect() {	// disconnect this client from server
 		
 		ShipServer.getInstance().removeClient(this);
+		broadcastUserList();
 		clientState = ClientState.Disconnected;
 		System.out.println("User " + userID + " has disconnected");
 		

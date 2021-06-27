@@ -376,6 +376,7 @@ public class ClientSocket {
 		String reply = getServerReply();
 		if (reply.indexOf("OK") != -1) {
 			state = ClientState.Disconnected;
+			System.out.println("Connection closed");
 			try {
 	        	os.close();
 				is.close();

@@ -131,11 +131,15 @@ public class PlayerListController implements Initializable {
 			// stop the FormationBackGroundSound
 			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
 			// load startMenu and client exit server
-			ClientSocket.getInstance().quitOnline();
+			
 			
 			System.out.println("Back to main menu");
+			
 			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
-			playerListPane.getScene().getWindow().hide();
+			
+			ClientSocket.getInstance().quitOnline();
+			playerName.getScene().getWindow().hide();
+			
 			System.gc();
 			
 		}
