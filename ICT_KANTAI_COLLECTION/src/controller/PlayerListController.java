@@ -85,14 +85,18 @@ public class PlayerListController implements Initializable {
 		//set selection in List into 1 row
 		PlayerList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		ChallengerList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		
-		// setup data for sound check menu
-		bgmCheckMenu.setSelected(GameConfig.checkBGM());
-		seCheckMenu.setSelected(GameConfig.checkSE());
+		SoundCollection.INSTANCE.playSetupFormationBackGroundSound();
+		initDataForSoundCheckMenu();
 		
 		playerName.setText(StartMenuController.getPlayerName());
 	}
 
+	// setup data for sound check menu
+	private void initDataForSoundCheckMenu() {
+		bgmCheckMenu.setSelected(GameConfig.checkBGM());
+		seCheckMenu.setSelected(GameConfig.checkSE());
+	}
+	
 	private void updatePlayerList() {
 		// clear the current list
 		PlayerList.getItems().clear();
@@ -166,9 +170,6 @@ public class PlayerListController implements Initializable {
 		if (ClientSocket.getInstance().matchRandom()) {
 			// match found with random opponent
 			FXMLUtilsController.loadSubStage("ShipFormation.fxml", "show", GameConfig.getGameTitle());
-			
-			// stop music
-			SoundCollection.INSTANCE.stopStartMenuBackGroundIntro();
 						
 			// hide main stage
 			((Node) (evt.getSource())).getScene().getWindow().hide();
