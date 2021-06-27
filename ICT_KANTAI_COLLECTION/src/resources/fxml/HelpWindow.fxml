@@ -6,7 +6,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="helpPane" prefHeight="685.0" prefWidth="985.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameInstruction">
+<AnchorPane fx:id="helpPane" prefHeight="685.0" prefWidth="985.0" styleClass="pane" stylesheets="@../css/HelpWindow.css"
+ xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameInstruction">
 	<children>
 		<Label fx:id="howToPlayLabel" alignment="CENTER" layoutX="222.0" layoutY="61.0" prefHeight="53.0" prefWidth="542.0" text="HOW TO PLAY">
 			<font>
