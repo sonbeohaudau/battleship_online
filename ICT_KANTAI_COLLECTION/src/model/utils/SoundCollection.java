@@ -95,7 +95,7 @@ public enum SoundCollection {
 		if (GameConfig.checkBGM() == false) {
 			VICTORYSOUND.stop();
 		}else {
-			VICTORYSOUND.setCycleCount(AudioClip.INDEFINITE);
+//			VICTORYSOUND.setCycleCount(AudioClip.INDEFINITE);
 			VICTORYSOUND.play();
 		}
 	}
@@ -104,7 +104,7 @@ public enum SoundCollection {
 		if (GameConfig.checkBGM() == false) {
 			DEFEATSOUND.stop();
 		}else {
-			DEFEATSOUND.setCycleCount(AudioClip.INDEFINITE);
+//			DEFEATSOUND.setCycleCount(AudioClip.INDEFINITE);
 			DEFEATSOUND.play();
 		}
 	}
@@ -113,7 +113,7 @@ public enum SoundCollection {
 		if (GameConfig.checkBGM() == false) {
 			DRAWSOUND.stop();
 		}else {
-			DRAWSOUND.setCycleCount(AudioClip.INDEFINITE);
+//			DRAWSOUND.setCycleCount(AudioClip.INDEFINITE);
 			DRAWSOUND.play();
 		}
 	}
