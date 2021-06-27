@@ -80,10 +80,8 @@ public class PlayerListController implements Initializable {
 		//set selection in List into 1 row
 		PlayerList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 		ChallengerList.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-		
-		// setup data for sound check menu
-		bgmCheckMenu.setSelected(GameConfig.checkBGM());
-		seCheckMenu.setSelected(GameConfig.checkSE());
+		SoundCollection.INSTANCE.playSetupFormationBackGroundSound();
+		initDataForSoundCheckMenu();
 		
 		playerName.setText(StartMenuController.getPlayerName());
 		
@@ -93,6 +91,12 @@ public class PlayerListController implements Initializable {
 		updateChallengerList();
 	}
 
+	// setup data for sound check menu
+	private void initDataForSoundCheckMenu() {
+		bgmCheckMenu.setSelected(GameConfig.checkBGM());
+		seCheckMenu.setSelected(GameConfig.checkSE());
+	}
+	
 	private void updatePlayerList() {
 //		// clear the current list
 //		PlayerList.getItems().clear();
@@ -166,6 +170,7 @@ public class PlayerListController implements Initializable {
 			ChallengeBtn.setDisable(true);
 			AcceptBtn.setDisable(true);
 			DeclineBtn.setDisable(true);
+
 			
 		} else if (ClientSocket.getInstance().getClientState() == ClientState.Matching) {
 			// return to idle mode and enable some buttons

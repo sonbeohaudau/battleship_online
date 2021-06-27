@@ -14,7 +14,7 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		preLoader();
-		GameConfig.setBGMOn(false);
+		GameConfig.setBGMOn(true);
 		GameConfig.setSEOn(true);
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../resources/fxml/StartMenu.fxml"));
