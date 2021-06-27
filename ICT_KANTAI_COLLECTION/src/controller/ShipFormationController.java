@@ -367,7 +367,11 @@ public class ShipFormationController implements Initializable {
 //		if (playerName == null || playerName.isEmpty())
 //			playerName = "Player " + playerNum;
 		playerNameLabel1.setText(playerName);
-		playerNameLabel2.setText(opponentName);
+		if (GameConfig.getGameMode().toString() == "VersusBot") {
+			playerNameLabel2.setText("BOT");
+		}else {
+			playerNameLabel2.setText(opponentName);
+		}
 	}
 
 	private void randShipFormation() {
