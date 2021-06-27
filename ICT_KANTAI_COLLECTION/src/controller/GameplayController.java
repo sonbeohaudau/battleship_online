@@ -271,20 +271,20 @@ public class GameplayController implements Initializable {
 	// Mouse event [Click] Handler for cell:
 	// Left Mouse: choose a cell and take an action on it (fire the cell of
 	// opponent's board)
-	private void cellOfPlayer1Click(MouseEvent evt) {
-		if (GameConfig.getGameMode() == GameMode.TwoPlayers) {
-			if (currentPlayer == player2) {
-				Cell cell = (Cell) evt.getSource();
-				// if (cell.isFired() == false) { // fire if the cell is not yet fired
-				// fire(cell, oppoPlayer);
-				// }
-				ArrayList<Cell> target = currentAmmo.getTargetArea(player1, cell);
-				if (currentAmmo.isValidTarget()) {
-					fire(target, player1);
-				}
-			}
-		}
-	}
+//	private void cellOfPlayer1Click(MouseEvent evt) {
+//		if (GameConfig.getGameMode() == GameMode.TwoPlayers) {
+//			if (currentPlayer == player2) {
+//				Cell cell = (Cell) evt.getSource();
+//				// if (cell.isFired() == false) { // fire if the cell is not yet fired
+//				// fire(cell, oppoPlayer);
+//				// }
+//				ArrayList<Cell> target = currentAmmo.getTargetArea(player1, cell);
+//				if (currentAmmo.isValidTarget()) {
+//					fire(target, player1);
+//				}
+//			}
+//		}
+//	}
 
 	private void cellOfPlayer2Click(MouseEvent evt) {
 		if (currentPlayer == player1) {

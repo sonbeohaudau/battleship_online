@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="shipFormationPane" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShipFormationController">
+<BorderPane fx:id="shipFormationPane" styleClass="pane" stylesheets="@../css/ShipFormation.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.ShipFormationController">
 	<top>
 		<MenuBar BorderPane.alignment="CENTER">
 			<menus>
@@ -47,17 +47,17 @@
                			</Label>
                      </children>
                   </VBox>
-                  <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+                  <Separator opacity="0.0" orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
                   <VBox>
                      <children>
-                        <Label text="VS" textAlignment="CENTER">
+                        <Label fx:id="VSlabel" text="VS" textAlignment="CENTER">
                            <font>
                               <Font name="System Bold" size="30.0" />
                            </font>
                         </Label>
                      </children>
                   </VBox>
-                  <Separator orientation="VERTICAL" prefHeight="44.0" prefWidth="6.0" />
+                  <Separator opacity="0.0" orientation="VERTICAL" prefHeight="44.0" prefWidth="6.0" />
                   <VBox>
                      <children>
                         <Label fx:id="playerNameLabel2" alignment="CENTER" contentDisplay="CENTER" text="Player 2" textAlignment="CENTER">
@@ -90,7 +90,7 @@
    					</Separator>
    					<VBox fx:id="battleField" maxHeight="200.0" styleClass="battlefield">
    						<children>
-   							<Label alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="header" text="FORMATION" textAlignment="CENTER">
+   							<Label fx:id="formation" alignment="CENTER" contentDisplay="CENTER" maxWidth="1.7976931348623157E308" styleClass="header" text="FORMATION" textAlignment="CENTER">
    								<font>
    									<Font name="System Bold" size="13.0" />
    								</font>
@@ -122,7 +122,7 @@
 					<children>
 						<HBox alignment="CENTER">
 							<children>
-								<Label text="Ship left: " />
+								<Label fx:id="shipleft" text="Ship left: " />
 								<Label fx:id="numOfShipLeftLabel" text="0" />
 							</children>
 						</HBox>
@@ -131,8 +131,8 @@
 				<Region HBox.hgrow="ALWAYS" />
 				<HBox alignment="CENTER" spacing="5.0">
 					<children>
-						<Button fx:id="rotShipButton" onAction="#handleBtnMenu" text="Rotate Ship" />
-						<Button fx:id="randPlacementBtn" onAction="#handleBtnMenu" prefHeight="31.0" prefWidth="158.0" text="Random Placement" />
+						<Button fx:id="rotShipButton" onAction="#handleBtnMenu" text="Rotate" />
+						<Button fx:id="randPlacementBtn" onAction="#handleBtnMenu" prefHeight="31.0" prefWidth="158.0" text="Random" />
 						<Button fx:id="confirmBtn" disable="true" mnemonicParsing="false" onAction="#handleBtnMenu" text="Confirm" />
 					</children>
 				</HBox>

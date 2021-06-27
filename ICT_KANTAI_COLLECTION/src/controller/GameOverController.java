@@ -26,6 +26,7 @@ public class GameOverController implements Initializable {
 		// check if game is draw
 		if (gameResult == 0) {
 			SoundCollection.INSTANCE.playDrawSound();
+			backGround.setImage(FXMLUtilsController.getImageByName("DrawGame.png", "image"));
 //			resultDisplay.setText("DRAW!!");
 		} else {
 			// check if pvp, show who wins

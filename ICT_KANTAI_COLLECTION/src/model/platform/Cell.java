@@ -269,7 +269,9 @@ public class Cell extends Rectangle {
 										ColorCollection.WATERBORDER.getRGBColor());
 								showStoredPaint();								
 							} else {
-								revealShipCell();
+//								revealShipCell();
+								storeNewColor(ColorCollection.DARKPURPLE.getRGBColor(), ColorCollection.WATERBORDER.getRGBColor());
+								showStoredPaint();
 							}
 						});
 
