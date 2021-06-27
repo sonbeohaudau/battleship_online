@@ -38,16 +38,16 @@ public enum SoundCollection {
 		SHIPCORRECT = FXMLUtilsController.getAudioByName("Place_ship_correct.wav");
 		SHIPWRONG = FXMLUtilsController.getAudioByName("Place_ship_wrong.wav");
 		SHIPEXPLOSION = FXMLUtilsController.getAudioByName("Ship_explosion.wav");
-		VICTORYSOUND = FXMLUtilsController.getAudioByName("Victory.wav");
-		DEFEATSOUND = FXMLUtilsController.getAudioByName("Defeat.wav");
+		VICTORYSOUND = FXMLUtilsController.getAudioByName("victoryAnnounce.mp3");
+		DEFEATSOUND = FXMLUtilsController.getAudioByName("defeatedAnnounce.wav");
 		DRAWSOUND = FXMLUtilsController.getAudioByName("IndianHarryPortter.wav");
 		
-		destroyerSink = FXMLUtilsController.getAudioByName("NANI.wav");
-		cruiserSink = FXMLUtilsController.getAudioByName("heheboi.wav");
-		battleshipSink = FXMLUtilsController.getAudioByName("EZ.wav");
-		carrierSink = FXMLUtilsController.getAudioByName("Noice.wav");
+		destroyerSink = FXMLUtilsController.getAudioByName("soldierCry.wav");
+		cruiserSink = FXMLUtilsController.getAudioByName("soldierCry.wav");
+		battleshipSink = FXMLUtilsController.getAudioByName("soldierCry.wav");
+		carrierSink = FXMLUtilsController.getAudioByName("soldierCry.wav");
 		
-		LinkStart = FXMLUtilsController.getAudioByName("LinkStart.wav");
+		LinkStart = FXMLUtilsController.getAudioByName("battleStart.m4a");
 	}
 
 	public void playStartMenuBackGroundIntro() {
