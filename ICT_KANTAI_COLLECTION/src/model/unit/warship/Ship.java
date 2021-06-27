@@ -143,7 +143,7 @@ public class Ship {
 			// cell.showStoredPaint();
 		}
 	}
-
+	
 	public void stealthMode() {
 		Cell c = null;
 		for (int pos = 0; pos < shipLength; pos++) {
