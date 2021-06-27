@@ -37,7 +37,8 @@ public class StartMenuController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// start background music
-
+		GameConfig.setBGMOn(true);
+		GameConfig.setSEOn(true);
 		// set difficulty to original
 		GameConfig.setAdvancedMode(false);
 	}
