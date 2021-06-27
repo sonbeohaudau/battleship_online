@@ -76,8 +76,14 @@ public class GameOverController implements Initializable {
 	public void handleBtnMenu(ActionEvent evt) {
 		if (evt.getSource() == backToMenuBt) {
 			SoundCollection.INSTANCE.playConfirmSound();
-			System.out.println("Back to main menu");
-			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
+			if (GameConfig.getGameMode() == GameMode.Online) {
+				System.out.println("Back to game lobby");
+				FXMLUtilsController.loadSubStage("PlayerList.fxml", "show", GameConfig.getGameTitle());
+			} else {
+				System.out.println("Back to main menu");
+				FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
+			}
+			
 			gameOverPane.getScene().getWindow().hide();
 			System.gc();
 			SoundCollection.INSTANCE.stopGameOverMusic();

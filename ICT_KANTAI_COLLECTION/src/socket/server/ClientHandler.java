@@ -96,6 +96,10 @@ public class ClientHandler {
                 sendUserList();
             }
             
+            if (msg.indexOf("getchallengelist") == 0) {
+                sendChallengeList();
+            }
+            
             if (msg.indexOf("random") == 0) {
             	this.clientState = ClientState.Matching;
             	handleMatchingUser();
@@ -275,6 +279,11 @@ public class ClientHandler {
 //					System.out.println(result);
 					sendMessage(result);
 					opponent.sendMessage(msg + "-" + result);
+					if (result.indexOf("matchend") != -1) {
+						break;
+					}
+				} else if (msg.indexOf("surrender") == 0) {
+					break;
 				}
 			}
 			
@@ -340,7 +349,7 @@ public class ClientHandler {
 	public void sendChallengeList() {
 		StringBuffer userList = new StringBuffer();
 		
-		userList.append("challenge-list: ");
+		userList.append("challengelist: ");
 		
 		for (ClientHandler client: challengerList) {
 			if (!client.equals(this)) {

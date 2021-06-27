@@ -41,11 +41,11 @@ public class StartMenuController implements Initializable {
 		if (evt.getSource() == multiplayerBtn) {
 			// set game mode as pvp
 			SoundCollection.INSTANCE.playButtonClickSound();
-			GameConfig.setGameMode(GameMode.TwoPlayers);
+//			GameConfig.setGameMode(GameMode.TwoPlayers);
 			// pop up to ask players to choose advance mode
 //			FXMLUtilsController.loadSubStage("AskAdvancedMode.fxml", "showAndWait", GameConfig.getGameTitle());
 			
-			ClientSocket.getInstance().setState(ClientState.LogIn);
+			ClientSocket.getInstance().setClientState(ClientState.LogIn);
 			playerName = nameInput.getText();
 			
 			if (ClientSocket.getInstance().logIn(playerName)) {	// logged in succesfully

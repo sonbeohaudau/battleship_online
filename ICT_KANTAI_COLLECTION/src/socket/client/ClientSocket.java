@@ -64,10 +64,6 @@ public class ClientSocket {
     public String getUserInput() {
     	return scanner.nextLine().trim();
     }
-
-	public void setState(ClientState state) {
-    	this.state = state;
-    }
 	
 	public boolean isGoFirst() {
 		return this.goFirst;
@@ -278,14 +274,12 @@ public class ClientSocket {
 		extraSocket.start();
 		
 		sendServer("login: " + name);
-		state = ClientState.Idle;
-         
 
         // get name tag from server and add to player's name
         String response = getServerReply();
-        System.out.println("Server: " + response);
             
         if (response.indexOf("login-1: ") == 0) {
+        	state = ClientState.Idle;
         	username = response.substring(9);
 			System.out.println("Welcome to Battleship Online, " + username);
 			return true;
@@ -295,41 +289,50 @@ public class ClientSocket {
 		
 	}
 	
-	public ArrayList<String> getUserList() {
-		ArrayList<String> userList;
-		String reply;
-		
-		sendServer("getlist");
-		reply = getServerReply();
-		String[] users = reply.substring(10).split(",");
-		userList = new ArrayList<String>(Arrays.asList(users));
-		
-//		while (reply.indexOf("userlist-done") != 0) {
-//			if (reply.indexOf("userlist: ") != -1) {
-//				
-//				// add online users to list until receive "userlist-done"
-//				userList.add(reply.substring(10));
-//				System.out.println(reply.substring(10));
-//				
-//			}
-//			reply = getServerReply();
-//		}
-		
-		return userList;
-	}
+//	public ArrayList<String> getUserList() {
+//		ArrayList<String> userList;
+//		String reply;
+//		
+//		sendServer("getlist");
+//		reply = getServerReply();
+//		String[] users = reply.substring(10).split(",");
+//		userList = new ArrayList<String>(Arrays.asList(users));
+//		
+////		while (reply.indexOf("userlist-done") != 0) {
+////			if (reply.indexOf("userlist: ") != -1) {
+////				
+////				// add online users to list until receive "userlist-done"
+////				userList.add(reply.substring(10));
+////				System.out.println(reply.substring(10));
+////				
+////			}
+////			reply = getServerReply();
+////		}
+//		
+//		return userList;
+//	}
 	
+	public void getUserList() {
+		sendServer("getlist");
+	}
+
+	
+	public void getChallengeList() {
+		sendServer("getchallengelist");
+	}
+
 	public void updateUserList(String msg) {
 		String[] users = msg.substring(10).split(",");
 		ArrayList<String> userList = new ArrayList<String>(Arrays.asList(users));
 		
-		// TODO: update to list window
+		GameConfig.getOnlineLobby().updatePlayerList(userList);
 	}
 	
 	public void updateChallengeList(String msg) {
-		String[] challenges = msg.substring(10).split(",");
+		String[] challenges = msg.substring(15).split(",");
 		ArrayList<String> challengeList = new ArrayList<String>(Arrays.asList(challenges));
 		
-		// TODO: update to list window
+		GameConfig.getOnlineLobby().updateChallengeList(challengeList);
 	}
 	
 //	public boolean matchRandom() {
@@ -345,28 +348,21 @@ public class ClientSocket {
 		
 	}
 	
-	public boolean challenge(String opponent) {
+	public void challenge(String opponent) {
 		System.out.println("Challenging " + opponent);
 		sendServer("challenge: " + opponent);
 		state = ClientState.Pending;
-		return handlePending();
+//		return handlePending();
 	}
 	
-	public boolean responseChallenge (String opponent, boolean response) {
+	public void responseChallenge (String opponent, boolean response) {
 		if (response) {
 			sendServer("accept: " + opponent);
-			if (getServerReply().indexOf("matchstart") == 0) {
-				state = ClientState.Playing;
-				this.opponent = opponent;
-				return true;
-			}
 			
-			System.out.println("Opponent missing");
 		} else {
 			sendServer("decline: " + opponent);
 		}
 		
-		return false;
 	}
 	
 	public void processDeclinedChallenge() {
@@ -380,6 +376,7 @@ public class ClientSocket {
 		
 		String reply = getServerReply();
 		if (reply.indexOf("OK") != -1) {
+			state = ClientState.Disconnected;
 			try {
 	        	os.close();
 				is.close();
@@ -442,6 +439,10 @@ public class ClientSocket {
 		return result;
 		
 //		return "";
+	}
+
+	public void surrender() {
+		sendServer("surrender");
 	}
 	
 	

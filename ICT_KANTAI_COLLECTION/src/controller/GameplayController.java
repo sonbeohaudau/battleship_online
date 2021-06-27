@@ -43,6 +43,7 @@ import model.utils.ColorCollection;
 import model.utils.MagicGenerator;
 import model.utils.SoundCollection;
 import socket.client.ClientSocket;
+import socket.client.ClientState;
 
 public class GameplayController implements Initializable {
 	// data for presenting
@@ -768,6 +769,7 @@ public class GameplayController implements Initializable {
 				displaySunkShip(result);
 				
 				if (result.indexOf("matchend") != -1) {
+					ClientSocket.getInstance().setClientState(ClientState.Idle);
 					gameOver(1);
 				}
 				
@@ -790,6 +792,35 @@ public class GameplayController implements Initializable {
 			
 		}
 	}
+
+	public void processOppoFire(String msg) {
+	//		if (currentPlayer == player1)
+	//			return;
+			
+			System.out.println("Process enemy fire: " + msg);
+			
+			String[] cellCoordinate = msg.substring(6).split("-");
+			Cell c = player1.getBoard().getCellByCoordinate(Integer.parseInt(cellCoordinate[0]), Integer.parseInt(cellCoordinate[1]));
+			
+			if (msg.indexOf("hit") != -1) {
+				// player is always be Player1
+				fire(c,player1);
+				System.out.println("Hit in cell " + c.getXPosition() + "," + c.getYPosition());
+				if (msg.indexOf("sunk") != -1) {
+					System.out.println("a ship sunk");				
+					if (msg.indexOf("matchend") != -1) {
+						ClientSocket.getInstance().setClientState(ClientState.Idle);
+						ClientSocket.getInstance().surrender();
+						gameOver(2);
+					}
+				}
+			}
+			
+			if (msg.indexOf("miss") != -1) {
+				fire(c,player1);
+				switchPlayerOnline();
+			}
+		}
 
 	private void displaySunkShip(String result) {
 		String[] params;	
@@ -871,33 +902,6 @@ public class GameplayController implements Initializable {
 		board.addShipToArmy(ship);
 
 		return ship;
-	}
-	
-	public void processOppoFire(String msg) {
-//		if (currentPlayer == player1)
-//			return;
-		
-		System.out.println("Process enemy fire: " + msg);
-		
-		String[] cellCoordinate = msg.substring(6).split("-");
-		Cell c = player1.getBoard().getCellByCoordinate(Integer.parseInt(cellCoordinate[0]), Integer.parseInt(cellCoordinate[1]));
-		
-		if (msg.indexOf("hit") != -1) {
-			// player is always be Player1
-			fire(c,player1);
-			System.out.println("Hit in cell " + c.getXPosition() + "," + c.getYPosition());
-			if (msg.indexOf("sunk") != -1) {
-				System.out.println("a ship sunk");				
-				if (msg.indexOf("matchend") != -1) {
-					gameOver(2);
-				}
-			}
-		}
-		
-		if (msg.indexOf("miss") != -1) {
-			fire(c,player1);
-			switchPlayerOnline();
-		}
 	}
 	
 	public void winByDefault() {

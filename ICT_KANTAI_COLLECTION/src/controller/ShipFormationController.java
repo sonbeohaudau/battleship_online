@@ -91,7 +91,7 @@ public class ShipFormationController implements Initializable {
 
 	// data for storing
 	private String playerName;
-	private String opponentName = ClientSocket.getInstance().getOpponent();
+	private String opponentName = ClientSocket.getInstance().getOpponent().split("#")[0];
 	private int playerNum = 1;
 	// number of ship that not set placement in this board
 	// use integerProperty for binding this value to fxml

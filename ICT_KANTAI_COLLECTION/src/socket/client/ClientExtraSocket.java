@@ -51,12 +51,12 @@ public class ClientExtraSocket extends Thread{
 			return;
 		}
 		
-		if (msg.indexOf("user-list:") == 0) {
-			ClientSocket.getInstance().updateChallengeList(msg);
+		if (msg.indexOf("userlist: ") == 0) {
+			ClientSocket.getInstance().updateUserList(msg);
 			return;
 		}
 		
-		if (msg.indexOf("challenge-list:") == 0) {
+		if (msg.indexOf("challengelist: ") == 0) {
 			ClientSocket.getInstance().updateChallengeList(msg);
 			return;
 		}
