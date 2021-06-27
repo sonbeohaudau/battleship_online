@@ -23,6 +23,7 @@ public class ClientHandler {
 	private GameMatchHandler match = null;
 	private ArrayList<ClientHandler> challengerList = new ArrayList<ClientHandler>();
 	private boolean challengeDeclined = false;
+	private ClientHandler challengedPlayer = null;
 	
 	public ClientHandler(Socket socketOfServer, int clientNumber) {
 		this.socketOfServer = socketOfServer;
@@ -58,11 +59,7 @@ public class ClientHandler {
 			e.printStackTrace();
 			System.out.println("Oops! Cannot communicate with client!");
 			
-
-			ShipServer.getInstance().removeClient(this);
-//			System.exit(0);
-			
-
+			disconnect();
 		}
 		
 		System.out.println("Client" + this.userID + " : " + msg);
@@ -105,17 +102,22 @@ public class ClientHandler {
             	handleMatchingUser();
 			}
             
-            if (msg.indexOf("accept:") == 0) {
+            if (msg.indexOf("accept: ") == 0) {
 				opponent = ShipServer.getInstance().getClient(msg.substring(8));
-				challengerList.remove(opponent);
+				if (challengerList.indexOf(opponent) != -1) {
+					challengerList.remove(opponent);
+					
+					opponent.setOpponent(this);
+	            	createMatch();
+	            	playGame();
+				} else {
+					opponent = null;
+				}
 				
-				opponent.setOpponent(this);
-            	createMatch();
-            	playGame();
 			}
 			
-			if (msg.indexOf("decline:") == 0) {
-				ClientHandler oppo = ShipServer.getInstance().getClient(msg.substring(8));
+			if (msg.indexOf("decline: ") == 0) {
+				ClientHandler oppo = ShipServer.getInstance().getClient(msg.substring(9));
 				oppo.declineChallenge();
 				challengerList.remove(oppo);
 			}
@@ -123,15 +125,13 @@ public class ClientHandler {
 			if (msg.indexOf("challenge:") == 0) {
 				System.out.println(this.userID + " has challenged " + msg.substring(11));
 				
-				ClientHandler challengedPlayer = ShipServer.getInstance().getClient(msg.substring(11));
+				challengedPlayer = ShipServer.getInstance().getClient(msg.substring(11));
 				
 				challengedPlayer.addChallenger(this);
 				
 				this.clientState = ClientState.Pending;
             	handlePendingUser();
 				
-				// TODO: reply
-				sendMessage("decline");
 			}
             
 
@@ -141,6 +141,7 @@ public class ClientHandler {
 	public void handlePendingUser() {
 		String msg = "";
 		opponent = null;
+		challengeDeclined = false;
 		
 		while (!challengeDeclined && isConnected()) {
 			try {
@@ -160,11 +161,17 @@ public class ClientHandler {
 			}
 		}
 		
-		if (this.opponent != null) {		
+		if (this.opponent != null) {	// challenge accepted	
 			playGame();
 		} else {
-			if (isConnected())
+			challengedPlayer.removeChallenger(this);
+			challengedPlayer = null;
+			if (challengeDeclined) {
+				sendMessage("decline");
+			}
+			if (isConnected()) {
 				this.clientState = ClientState.Idle;
+			}
 		}
 		
 		
@@ -380,10 +387,12 @@ public class ClientHandler {
 	
 	public void addChallenger(ClientHandler user) {
 		challengerList.add(user);
+		sendChallengeList();
 	}
 	
 	public void removeChallenger(ClientHandler user) {
 		challengerList.remove(user);
+		sendChallengeList();
 	}
 	
 	public ArrayList<ClientHandler> getChallengerList () {

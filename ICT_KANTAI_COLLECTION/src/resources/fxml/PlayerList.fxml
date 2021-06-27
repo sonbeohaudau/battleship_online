@@ -17,8 +17,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="463.0" prefWidth="623.0" styleClass="pane" stylesheets="@../css/PlayerList.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PlayerListController">
+<AnchorPane prefHeight="463.0" prefWidth="623.0" styleClass="pane" stylesheets="@../css/PlayerList.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.PlayerListController">
    <children>
       <MenuBar prefHeight="28.0" prefWidth="629.0">
          <menus>
@@ -107,7 +106,7 @@
                               <Font size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="DeclineBtn" layoutX="15.0" layoutY="321.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="103.0" text="Decline">
+                        <Button fx:id="DeclineBtn" layoutX="15.0" layoutY="321.0" mnemonicParsing="false" onAction="#DeclineChallenger" prefHeight="40.0" prefWidth="103.0" text="Decline">
                            <font>
                               <Font size="14.0" />
                            </font>

@@ -366,8 +366,7 @@ public class ClientSocket {
 	}
 	
 	public void processDeclinedChallenge() {
-		state = ClientState.Idle;
-		// TODO
+		GameConfig.getOnlineLobby().cancelChallenge();
 	}
 	
 	public void quitOnline() {
@@ -411,7 +410,7 @@ public class ClientSocket {
 		
 		sendServer(setUpMsg.toString());
 		
-		// wait for server to send start match signal (TODO: loading screen)
+		// wait for server to send start match signal 
 		String startMessage = getServerReply();
 		if(startMessage.indexOf("gamestart: ") == 0) {
 //			extraSocket.start();
