@@ -76,10 +76,10 @@ public class ShipFormationController implements Initializable {
 	private CheckMenuItem bgmCheckMenu;
 	@FXML
 	private CheckMenuItem seCheckMenu;
-	@FXML
-	private MenuItem backToMenuItem;
-	@FXML
-	private MenuItem exitMenuItem;
+//	@FXML
+//	private MenuItem backToMenuItem;
+//	@FXML
+//	private MenuItem exitMenuItem;
 
 	// data for processing
 	private Ship curShip;
@@ -129,26 +129,26 @@ public class ShipFormationController implements Initializable {
 			SoundCollection.INSTANCE.playButtonClickSound();
 			GameConfig.setSEOn(seCheckMenu.isSelected());
 		}
-		if (evt.getSource() == backToMenuItem) {
-			// the button sound effect
-			SoundCollection.INSTANCE.playButtonClickSound();
-			// stop the FormationBackGroundSound
-			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
-			System.out.println("Back to main menu");
-			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
-			shipFormationPane.getScene().getWindow().hide();
-			System.gc();
-		}
-		if (evt.getSource() == exitMenuItem) {
-			// the button sound effect
-			SoundCollection.INSTANCE.playButtonClickSound();
-			// stop the FormationBackGroundSound
-			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
-
-			System.out.println("Game is shutting down...");
-			Platform.exit();
-			System.exit(0);
-		}
+//		if (evt.getSource() == backToMenuItem) {
+//			// the button sound effect
+//			SoundCollection.INSTANCE.playButtonClickSound();
+//			// stop the FormationBackGroundSound
+//			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
+//			System.out.println("Back to main menu");
+//			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
+//			shipFormationPane.getScene().getWindow().hide();
+//			System.gc();
+//		}
+//		if (evt.getSource() == exitMenuItem) {
+//			// the button sound effect
+//			SoundCollection.INSTANCE.playButtonClickSound();
+//			// stop the FormationBackGroundSound
+//			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
+//
+//			System.out.println("Game is shutting down...");
+//			Platform.exit();
+//			System.exit(0);
+//		}
 		if (evt.getSource() == rotShipButton) {
 
 			// the button sound effect

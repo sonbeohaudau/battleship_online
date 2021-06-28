@@ -71,10 +71,10 @@ public class GameplayController implements Initializable {
 	private CheckMenuItem bgmCheckMenu;
 	@FXML
 	private CheckMenuItem seCheckMenu;
-	@FXML
-	private MenuItem backToMenuItem;
-	@FXML
-	private MenuItem exitMenuItem;
+//	@FXML
+//	private MenuItem backToMenuItem;
+//	@FXML
+//	private MenuItem exitMenuItem;
 
 	// data for processing
 	private Player currentPlayer;
@@ -149,25 +149,25 @@ public class GameplayController implements Initializable {
 			SoundCollection.INSTANCE.playButtonClickSound();
 			GameConfig.setSEOn(seCheckMenu.isSelected());
 		}
-		if (evt.getSource() == backToMenuItem) {
-			// the button sound effect
-			SoundCollection.INSTANCE.playButtonClickSound();
-			// stop the GamePlayBackGroundSound
-			SoundCollection.INSTANCE.stopGamePlayBackGroundSound();
-			System.out.println("Back to main menu");
-			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
-			twoPlayerMatchPane.getScene().getWindow().hide();
-			System.gc();
-		}
-		if (evt.getSource() == exitMenuItem) {
-			// the button sound effect
-			SoundCollection.INSTANCE.playButtonClickSound();
-			// stop the GamePlayBackGroundSound
-			SoundCollection.INSTANCE.stopGamePlayBackGroundSound();
-			System.out.println("Game is shutting down...");
-			Platform.exit();
-			System.exit(0);
-		}
+//		if (evt.getSource() == backToMenuItem) {
+//			// the button sound effect
+//			SoundCollection.INSTANCE.playButtonClickSound();
+//			// stop the GamePlayBackGroundSound
+//			SoundCollection.INSTANCE.stopGamePlayBackGroundSound();
+//			System.out.println("Back to main menu");
+//			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
+//			twoPlayerMatchPane.getScene().getWindow().hide();
+//			System.gc();
+//		}
+//		if (evt.getSource() == exitMenuItem) {
+//			// the button sound effect
+//			SoundCollection.INSTANCE.playButtonClickSound();
+//			// stop the GamePlayBackGroundSound
+//			SoundCollection.INSTANCE.stopGamePlayBackGroundSound();
+//			System.out.println("Game is shutting down...");
+//			Platform.exit();
+//			System.exit(0);
+//		}
 	}
 
 	private void drawBoard() {
