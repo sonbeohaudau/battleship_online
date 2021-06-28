@@ -214,6 +214,12 @@ public class PlayerListController implements Initializable {
 		SoundCollection.INSTANCE.playButtonClickSound();
 		
 		if (ClientSocket.getInstance().getClientState() == ClientState.Idle) {
+			
+			String chosenPlayer = PlayerList.getSelectionModel().getSelectedItem();
+			
+			if (chosenPlayer == null)
+				return;
+			
 			ChallengeBtn.setText("Cancel");
 			ResetListBtn1.setDisable(true);
 			ResetListBtn2.setDisable(true);
@@ -221,26 +227,17 @@ public class PlayerListController implements Initializable {
 			AcceptBtn.setDisable(true);
 			DeclineBtn.setDisable(true);
 			
-			String chosenPlayer = PlayerList.getSelectionModel().getSelectedItem();
-			String message = "Player " + chosenPlayer + " has been chosen !";
-			System.out.println(message);
+//			String message = "Player " + chosenPlayer + " has been chosen !";
+//			System.out.println(message);
 			
 			String[] params = chosenPlayer.split(" / ");
 			if (params[1].indexOf("idle") != -1) {	// if the player chosen is idle, challenge him/her
 				
-				ClientSocket.getInstance().challenge(chosenPlayer);
+				ClientSocket.getInstance().challenge(params[0]);
 				
 			}
 		} else if (ClientSocket.getInstance().getClientState() == ClientState.Pending) {
-			// return to idle mode and enable some buttons
-			ClientSocket.getInstance().setClientState(ClientState.Idle);
-			
-			ChallengeBtn.setText("Challenge");
-			ResetListBtn1.setDisable(false);
-			ResetListBtn2.setDisable(false);
-			RandomBtn.setDisable(false);
-			AcceptBtn.setDisable(false);
-			DeclineBtn.setDisable(false);
+			cancelChallenge();
 		}
 		
 		
@@ -253,11 +250,17 @@ public class PlayerListController implements Initializable {
 	private void DeclineChallenger(ActionEvent evt) {
 		SoundCollection.INSTANCE.playButtonClickSound();
 		
-		String ChosenPlayer = ChallengerList.getSelectionModel().getSelectedItem();
-		String message = "Player " + ChosenPlayer + " has been chosen !";
+		String chosenPlayer = ChallengerList.getSelectionModel().getSelectedItem();
+		
+		if (chosenPlayer == null) {
+			System.out.println("not work");
+			return;
+		}
+		
+		String message = "Player " + chosenPlayer + " has been chosen !";
 		System.out.print(message);
 		
-		ClientSocket.getInstance().responseChallenge(ChosenPlayer, false);
+		ClientSocket.getInstance().responseChallenge(chosenPlayer, false);
 	}
 	
 	@FXML
@@ -265,11 +268,15 @@ public class PlayerListController implements Initializable {
 	private void AcceptChallenge(ActionEvent evt) {
 		SoundCollection.INSTANCE.playButtonClickSound();
 		
-		String ChosenPlayer = ChallengerList.getSelectionModel().getSelectedItem();
-		String message = "Player " + ChosenPlayer + " has been chosen !";
+		String chosenPlayer = ChallengerList.getSelectionModel().getSelectedItem();
+		
+		if (chosenPlayer == null)
+			return;
+		
+		String message = "Player " + chosenPlayer + " has been chosen !";
 		System.out.print(message);
 		
-		ClientSocket.getInstance().responseChallenge(ChosenPlayer, true);
+		ClientSocket.getInstance().responseChallenge(chosenPlayer, true);
 	}
 	
 	@FXML
@@ -331,6 +338,27 @@ public class PlayerListController implements Initializable {
 			}
 			
 		});
+		
+	}
+	
+	public void cancelChallenge() {
+		// return to idle mode and enable some buttons
+		ClientSocket.getInstance().setClientState(ClientState.Idle);
+		
+		Platform.runLater(new Runnable(){
+
+			@Override
+			public void run() {
+				ChallengeBtn.setText("Challenge");
+				ResetListBtn1.setDisable(false);
+				ResetListBtn2.setDisable(false);
+				RandomBtn.setDisable(false);
+				AcceptBtn.setDisable(false);
+				DeclineBtn.setDisable(false);
+			}
+			
+		});
+		
 		
 	}
 }
