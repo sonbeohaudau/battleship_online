@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.TextField;
 import model.system.GameConfig;
 import model.system.GameMode;
@@ -26,6 +27,11 @@ public class StartMenuController implements Initializable {
 	private Button exitBtn;
 	@FXML
 	public TextField nameInput;
+	@FXML
+	private CheckMenuItem bgmCheckMenu;
+	
+	@FXML
+	private CheckMenuItem seCheckMenu;
 
 	private static String playerName;
 	@Override
@@ -36,6 +42,18 @@ public class StartMenuController implements Initializable {
 		GameConfig.setAdvancedMode(false);
 	}
 
+	// action on setting menubar
+	@FXML
+	public void handleBtnMenu(ActionEvent evt) {
+		if (evt.getSource() == bgmCheckMenu) {
+			SoundCollection.INSTANCE.playButtonClickSound();
+			GameConfig.setBGMOn(bgmCheckMenu.isSelected());
+		}
+		if (evt.getSource() == seCheckMenu) {
+			SoundCollection.INSTANCE.playButtonClickSound();
+			GameConfig.setSEOn(seCheckMenu.isSelected());
+		}
+	}
 	@FXML
 	private void handleHomeBtn(javafx.event.ActionEvent evt) {
 		if (evt.getSource() == multiplayerBtn) {
