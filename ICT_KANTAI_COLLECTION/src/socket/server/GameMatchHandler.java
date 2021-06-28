@@ -142,7 +142,7 @@ public class GameMatchHandler {
 	}
 
 	private void enterBattleStage() {
-		int playerGoFirst = MagicGenerator.getRandInt(1);
+		int playerGoFirst = MagicGenerator.getRandInt(2);
 		if (playerGoFirst == 0)
 			turn = player1;
 		else

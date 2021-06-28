@@ -48,6 +48,10 @@ public class ClientSocket {
     	return INSTANCE;
     }
     
+    public String getUserName() {
+    	return username;
+    }
+    
     public ClientState getClientState() {
     	return state;
     }
