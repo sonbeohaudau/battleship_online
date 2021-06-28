@@ -125,10 +125,13 @@ public class ClientHandler {
 			}
 			
 			if (msg.indexOf("challenge:") == 0) {
-				if (challengedPlayer.getState() == ClientState.Idle || challengedPlayer.getState() == ClientState.Pending || challengedPlayer.getState() == ClientState.Matching) {
-					System.out.println(this.userID + " has challenged " + msg.substring(11));
+				System.out.println(this.userID + " has challenged " + msg.substring(11));
+				
+				challengedPlayer = ShipServer.getInstance().getClient(msg.substring(11));
+				
+				
+				if (challengedPlayer != null && (challengedPlayer.getState() == ClientState.Idle || challengedPlayer.getState() == ClientState.Pending || challengedPlayer.getState() == ClientState.Matching)) {
 					
-					challengedPlayer = ShipServer.getInstance().getClient(msg.substring(11));
 					
 					challengedPlayer.addChallenger(this);
 					
