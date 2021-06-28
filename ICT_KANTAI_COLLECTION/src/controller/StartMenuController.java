@@ -3,11 +3,13 @@ package controller;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.TextField;
 import model.system.GameConfig;
 import model.system.GameMode;
@@ -26,16 +28,33 @@ public class StartMenuController implements Initializable {
 	private Button exitBtn;
 	@FXML
 	public TextField nameInput;
+	@FXML
+	private CheckMenuItem bgmCheckMenu;
+	@FXML
+	private CheckMenuItem seCheckMenu;
 
 	private static String playerName;
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		// start background music
-//		SoundCollection.INSTANCE.playStartMenuBackGroundIntro();
+		GameConfig.setBGMOn(true);
+		GameConfig.setSEOn(true);
 		// set difficulty to original
 		GameConfig.setAdvancedMode(false);
 	}
 
+	@FXML
+	public void handleBtnMenu(ActionEvent evt) {
+		if (evt.getSource() == bgmCheckMenu) {
+			SoundCollection.INSTANCE.playButtonClickSound();
+			GameConfig.setBGMOn(bgmCheckMenu.isSelected());
+		}
+		if (evt.getSource() == seCheckMenu) {
+			SoundCollection.INSTANCE.playButtonClickSound();
+			GameConfig.setSEOn(seCheckMenu.isSelected());
+		}
+	}
+	
 	@FXML
 	private void handleHomeBtn(javafx.event.ActionEvent evt) {
 		if (evt.getSource() == multiplayerBtn) {
@@ -62,7 +81,6 @@ public class StartMenuController implements Initializable {
 				
 				System.gc();
 			}
-			
 			
 			
 		} else if (evt.getSource() == singlePlayerBtn) {
