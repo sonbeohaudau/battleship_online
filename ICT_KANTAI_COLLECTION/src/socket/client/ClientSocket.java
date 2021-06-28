@@ -192,15 +192,23 @@ public class ClientSocket {
 	}
 
 	public void updateUserList(String msg) {
-		String[] users = msg.substring(10).split(",");
-		ArrayList<String> userList = new ArrayList<String>(Arrays.asList(users));
+		ArrayList<String> userList = new ArrayList<String>();
 		
+		if (msg.length() > 10) {
+			String[] users = msg.substring(10).split(",");
+			userList = new ArrayList<String>(Arrays.asList(users));
+		}
+
 		GameConfig.getOnlineLobby().updatePlayerList(userList);
 	}
 	
 	public void updateChallengeList(String msg) {
-		String[] challenges = msg.substring(15).split(",");
-		ArrayList<String> challengeList = new ArrayList<String>(Arrays.asList(challenges));
+		ArrayList<String> challengeList = new ArrayList<String>();
+		
+		if (msg.length() > 15) {
+			String[] challenges = msg.substring(15).split(",");
+			challengeList = new ArrayList<String>(Arrays.asList(challenges));
+		}
 		
 		GameConfig.getOnlineLobby().updateChallengeList(challengeList);
 	}

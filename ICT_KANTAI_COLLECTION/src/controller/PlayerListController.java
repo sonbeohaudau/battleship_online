@@ -313,11 +313,11 @@ public class PlayerListController implements Initializable {
 					ChallengerList.getItems().add(challenge);
 				}
 				
-//				if (challengeList.isEmpty()) {
-//					ChallengerTab.setText("Challenge");
-//				} else {
-//					ChallengerTab.setText("Challenge (!)");
-//				}
+				if (challengeList.isEmpty()) {
+					ChallengerTab.setText("Challenge");
+				} else {
+					ChallengerTab.setText("Challenge (!)");
+				}
 			}
 			
 		});
