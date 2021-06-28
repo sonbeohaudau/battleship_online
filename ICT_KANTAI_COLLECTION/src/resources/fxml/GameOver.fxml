@@ -11,6 +11,6 @@
          <image>
             <Image url="@../imgs/Victory.png" />
          </image></ImageView>
-		<Button fx:id="backToMenuBt" layoutX="120.0" layoutY="248.0" mnemonicParsing="false" onAction="#handleBtnMenu" prefHeight="87.0" prefWidth="310.0" text="Back to Menu" />
+		<Button fx:id="backToMenuBt" layoutX="120.0" layoutY="248.0" mnemonicParsing="false" onAction="#handleBtnMenu" prefHeight="87.0" prefWidth="310.0" text="Back to Lobby" />
 	</children>
 </AnchorPane>
