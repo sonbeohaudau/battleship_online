@@ -136,7 +136,6 @@ public class ShipFormationController implements Initializable {
 			SoundCollection.INSTANCE.stopSetupFormationBackGroundSound();
 			System.out.println("Back to main menu");
 			FXMLUtilsController.loadSubStage("StartMenu.fxml", "show", GameConfig.getGameTitle());
-			SoundCollection.INSTANCE.playStartMenuBackGroundIntro();
 			shipFormationPane.getScene().getWindow().hide();
 			System.gc();
 		}
