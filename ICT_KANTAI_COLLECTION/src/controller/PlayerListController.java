@@ -83,7 +83,7 @@ public class PlayerListController implements Initializable {
 		SoundCollection.INSTANCE.playSetupFormationBackGroundSound();
 		initDataForSoundCheckMenu();
 		
-		playerName.setText(StartMenuController.getPlayerName());
+		playerName.setText(ClientSocket.getInstance().getUserName());
 		
 		GameConfig.setOnlineLobby(this);
 		
