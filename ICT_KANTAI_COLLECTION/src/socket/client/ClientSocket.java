@@ -93,21 +93,9 @@ public class ClientSocket {
     public String getServerMessage() {
     	String msg = "";
     	
-//    	try {
-//			while ((msg = is.readLine()) != null) {
-//				System.out.println("Server: " + msg);
-//				return msg;
-//			}
-//			
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//    	
-//    	return null;
-    	
     	try {
 			msg = is.readLine();
-			System.out.println("Server: " + msg);
+			System.out.println("[Server] " + msg);
 			return msg;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -159,71 +147,6 @@ public class ClientSocket {
 
 	}
 
-	public boolean handleMatching() {
-		String reply;
-		reply = getServerReply();
-		
-		while (true) {
-			if (reply.indexOf("continue?")==0) {	
-
-				// check if user want to cancel matching
-				if (state == ClientState.Matching)
-					sendServer("y");
-				else {
-					sendServer("n");
-					return false;
-				}
-					
-				reply = getServerReply();
-
-				
-			} else if (reply.indexOf("matchstart: ")==0) {
-				// enter match ("matchstart: [userID]")
-				this.opponent = reply.substring(12);
-				System.out.println("Start playing. Your opponent is " + this.opponent);
-				state = ClientState.Playing;
-				break;
-			}
-		}
-		
-		System.out.println(13);
-		
-		return true;
-	}
-	
-	public boolean handlePending() {
-		String reply;
-		reply = getServerReply();
-		
-		while (true) {
-			if (reply.indexOf("continue?")==0) {	
-
-				// check if user want to cancel challenging
-				if (state == ClientState.Pending)
-					sendServer("y");
-				else {
-					sendServer("n");
-					return false;
-				}
-					
-				reply = getServerReply();
-
-				
-			} else if (reply.indexOf("matchstart: ")==0) {	// challenge accepted
-				// enter match ("matchstart: [userID]")
-				this.opponent = reply.substring(12);
-				System.out.println("Start playing. Your opponent is " + this.opponent);
-				state = ClientState.Playing;
-				break;
-			} else {	// challenge declined
-				state = ClientState.Idle;
-				return false;
-			}
-		}
-		
-		return true;
-	}
-	
 	public void enterMatch(String opponent) {
 		this.opponent = opponent;
 		System.out.println("Start playing. Your opponent is " + this.opponent);
@@ -231,50 +154,16 @@ public class ClientSocket {
 		
 		GameConfig.getOnlineLobby().goToGameWindow();
 	}
-
-//	public String handlePlayingState(String msg) {
-//		String input;
-//		boolean battleStage = false;
-//		while (true) {
-//			System.out.println("Enter command: ");
-//			input = getUserInput();
-//			sendServer(input);
-//
-//			if (input.indexOf("quit") == 0) {
-//				break;
-//			}
-//			
-//			if (!battleStage) {	// Setup stage
-//				if (input.indexOf("setup: ") == 0) {
-//					// wait for server to send start match signal (TODO: loading screen)
-//					String startMessage = getServerMessage();
-//					if(startMessage.indexOf("gamestart: ") == 0) {
-//						battleStage = true;
-//						if (startMessage.indexOf("1") == 11) {
-//							System.out.println("Battle start! You go first.");
-//						} else {
-//							System.out.println("Battle start! Your opponent go first.");
-//							processOpponentAction();
-//						}
-//					}
-//				}
-//			} else {	// Battle stage
-//				// TODO: send action message
-//			}
-//			
-//		}
-//		
-//		return "";
-//	}
 	
 	public boolean logIn(String name) {
-		if (!isValidUsername(name)) {	// check validity of username (TODO: move this step to server)
+		if (!isValidUsername(name)) {	
 			
 			System.out.println("Invalid username!");
 			return false;
 		}
 		
 		initSocket();
+		extraSocket = new ClientExtraSocket();
 		extraSocket.start();
 		
 		sendServer("login: " + name);
@@ -292,29 +181,6 @@ public class ClientSocket {
         return false;
 		
 	}
-	
-//	public ArrayList<String> getUserList() {
-//		ArrayList<String> userList;
-//		String reply;
-//		
-//		sendServer("getlist");
-//		reply = getServerReply();
-//		String[] users = reply.substring(10).split(",");
-//		userList = new ArrayList<String>(Arrays.asList(users));
-//		
-////		while (reply.indexOf("userlist-done") != 0) {
-////			if (reply.indexOf("userlist: ") != -1) {
-////				
-////				// add online users to list until receive "userlist-done"
-////				userList.add(reply.substring(10));
-////				System.out.println(reply.substring(10));
-////				
-////			}
-////			reply = getServerReply();
-////		}
-//		
-//		return userList;
-//	}
 	
 	public void getUserList() {
 		sendServer("getlist");
@@ -339,11 +205,6 @@ public class ClientSocket {
 		GameConfig.getOnlineLobby().updateChallengeList(challengeList);
 	}
 	
-//	public boolean matchRandom() {
-//		sendServer("random");
-//		state = ClientState.Matching;
-//		return handleMatching();
-//	}
 	
 	public void matchRandom() {
 		
@@ -418,8 +279,6 @@ public class ClientSocket {
 		// wait for server to send start match signal 
 		String startMessage = getServerReply();
 		if(startMessage.indexOf("gamestart: ") == 0) {
-//			extraSocket.start();
-//			extraSocket.pause();
 			
 			if (startMessage.indexOf("1") == 11) {
 				System.out.println("Battle start! You go first.");

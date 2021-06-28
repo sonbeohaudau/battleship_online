@@ -58,13 +58,13 @@ public class ClientHandler {
 		try {
 			msg = is.readLine();
 		} catch (IOException e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 			System.out.println("Oops! Cannot communicate with client!");
 			
 			disconnect();
 		}
 		
-		System.out.println("Client" + this.userID + " : " + msg);
+		System.out.println("[Client " + this.userID + "] " + msg);
 		
 		return msg;
 	}

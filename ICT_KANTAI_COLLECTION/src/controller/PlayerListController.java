@@ -299,12 +299,12 @@ public class PlayerListController implements Initializable {
 		
 	}
 	
-	@FXML
 	public void updateChallengeList(ArrayList<String> challengeList) {
 		Platform.runLater(new Runnable(){
 
 			@Override
 			public void run() {
+				
 				// clear the current list
 				ChallengerList.getItems().clear();
 						
@@ -312,6 +312,12 @@ public class PlayerListController implements Initializable {
 				for (String challenge: challengeList) {
 					ChallengerList.getItems().add(challenge);
 				}
+				
+//				if (challengeList.isEmpty()) {
+//					ChallengerTab.setText("Challenge");
+//				} else {
+//					ChallengerTab.setText("Challenge (!)");
+//				}
 			}
 			
 		});
